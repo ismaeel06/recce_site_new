@@ -36,21 +36,22 @@ export default function Header() {
               <ul className="flex gap-6 items-center text-white text-sm">
                 {NAV_LINKS.map((link) => {
                   const isActive = pathname.startsWith(link.href);
+                  // Calculate width based on text length
+                  const textLength = link.name.length;
+                  const widthClass = textLength <= 4 ? 'w-8' : textLength <= 6 ? 'w-12' : textLength <= 10 ? 'w-20' : 'w-24';
+                  
                   return (
                     <li key={link.href} className="relative flex items-center">
                       <Link href={link.href} className="z-10 px-2 py-3">
                         <span className="leading-none">{link.name}</span>
                       </Link>
-                      {/* Active underline: absolutely positioned so it doesn't affect vertical centering */}
-                      <span
-                        aria-hidden="true"
-                        className={
-                          `absolute left-1/2 -translate-x-1/2 rounded-full h-1 w-16 transition-opacity duration-150 ${
-                            isActive ? 'bg-white opacity-100' : 'bg-white/0 opacity-0'
-                          }`
-                        }
-                        style={{ bottom: 6 }}
-                      />
+                      {/* Active underline: positioned at bottom edge */}
+                      {isActive && (
+                        <span
+                          aria-hidden="true"
+                          className={`absolute left-1/2 -translate-x-1/2 bottom-[-8.5px] h-1.5 bg-white rounded-t-xl ${widthClass}`}
+                        />
+                      )}
                     </li>
                   );
                 })}

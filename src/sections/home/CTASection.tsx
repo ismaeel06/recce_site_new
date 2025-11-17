@@ -5,7 +5,7 @@ export default function CTASection() {
         {/* Top Section - Title and Download Buttons */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-5xl font-bold text-white mb-6">
-            Ready to Discover Your <span className="text-orange-500 block">Next Favorite Show?</span>
+            Ready to Discover Your <span className="text-orange-500 block md:inline-block">Next Favorite Show?</span>
           </h2>
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
             Join thousands of movie and TV lovers who trust Recce for authentic recommendations. Build your watchlist, share reviews, and earn rewards for helping others discover great content.
