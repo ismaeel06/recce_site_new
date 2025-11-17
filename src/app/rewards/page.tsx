@@ -1,9 +1,9 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import RewardsHero from "@/components/pages/rewards/RewardsHero";
-import EarnWays from "@/components/pages/rewards/EarnWays";
-import RedeemRewards from "@/components/pages/rewards/RedeemRewards";
-import RewardFAQs from "@/components/pages/rewards/RewardFAQs";
+import RewardsHero from "@/sections/rewards/RewardsHero";
+import EarnWays from "@/sections/rewards/EarnWays";
+import RedeemRewards from "@/sections/rewards/RedeemRewards";
+import RewardFAQs from "@/sections/rewards/RewardFAQs";
 
 export default function Rewards() {
   return (

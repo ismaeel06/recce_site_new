@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import RewardActionCard from '../../rewards/RewardActionCard';
+import RewardActionCard from '../../components/rewards/RewardActionCard';
 
 export default function RewardsHero() {
   const actionCards = [

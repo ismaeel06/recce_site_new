@@ -1,4 +1,4 @@
-import EarnWaysCard from '../../rewards/EarnWaysCard';
+import EarnWaysCard from '../../components/rewards/EarnWaysCard';
 
 export default function EarnWays() {
   const personalRewards = [

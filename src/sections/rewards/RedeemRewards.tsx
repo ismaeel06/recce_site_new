@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import RedeemRewardCard from '../../rewards/RedeemRewardCard';
+import RedeemRewardCard from '../../components/rewards/RedeemRewardCard';
 
 export default function RedeemRewards() {
   const [activeSlide, setActiveSlide] = useState(0);
