@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 
-import FeatureCard from "@/components/ui/FeatureCard";
+import FeatureCard from "@/components/home/FeatureCard";
 
 export default function FeaturesSection() {
   const [activeSlide, setActiveSlide] = useState(0);
