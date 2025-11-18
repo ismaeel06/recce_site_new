@@ -16,6 +16,9 @@ export default function HeroSection() {
         {/* Subtle overlay */}
         <div className="absolute inset-0 bg-black/20"></div>
         
+        {/* Gradient overlay at bottom to blend with content */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#191919]"></div>
+        
         {/* Header positioned over background */}
         <div className="relative z-10">
           <Header />
@@ -29,7 +32,7 @@ export default function HeroSection() {
       </div>
       
       {/* Content Band - Dark section below image */}
-      <div className="bg-gradient-to-b from-gray-900 to-gray-950 py-12 md:py-20">
+      <div className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-start md:items-center">
             
