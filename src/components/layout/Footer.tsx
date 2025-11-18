@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="w-full">
       <div className="w-full">
-        <div className="bg-gray-800 text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
+        <div className="bg-[#404040] text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
           <div className="px-8 py-10">
             {/* Desktop Layout */}
             <div className="hidden md:grid grid-cols-4 gap-8 items-start">
@@ -13,12 +13,12 @@ export default function Footer() {
                 <Link href="/" className="inline-block">
                   <h2 className="text-4xl font-extrabold tracking-tight">Recce</h2>
                 </Link>
-                <p className="mt-3 text-gray-400">Cures Content Overload</p>
+                <p className="mt-3 text-[#848686]">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm text-white/90">f</a>
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm text-white/90">ig</a>
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm text-white/90">t</a>
+                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">f</a>
+                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">ig</a>
+                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">t</a>
                 </div>
               </div>
 
@@ -48,7 +48,7 @@ export default function Footer() {
               <div className="col-span-1 flex flex-col items-end">
                 <h3 className="text-sm font-semibold text-white/90 self-start">Download app</h3>
                 <div className="mt-4 flex flex-col items-end gap-3 w-full">
-                  <button className="flex items-center gap-3 bg-gray-800/60 hover:bg-gray-700 px-4 py-2 rounded-md w-full">
+                  <button className="flex items-center gap-3 bg-[#383838] hover:bg-[#484848] px-4 py-2 rounded-md w-full cursor-pointer">
                     <div className="w-8 h-8 bg-white/10 rounded-sm" />
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">GET IT ON</div>
@@ -56,7 +56,7 @@ export default function Footer() {
                     </div>
                   </button>
 
-                  <button className="flex items-center gap-3 bg-gray-800/60 hover:bg-gray-700 px-4 py-2 rounded-md w-full">
+                  <button className="flex items-center gap-3 bg-[#383838] hover:bg-[#484848] px-4 py-2 rounded-md w-full cursor-pointer">
                     <div className="w-8 h-8 bg-white/10 rounded-sm" />
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">Download on the</div>
@@ -110,16 +110,16 @@ export default function Footer() {
               <div>
                 <h3 className="text-sm font-semibold text-white/90 mb-3">Download app</h3>
                 <div className="flex gap-2">
-                  <button className="flex-1 flex items-center gap-2 bg-gray-800/60 hover:bg-gray-700 px-2 py-2 rounded-md">
-                    <div className="w-6 h-6 bg-white/10 rounded-sm flex-shrink-0" />
+                  <button className="flex-1 flex items-center gap-2 bg-[#383838] hover:bg-[#484848] px-2 py-2 rounded-md">
+                    <div className="w-6 h-6 rounded-sm flex-shrink-0" />
                     <div className="text-left text-xs">
                       <div className="text-gray-300 text-xs">GET IT ON</div>
                       <div className="font-medium text-white text-xs">Google Play</div>
                     </div>
                   </button>
 
-                  <button className="flex-1 flex items-center gap-2 bg-gray-800/60 hover:bg-gray-700 px-2 py-2 rounded-md">
-                    <div className="w-6 h-6 bg-white/10 rounded-sm flex-shrink-0" />
+                  <button className="flex-1 flex items-center gap-2bg-[#383838] hover:bg-[#484848] px-2 py-2 rounded-md">
+                    <div className="w-6 h-6 rounded-sm flex-shrink-0" />
                     <div className="text-left text-xs">
                       <div className="text-gray-300 text-xs">Download on the</div>
                       <div className="font-medium text-white text-xs">App Store</div>
@@ -132,14 +132,14 @@ export default function Footer() {
 
           <div className="border-t border-gray-700/60 px-8 py-6">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-4">
-              <div className="text-gray-400 text-sm">© 2025 Recce. All rights reserved.</div>
+              <div className="text-[#848686] text-sm">© 2025 Recce. All rights reserved.</div>
 
               <div className="flex gap-6 text-sm">
-                <Link href="#" className="text-gray-400 hover:text-white">Privacy Policy</Link>
-                <Link href="#" className="text-gray-400 hover:text-white">Terms and Conditions</Link>
+                <Link href="#" className="text-[#848686] hover:text-white">Privacy Policy</Link>
+                <Link href="#" className="text-[#848686] hover:text-white">Terms and Conditions</Link>
               </div>
 
-              <div className="text-gray-400 text-sm">Design & Developed by <Link href="#" className="underline">Yellow Panther</Link></div>
+              <div className="text-[#848686] text-sm">Design & Developed by <Link href="#" className="underline">Yellow Panther</Link></div>
             </div>
           </div>
         </div>

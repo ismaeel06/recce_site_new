@@ -22,12 +22,12 @@ export default function Header() {
   return (
     <header className="w-full py-4 relative z-50">
       <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-orange-500 rounded-2xl px-3 py-2 shadow-lg relative z-50">
+        <div className="bg-[#ff7802] rounded-2xl px-3 py-2 shadow-lg relative z-50">
           <div className="flex items-center justify-between gap-4">
             {/* Left: R logo placeholder */}
             <Link href="/" className="flex items-center shrink-0">
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                <span className="text-orange-600 font-bold text-lg">R</span>
+                <span className="text-[#ff7802] font-bold text-lg">R</span>
               </div>
             </Link>
 
@@ -39,7 +39,7 @@ export default function Header() {
                   // Calculate width based on text length
                   const textLength = link.name.length;
                   const widthClass = textLength <= 4 ? 'w-8' : textLength <= 6 ? 'w-12' : textLength <= 10 ? 'w-20' : 'w-24';
-                  
+
                   return (
                     <li key={link.href} className="relative flex items-center">
                       <Link href={link.href} className="z-10 px-2 py-3">
@@ -63,14 +63,14 @@ export default function Header() {
               <button className="hidden md:flex items-center justify-center bg-white text-gray-800 font-medium px-8 py-2 rounded-2xl border border-white/30 shadow-sm">
                 Download Now
               </button>
-              
+
               {/* Mobile Download button - smaller */}
               <button className="md:hidden flex items-center justify-center bg-white text-gray-800 font-medium px-4 py-2 rounded-xl text-sm">
                 Download Now
               </button>
-              
+
               {/* Hamburger menu - mobile only */}
-              <button 
+              <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="md:hidden flex items-center justify-center bg-black hover:bg-gray-600 text-white w-10 h-10 rounded-lg"
               >
@@ -89,12 +89,11 @@ export default function Header() {
                   const isActive = pathname.startsWith(link.href);
                   return (
                     <li key={link.href}>
-                      <Link 
+                      <Link
                         href={link.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className={`block px-4 py-2 rounded-lg text-white transition-colors text-sm ${
-                          isActive ? 'bg-orange-600 font-semibold' : 'hover:bg-orange-400'
-                        }`}
+                        className={`block px-4 py-2 rounded-lg text-white transition-colors text-sm ${isActive ? 'bg-orange-600 font-semibold' : 'hover:bg-[#ff7802]'
+                          }`}
                       >
                         {link.name}
                       </Link>

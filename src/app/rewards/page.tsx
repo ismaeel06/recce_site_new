@@ -7,16 +7,16 @@ import RewardFAQs from "@/sections/rewards/RewardFAQs";
 
 export default function Rewards() {
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-[#191919]">
       <Header />
-      
+
       <main>
         <RewardsHero />
         <EarnWays />
         <RedeemRewards />
         <RewardFAQs />
       </main>
-      
+
       <Footer />
     </div>
   );
