@@ -1,30 +1,47 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Card from "@/components/whyRecce/Card";
+import Rationale from "@/components/whyRecce/Rationale";
 
 export default function WhyRecce() {
+  const cards = [
+    {
+      title: 'The Problem',
+      description: 'Endless scrolling through platforms, generic recommendations, and wasted time on disappointing content. Decision fatigue kills the joy of movie night.',
+      imgUrl: '/svg/ShowSelection.svg'
+    },
+    {
+      title: 'The Solution',
+      description: 'Recce connects you with friends and tastemakers you actually trust. Get honest, personalized recommendations from your inner circle.',
+      imgUrl: '/svg/TheGodFather.svg'
+    },
+    {
+      title: 'The Outcome',
+      description: 'Confidently pick your next watch in minutes. Discover hidden gems and enjoy movie nights that actually deliver, every single time.',
+      imgUrl: '/svg/Clock.svg'
+    }
+  ]
   return (
     <div className="min-h-screen">
       <Header />
-      
-      <main className="py-16">
+
+      <main className="py-16 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-6">Why Recce?</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover why Recce is revolutionizing how people discover and share content recommendations.
+          <div className="mb-12 flex flex-col justify-center items-center">
+            <h1 className="text-[60px] font-medium mb-6 w-[800px] text-center">Do you struggle to find something to <span className="text-[#ff7802]">watch?</span></h1>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto text-center">
+              You're not alone. The endless scroll is real, but finding your next favorite show shouldn't feel like a chore.
             </p>
           </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-semibold mb-4">Coming Soon</h2>
-            <p className="text-gray-600">
-              This page will contain detailed information about why users should choose Recce, 
-              including unique value propositions, user testimonials, and competitive advantages.
-            </p>
+          <div className="flex gap-8 justify-center items-center items-stretch">
+            {cards.map((card: any, index: number) => {
+              return <Card key={index} title={card.title} description={card.description} imgUrl={card.imgUrl} />
+            })}
           </div>
+          <Rationale />
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
