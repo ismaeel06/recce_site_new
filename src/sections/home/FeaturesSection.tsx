@@ -84,7 +84,7 @@ export default function FeaturesSection() {
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-4xl font-bold mb-4">
               Everything You Need for
-              <span className="text-orange-600 block md:inline"> Social Discovery</span>
+              <span className="text-[#ff7802] block md:inline"> Social Discovery</span>
             </h2>
             <p className="text-gray-400 max-w-3xl mx-auto text-sm md:text-base">
               Recce brings together movie and TV lovers
@@ -160,19 +160,19 @@ export default function FeaturesSection() {
 
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-orange-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     <span className="text-sm md:text-lg">Rate and review in seconds</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-orange-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     <span className="text-sm md:text-lg">Follow friends and tastemakers</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-orange-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                     <span className="text-sm md:text-lg">Earn rewards for quality reviews</span>

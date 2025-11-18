@@ -18,7 +18,7 @@ export default function EarnWaysCard({
         {points.map((point, index) => (
           <li key={index} className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0"
+              className="w-5 h-5 text-[#ff7802] mt-0.5 flex-shrink-0"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

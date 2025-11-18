@@ -37,7 +37,7 @@ export default function RewardFAQs() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Frequently Asked <span className="text-orange-500">Questions</span>
+            Frequently Asked <span className="text-[#ff7802]">Questions</span>
           </h2>
         </div>
 
@@ -54,7 +54,7 @@ export default function RewardFAQs() {
               >
                 <span className="text-gray-300 font-medium text-lg">{faq.question}</span>
                 <svg
-                  className={`w-6 h-6 text-orange-500 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""
+                  className={`w-6 h-6 text-[#ff7802] transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""
                     }`}
                   fill="none"
                   stroke="currentColor"

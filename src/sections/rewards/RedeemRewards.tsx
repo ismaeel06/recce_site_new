@@ -65,7 +65,7 @@ export default function RedeemRewards() {
         <div className="bg-[#3c3c3c] rounded-3xl p-8 md:p-16 border border-[#383838]">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Redeem Your <span className="text-orange-500">Points</span>
+              Redeem Your <span className="text-[#ff7802]">Points</span>
             </h2>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto">
               Your hard-earned points can be exchanged for real-world perks and

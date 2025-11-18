@@ -23,7 +23,7 @@ export default function BlogCard({ title, date, image, href = "#" }: BlogCardPro
 
         {/* Text Section - Bottom */}
         <div className="p-6 bg-[#404040]">
-          <h3 className="text-lg font-bold text-white mb-4 line-clamp-2 group-hover:text-orange-400 transition-colors">
+          <h3 className="text-lg font-bold text-white mb-4 line-clamp-2 group-hover:text-[#ff7802] transition-colors">
             {title}
           </h3>
           <p className="text-[#848686] text-sm">{date}</p>

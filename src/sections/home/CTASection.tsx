@@ -5,7 +5,7 @@ export default function CTASection() {
         {/* Top Section - Title and Download Buttons */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-5xl font-bold text-white mb-6">
-            Ready to Discover Your <span className="text-orange-500 block md:inline-block">Next Favorite Show?</span>
+            Ready to Discover Your <span className="text-[#ff7802] block md:inline-block">Next Favorite Show?</span>
           </h2>
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
             Join thousands of movie and TV lovers who trust Recce for authentic recommendations. Build your watchlist, share reviews, and earn rewards for helping others discover great content.
@@ -72,7 +72,7 @@ export default function CTASection() {
                 placeholder="Enter your email"
                 className="flex-1 px-3 md:px-4 py-2 md:py-3 bg-[#2a2a2a] text-white placeholder-text-gray-100 focus:outline-none text-sm"
               />
-              <button className="px-1 md:px-8 py-2 md:py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold transition-colors whitespace-nowrap text-sm md:text-base">
+              <button className="px-1 md:px-8 py-2 md:py-3 bg-[#ff7802] hover:bg-orange-600 text-white font-semibold transition-colors whitespace-nowrap text-sm md:text-base">
                 Subscribe
               </button>
             </div>

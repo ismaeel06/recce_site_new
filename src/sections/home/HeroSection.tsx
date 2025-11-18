@@ -38,7 +38,7 @@ export default function HeroSection() {
               <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mb-0 md:mb-4">
                 Cures Content
               </h2>
-              <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold text-orange-500 ml-3 md:ml-0">
+              <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold text-[#ff7802] ml-3 md:ml-0">
                 Overload
               </h2>
             </div>
