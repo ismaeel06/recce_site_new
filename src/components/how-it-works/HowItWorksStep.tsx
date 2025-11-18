@@ -27,7 +27,7 @@ export default function HowItWorksStep({
         </div>
 
         {/* Step Number Circle - Overlapping */}
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 w-24 h-24 rounded-full bg-orange-500 border-10 border-gray-900 flex items-center justify-center text-white text-3xl font-semibold">
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 w-24 h-24 rounded-full bg-[#ff7802] border-10 border-gray-900 flex items-center justify-center text-white text-3xl font-semibold">
           {number}
         </div>
       </div>

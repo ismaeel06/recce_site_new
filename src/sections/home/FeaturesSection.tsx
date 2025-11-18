@@ -10,40 +10,40 @@ export default function FeaturesSection() {
 
   const features = [
     {
-      icon: "👥",
+      icon: "/assets/icons/Users.svg",
       title: "Social Reviews",
       description: "Share honest reviews and ratings with your friends and discover what your trusted circle is watching.",
-      image: "/assets/writing.webp"
+      image: "/assets/SocialReviews.svg"
     },
     {
-      icon: "🎭",
+      icon: "/assets/icons/SealCheck.svg",
       title: "Trusted Network",
       description: "Build connections with fellow movie and TV enthusiasts who share your taste and values.",
-      image: "/assets/writing.webp"
+      image: "/assets/TrustedNetwork.svg"
     },
     {
-      icon: "🎁",
+      icon: "/assets/icons/Gift-orng.svg",
       title: "Reward System",
       description: "Share honest reviews and ratings with your friends and discover what your top trusted circle is watching.",
-      image: "/assets/writing.webp"
+      image: "/assets/RewardSystem.svg"
     },
     {
-      icon: "✨",
+      icon: "/assets/icons/GlobeSimple.svg",
       title: "Smart Discovery",
       description: "Find hidden gems and trending shows through community-driven insights and intelligent filtering.",
-      image: "/assets/writing.webp"
+      image: "/assets/SmartDiscovery.svg"
     },
     {
-      icon: "🎯",
+      icon: "/assets/icons/Target.svg",
       title: "Personalized Recommendations",
       description: "Get tailored suggestions based on your profile and what people with similar preferences love.",
-      image: "/assets/writing.webp"
+      image: "/assets/PersonalizedRecommendations.svg"
     },
     {
-      icon: "📋",
+      icon: "/assets/icons/BookmarksSimple.svg",
       title: "Watchlist Management",
       description: "Organize your must-watch list, track what you've seen, and never lose track of recommendations again.",
-      image: "/assets/writing.webp"
+      image: "/assets/WatchListManagement.svg"
     }
   ];
 
@@ -149,46 +149,35 @@ export default function FeaturesSection() {
       {/* See Recce in Action Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#404040] rounded-3xl overflow-hidden p-8 md:p-12 lg:p-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="bg-[#FFFFFF1A] rounded-4xl overflow-hidden px-8 md:px-12 lg:px-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 md:gap-12 items-center">
               {/* Left: Text Content */}
-              <div className="text-white text-left">
+              <div className="text-white text-left py-8 md:py-12 lg:p-16">
                 <h2 className="text-2xl md:text-4xl font-bold mb-6">See Recce in Action</h2>
                 <p className="text-gray-300 mb-8 text-sm md:text-base">
                   Our intuitive interface makes it simple to review shows, discover recommendations from friends, and earn rewards for your contributions to the community. Join thousands who've found their next favorite watch through trusted word-of-mouth.
                 </p>
 
                 <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
+                  <li className="flex items-center gap-4">
+                    <img src="/assets/icons/star.svg" alt="-" className="w-10 h-10 flex-shrink-0" />
                     <span className="text-sm md:text-lg">Rate and review in seconds</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
+                  <li className="flex items-center gap-4">
+                    <img src="/assets/icons/follow.svg" alt="-" className="w-10 h-10 flex-shrink-0" />
                     <span className="text-sm md:text-lg">Follow friends and tastemakers</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <svg className="w-6 h-6 text-[#ff7802] mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
+                  <li className="flex items-center gap-4">
+                    <img src="/assets/icons/gift.svg" alt="-" className="w-10 h-10 flex-shrink-0" />
                     <span className="text-sm md:text-lg">Earn rewards for quality reviews</span>
                   </li>
                 </ul>
               </div>
 
-              {/* Right: Image Placeholder */}
-              <div className="bg-[#404040] rounded-2xl overflow-hidden h-[300px] md:h-[400px] flex items-center justify-center border border-[#383838] w-full lg:w-auto">
-                <div className="text-center">
-                  <svg className="w-20 h-20 md:w-24 md:h-24 text-gray-600 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                  </svg>
-                  <p className="text-white text-sm">App Preview Image</p>
-                  <p className="text-white text-xs mt-2">(To be added later)</p>
-                </div>
+              {/* Right: Image */}
+              <div className="h-full w-full relative flex items-center justify-center">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-50 md:w-120 h-50 bg-[#ff7802] rounded-t-full rounded-b-0 blur-3xl opacity-25"></div>
+                <img src="/assets/Recce_Action.svg" alt="Recce Action" className="w-full h-full relative z-10 object-cover"/>
               </div>
             </div>
           </div>

@@ -20,13 +20,13 @@ export default function FeatureCard({ icon, title, description, image }: Feature
       )}
       
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30"></div>
       
       {/* Content - positioned at bottom */}
       <div className="absolute bottom-0 left-0 right-0 p-6">
         {/* Icon */}
         <div className="text-3xl mb-3">
-          {icon}
+          <img src={icon} alt={`Icon for ${title}`} />
         </div>
         
         {/* Title */}

@@ -10,7 +10,7 @@ export default function HeroSection() {
           src="/assets/hero.webp"
           alt="Hero Background"
           fill
-          className="object-cover"
+          className="object-cover "
           priority
         />
         {/* Subtle overlay */}
