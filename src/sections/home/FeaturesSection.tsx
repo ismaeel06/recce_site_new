@@ -92,7 +92,7 @@ export default function FeaturesSection() {
               trusted recommendations flow naturally, and great content discovery is rewarded.
             </p>
           </div>
-          
+
           {/* Desktop Grid - Hidden on Mobile */}
           <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
@@ -110,7 +110,7 @@ export default function FeaturesSection() {
           <div className="lg:hidden">
             <div className="relative">
               {/* Carousel Container */}
-              <div 
+              <div
                 className="overflow-hidden"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
@@ -136,9 +136,8 @@ export default function FeaturesSection() {
                 <button
                   key={index}
                   onClick={() => setActiveSlide(index)}
-                  className={`h-1 rounded-2xl transition-all ${
-                    index === activeSlide ? "bg-white w-10" : "bg-gray-600 w-4"
-                  }`}
+                  className={`h-1 rounded-2xl transition-all ${index === activeSlide ? "bg-white w-10" : "bg-gray-600 w-4"
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -150,7 +149,7 @@ export default function FeaturesSection() {
       {/* See Recce in Action Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-3xl overflow-hidden p-8 md:p-12 lg:p-16">
+          <div className="bg-[#404040] rounded-3xl overflow-hidden p-8 md:p-12 lg:p-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Text Content */}
               <div className="text-white text-left">
@@ -158,7 +157,7 @@ export default function FeaturesSection() {
                 <p className="text-gray-300 mb-8 text-sm md:text-base">
                   Our intuitive interface makes it simple to review shows, discover recommendations from friends, and earn rewards for your contributions to the community. Join thousands who've found their next favorite watch through trusted word-of-mouth.
                 </p>
-                
+
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
                     <svg className="w-6 h-6 text-orange-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -182,13 +181,13 @@ export default function FeaturesSection() {
               </div>
 
               {/* Right: Image Placeholder */}
-              <div className="bg-gray-900 rounded-2xl overflow-hidden h-[300px] md:h-[400px] flex items-center justify-center border border-gray-600 w-full lg:w-auto">
+              <div className="bg-[#404040] rounded-2xl overflow-hidden h-[300px] md:h-[400px] flex items-center justify-center border border-[#383838] w-full lg:w-auto">
                 <div className="text-center">
                   <svg className="w-20 h-20 md:w-24 md:h-24 text-gray-600 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                   </svg>
-                  <p className="text-gray-400 text-sm">App Preview Image</p>
-                  <p className="text-gray-500 text-xs mt-2">(To be added later)</p>
+                  <p className="text-white text-sm">App Preview Image</p>
+                  <p className="text-white text-xs mt-2">(To be added later)</p>
                 </div>
               </div>
             </div>
