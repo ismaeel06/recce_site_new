@@ -60,9 +60,9 @@ export default function RedeemRewards() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gray-900">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-3xl p-8 md:p-16 border border-gray-700">
+        <div className="bg-[#3c3c3c] rounded-3xl p-8 md:p-16 border border-[#383838]">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Redeem Your <span className="text-orange-500">Points</span>
@@ -106,9 +106,8 @@ export default function RedeemRewards() {
                 <button
                   key={index}
                   onClick={() => setActiveSlide(index)}
-                  className={`h-1 rounded-2xl transition-all ${
-                    index === activeSlide ? 'bg-white w-10' : 'bg-gray-600 w-4'
-                  }`}
+                  className={`h-1 rounded-2xl transition-all ${index === activeSlide ? 'bg-white w-10' : 'bg-gray-600 w-4'
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
