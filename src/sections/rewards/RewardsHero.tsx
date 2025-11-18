@@ -26,12 +26,12 @@ export default function RewardsHero() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gray-900">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title and Description */}
         <div className="text-white mb-12 text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-            Get Rewarded for Your <span className="text-orange-500">Great Taste</span>
+            Get Rewarded for Your <span className="text-[#ff7802]">Great Taste</span>
           </h1>
           <p className="text-gray-300 text-base md:text-lg mx-auto max-w-3xl">
             Your opinions have value. At Recce, we make sure you're recognized for contributing to the community and helping others discover content they'll love.

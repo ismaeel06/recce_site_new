@@ -16,11 +16,11 @@ export default function EarnWays() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gray-900">
+    <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Two Ways to <span className="text-orange-500">Earn</span>
+            Two Ways to <span className="text-[#ff7802]">Earn</span>
           </h2>
           <p className="text-gray-300 text-base md:text-lg max-w-4xl mx-auto">
             Earn points for your individual contributions and get bonuses when your recommendations make an impact.

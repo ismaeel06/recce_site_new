@@ -10,15 +10,15 @@ export default function EarnWaysCard({
   points,
 }: EarnWaysCardProps) {
   return (
-    <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+    <div className="bg-[#404040] rounded-2xl p-8 border border-[#383838]">
       <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
-      <p className="text-gray-400 mb-6">{description}</p>
+      <p className="text-neutral-400 mb-6">{description}</p>
 
       <ul className="space-y-4">
         {points.map((point, index) => (
           <li key={index} className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0"
+              className="w-5 h-5 text-[#ff7802] mt-0.5 flex-shrink-0"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
