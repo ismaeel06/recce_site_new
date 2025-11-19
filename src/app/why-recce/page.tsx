@@ -28,12 +28,12 @@ export default function WhyRecce() {
       <main className="py-16 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-col justify-center items-center">
-            <h1 className="text-[60px] font-medium mb-6 w-[800px] text-center">Do you struggle to find something to <span className="text-[#ff7802]">watch?</span></h1>
-            <p className="text-xl text-white/60 max-w-2xl mx-auto text-center">
+            <h1 className="text-[26px] md:text-[60px] font-medium mb-6 md:w-[800px] text-center">Do you struggle to find something to <span className="text-[#ff7802]">watch?</span></h1>
+            <p className="text-base md:text-xl text-white/60 md:max-w-2xl mx-auto text-center">
               You're not alone. The endless scroll is real, but finding your next favorite show shouldn't feel like a chore.
             </p>
           </div>
-          <div className="flex gap-8 justify-center items-center items-stretch">
+          <div className="flex flex-col md:flex-row gap-8 justify-center items-center items-stretch">
             {cards.map((card: any, index: number) => {
               return <Card key={index} title={card.title} description={card.description} imgUrl={card.imgUrl} />
             })}
