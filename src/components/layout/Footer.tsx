@@ -16,9 +16,9 @@ export default function Footer() {
                 <p className="mt-3 text-[#848686]">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90"/>
-                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90"/>
-                  <img src="/assets/icons/Tiktok.svg" alt="Twitter" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90"/>
+                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Tiktok.svg" alt="Twitter" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
                 </div>
               </div>
 
@@ -79,9 +79,9 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end">
-                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8"/>
-                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8"/>
-                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8"/>
+                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
                 </div>
               </div>
 

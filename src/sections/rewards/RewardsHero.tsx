@@ -6,19 +6,19 @@ import RewardActionCard from '../../components/rewards/RewardActionCard';
 export default function RewardsHero() {
   const actionCards = [
     {
-      icon: '✏️',
+      icon: '/assets/icons/PencilSimpleLine.svg',
       title: 'Share a Review',
       description:
         'Post your first thoughtful review of a movie or TV show to kick things off. Quality matters!',
     },
     {
-      icon: '👥',
+      icon: '/assets/icons/UserPlus.svg',
       title: 'Invite a Friend',
       description:
         'Bring a friend to Recce using your unique invite link. You both get bonus points when they join.',
     },
     {
-      icon: '🤝',
+      icon: '/assets/icons/HandShake.svg',
       title: 'Trust a Recce',
       description:
         'Watch something based on a friend\'s recommendation and mark it as "Watched" in the app',
@@ -41,16 +41,14 @@ export default function RewardsHero() {
         {/* Left and Right Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Gift Image */}
-          <div>
-            <div className="relative w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden">
-              <Image
-                src="/assets/gift.webp"
-                alt="Get Rewarded"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+          <div className="relative w-full h-[300px] md:h-[400px] lg:h-[525px] rounded-xl overflow-hidden">
+            <Image
+              src="/assets/rewardHero.svg"
+              alt="Get Rewarded"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
 
           {/* Right: Action Cards */}
