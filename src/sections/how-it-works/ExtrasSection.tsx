@@ -25,9 +25,9 @@ export default function ExtrasSection() {
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#FFFFFF1A] rounded-3xl p-8 md:p-16 border border-gray-700">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+        <div className="bg-[#FFFFFF1A] rounded-4xl px-8 md:px-16 py-8 md:py-10 border border-gray-700">
+          <div className="text-left mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
               And a Few <span className="text-orange-500">Optional Extras...</span>
             </h2>
           </div>

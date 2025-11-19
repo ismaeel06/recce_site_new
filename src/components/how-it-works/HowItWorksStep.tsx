@@ -14,7 +14,7 @@ export default function HowItWorksStep({
   image,
 }: HowItWorksStepProps) {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center hover:transform hover:scale-105 transition-all duration-300 cursor-pointer">
       {/* Image Container - Relative for absolute positioning of circle */}
       <div className="relative w-full mb-12">
         <div className="relative w-full h-90 rounded-2xl overflow-hidden">
