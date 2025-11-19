@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-26.6667" y="-26.6667" width="117.333" height="117.333"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(13.33px);clip-path:url(#bgblur_0_122_1990_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="26.6667">
+<rect width="64" height="64" rx="32" fill="white" fill-opacity="0.08" style="fill:white;fill-opacity:0.08;"/>
+<path d="M29 27H35" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44.6987 35.2902L39.2425 22.8752C38.6799 22.3126 37.9169 21.9966 37.1213 21.9966C36.3256 21.9966 35.5626 22.3126 35 22.8752V37.0002" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M29 37.0002V22.8752C28.4374 22.3126 27.6744 21.9966 26.8788 21.9966C26.0832 21.9966 25.3201 22.3126 24.7575 22.8752L19.3013 35.2902" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M24 42C26.7614 42 29 39.7614 29 37C29 34.2386 26.7614 32 24 32C21.2386 32 19 34.2386 19 37C19 39.7614 21.2386 42 24 42Z" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40 42C42.7614 42 45 39.7614 45 37C45 34.2386 42.7614 32 40 32C37.2386 32 35 34.2386 35 37C35 39.7614 37.2386 42 40 42Z" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_122_1990_clip_path" transform="translate(26.6667 26.6667)"><rect width="64" height="64" rx="32"/>
+</clipPath></defs>
+</svg>

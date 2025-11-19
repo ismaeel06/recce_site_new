@@ -10,7 +10,7 @@ interface BlogCardProps {
 export default function BlogCard({ title, date, image, href = "#" }: BlogCardProps) {
   return (
     <a href={href} className="group block">
-      <div className="bg-[#404040] rounded-2xl overflow-hidden">
+      <div className="rounded-2xl overflow-hidden">
         {/* Image Section - Top */}
         <div className="relative h-48 overflow-hidden bg-gray-700">
           <Image
@@ -22,7 +22,7 @@ export default function BlogCard({ title, date, image, href = "#" }: BlogCardPro
         </div>
 
         {/* Text Section - Bottom */}
-        <div className="p-6 bg-[#404040]">
+        <div className="p-6 bg-[#FFFFFF1A]">
           <h3 className="text-lg font-bold text-white mb-4 line-clamp-2 group-hover:text-[#ff7802] transition-colors">
             {title}
           </h3>

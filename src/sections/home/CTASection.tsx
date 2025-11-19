@@ -39,16 +39,118 @@ export default function CTASection() {
           </div>
         </div>
 
-        {/* Middle Section - Phone Mockup */}
+        {/* Middle Section - Phone Mockup with Rings and Side Badges */}
         <div className="flex justify-center mb-16">
-          <div className="relative flex justify-center items-center z-10">
-            <div className="w-64 h-96 bg-[#404040] rounded-3xl border-8 border-[#383838] overflow-hidden flex items-center justify-center shadow-2xl">
-              <div className="text-center">
-                <svg className="w-20 h-20 text-gray-600 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                </svg>
-                <p className="text-white text-sm">App Preview</p>
-                <p className="text-white text-xs mt-2">(To be added later)</p>
+          <div className="relative w-full max-w-4xl flex flex-col justify-center items-center">
+            {/* Desktop: Full height container (only for 2xl and above) */}
+            <div className="hidden xl:flex relative w-full h-screen justify-center items-center">
+              <div className="absolute inset-0 flex justify-center items-center">
+                <div className="absolute w-48 h-48 md:w-96 md:h-96 border border-gray-700 rounded-full opacity-30"></div>
+                <div className="absolute w-64 h-64 md:w-[28rem] md:h-[28rem] border border-gray-700 rounded-full opacity-20"></div>
+                <div className="absolute w-80 h-80 md:w-[32rem] md:h-[32rem] border border-gray-700 rounded-full opacity-10"></div>
+              </div>
+
+              {/* Phone Mockup */}
+              <div className="relative z-10 flex justify-center items-center">
+                <img src="/assets/HomeCTA.svg" width="600" height="700" />
+              </div>
+
+              {/* Top Left Badge */}
+              <div className="absolute top-20 left-4 md:top-32 md:left-[-118px] flex items-center gap-3 md:gap-4 z-20">
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-white text-xs md:text-sm font-medium max-w-xs">
+                    Never waste time on disappointing content again
+                  </p>
+                </div>
+                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                  <img src="/assets/icons/time.svg" alt="" />
+                </div>
+              </div>
+
+              {/* Bottom Left Badge */}
+              <div className="absolute bottom-20 left-4 md:bottom-44  md:left-[-78px] flex items-center gap-3 md:gap-4 z-20">
+                <div className="flex flex-col items-start gap-1">
+                  <p className="text-white text-xs md:text-sm font-medium max-w-xs">
+                    Build your ultimate personalized watchlist
+                  </p>
+                </div>
+                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                  <img src="/assets/icons/flame.svg" alt="" />
+                </div>
+              </div>
+
+              {/* Top Right Badge */}
+              <div className="absolute top-20 right-4 md:top-26 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
+                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                  <img src="/assets/icons/binoculor.svg" alt="" />
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
+                    Discover shows your friends actually love
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom Right Badge */}
+              <div className="absolute bottom-20 right-4 md:bottom-44 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
+                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                  <img src="/assets/icons/ctagift.svg" alt="" />
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
+                    Get rewarded for sharing honest reviews
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile & Tablet (iPad Pro): Phone centered with badges below in 2x2 grid */}
+            <div className="xl:hidden flex flex-col items-center w-full">
+              <div className="relative w-full flex justify-center mb-8">
+                <img src="/assets/HomeCTA.svg" width="200" height="280" />
+              </div>
+
+              {/* Mobile Badge Grid - 2x2 */}
+              <div className="grid grid-cols-2 gap-6 w-full max-w-xs">
+                {/* Top Left Badge */}
+                <div className="flex flex-col items-center text-center gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img src="/assets/icons/time.svg" alt="" />
+                  </div>
+                  <p className="text-white text-xs font-medium">
+                    Never waste time on disappointing content again
+                  </p>
+                </div>
+
+                {/* Top Right Badge */}
+                <div className="flex flex-col items-center text-center gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img src="/assets/icons/binoculor.svg" alt="" />
+                  </div>
+                  <p className="text-white text-xs font-medium">
+                    Discover shows your friends actually love
+                  </p>
+                </div>
+
+                {/* Bottom Left Badge */}
+                <div className="flex flex-col items-center text-center gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img src="/assets/icons/flame.svg" alt="" />
+                  </div>
+                  <p className="text-white text-xs font-medium">
+                    Build your ultimate personalized watchlist
+                  </p>
+                </div>
+
+                {/* Bottom Right Badge */}
+                <div className="flex flex-col items-center text-center gap-2">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img src="/assets/icons/ctagift.svg" alt="" />
+                  </div>
+                  <p className="text-white text-xs font-medium">
+                    Get rewarded for sharing honest reviews
+                  </p>
+                </div>
               </div>
             </div>
           </div>
