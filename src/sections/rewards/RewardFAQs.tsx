@@ -53,20 +53,7 @@ export default function RewardFAQs() {
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-750 transition-colors text-left"
               >
                 <span className="text-gray-300 font-medium text-lg">{faq.question}</span>
-                <svg
-                  className={`w-6 h-6 text-[#ff7802] transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""
-                    }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                  />
-                </svg>
+                <img src="/assets/icons/arrow_down.svg" alt="\/" className={`w-6 h-6 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""}`}/>
               </button>
 
               {/* Answer - Collapsible */}

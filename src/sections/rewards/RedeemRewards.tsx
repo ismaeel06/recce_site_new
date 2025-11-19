@@ -62,12 +62,12 @@ export default function RedeemRewards() {
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#3c3c3c] rounded-3xl p-8 md:p-16 border border-[#383838]">
+        <div className="bg-[#FFFFFF1A] rounded-3xl p-8 md:p-16 border border-[#383838]">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Redeem Your <span className="text-[#ff7802]">Points</span>
             </h2>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-300 text-lg max-w-4xl mx-auto">
               Your hard-earned points can be exchanged for real-world perks and
               digital goods. Here are a few examples.
             </p>

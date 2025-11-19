@@ -7,21 +7,21 @@ export default function HowItWorksHero() {
       title: 'Set Up Your Tastes',
       description:
         'Tell us your favorite genres, directors, and actors. This helps us calibrate your initial discovery feed.',
-      image: '/assets/writing.webp',
+      image: '/assets/SetTastes.svg',
     },
     {
       number: 2,
       title: 'Follow & Discover',
       description:
         "Connect with friends or follow curated tastemakers. Your feed will instantly populate with trusted recommendations.",
-      image: '/assets/writing.webp',
+      image: '/assets/FollowDiscover.svg',
     },
     {
       number: 3,
       title: 'Decide & Earn',
       description:
         'Find your next favorite show or movie in, and share your own review to help others and earn rewards.',
-      image: '/assets/writing.webp',
+      image: '/assets/DecideEarn.svg',
     },
   ];
 

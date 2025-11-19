@@ -10,9 +10,9 @@ export default function RewardActionCard({
   description,
 }: RewardActionCardProps) {
   return (
-    <div className="bg-[#404040] rounded-2xl p-6 border border-[#383838] hover:border-[#ff7802] transition-colors">
+    <div className="bg-[#FFFFFF1A] rounded-2xl p-6 border border-[#383838] hover:scale-105 transition-all duration-300 cursor-pointer">
       <div className="flex flex-col gap-2">
-        <div className="text-[#ff7802] text-3xl">{icon}</div>
+        <img src={icon} alt={title} className="w-8 h-8" />
         <h3 className="text-xl font-bold text-white">{title}</h3>
         <p className="text-neutral-400 text-sm">{description}</p>
       </div>

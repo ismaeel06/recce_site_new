@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="w-full">
       <div className="w-full">
-        <div className="bg-[#ffffff1a] text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
+        <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
           <div className="px-8 py-10">
             {/* Desktop Layout */}
             <div className="hidden md:grid grid-cols-4 gap-8 items-start">
@@ -16,15 +16,15 @@ export default function Footer() {
                 <p className="mt-3 text-[#848686]">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">f</a>
-                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">ig</a>
-                  <a className="w-8 h-8 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90">t</a>
+                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Tiktok.svg" alt="Twitter" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer"/>
                 </div>
               </div>
 
               {/* Middle: Navigation columns */}
               <div className="col-span-2 flex justify-center">
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-2 gap-26 ">
                   <div>
                     <ul className="space-y-3 text-gray-300 text-sm">
                       <li><Link href="/why-recce" className="hover:text-white">Why Recce?</Link></li>
@@ -45,19 +45,19 @@ export default function Footer() {
               </div>
 
               {/* Right: Download buttons */}
-              <div className="col-span-1 flex flex-col items-end">
+              <div className="pl-36 col-span-1 flex flex-col items-end">
                 <h3 className="text-sm font-semibold text-white/90 self-start">Download app</h3>
                 <div className="mt-4 flex flex-col items-end gap-3 w-full">
-                  <button className="flex items-center gap-3 bg-[#383838] hover:bg-[#484848] px-4 py-2 rounded-md w-full cursor-pointer">
-                    <div className="w-8 h-8 bg-white/10 rounded-sm" />
+                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer">
+                    <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">GET IT ON</div>
                       <div className="font-medium text-white">Google Play</div>
                     </div>
                   </button>
 
-                  <button className="flex items-center gap-3 bg-[#383838] hover:bg-[#484848] px-4 py-2 rounded-md w-full cursor-pointer">
-                    <div className="w-8 h-8 bg-white/10 rounded-sm" />
+                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer">
+                    <img src="/assets/icons/Apple.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">Download on the</div>
                       <div className="font-medium text-white">App Store</div>
@@ -66,7 +66,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-
+   
             {/* Mobile Layout */}
             <div className="md:hidden flex flex-col gap-8">
               {/* Top: Brand with socials on right */}
@@ -79,9 +79,9 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end">
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs text-white/90">f</a>
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs text-white/90">ig</a>
-                  <a className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs text-white/90">t</a>
+                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
                 </div>
               </div>
 
@@ -110,18 +110,18 @@ export default function Footer() {
               <div>
                 <h3 className="text-sm font-semibold text-white/90 mb-3">Download app</h3>
                 <div className="flex gap-2">
-                  <button className="flex-1 flex items-center gap-2 bg-[#383838] hover:bg-[#484848] px-2 py-2 rounded-md">
-                    <div className="w-6 h-6 rounded-sm flex-shrink-0" />
+                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg">
+                    <img src="/assets/icons/Google_Play.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-xs">
                       <div className="text-gray-300 text-xs">GET IT ON</div>
-                      <div className="font-medium text-white text-xs">Google Play</div>
+                      <div className="font-medium text-white text-xs whitespace-nowrap">Google Play</div>
                     </div>
                   </button>
 
-                  <button className="flex-1 flex items-center gap-2bg-[#383838] hover:bg-[#484848] px-2 py-2 rounded-md">
-                    <div className="w-6 h-6 rounded-sm flex-shrink-0" />
+                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg">
+                    <img src="/assets/icons/Apple.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-xs">
-                      <div className="text-gray-300 text-xs">Download on the</div>
+                      <div className="text-gray-300 text-xs whitespace-nowrap">Download on the</div>
                       <div className="font-medium text-white text-xs">App Store</div>
                     </div>
                   </button>
