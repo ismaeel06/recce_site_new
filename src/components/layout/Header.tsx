@@ -26,8 +26,8 @@ export default function Header() {
           <div className="flex items-center justify-between gap-4">
             {/* Left: R logo placeholder */}
             <Link href="/" className="flex items-center shrink-0">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                <span className="text-[#ff7802] font-bold text-lg">R</span>
+              <div className="w-10 h-10  rounded-full flex items-center justify-center shadow-sm">
+                <img src="/assets/Recce_logo.svg" alt="" />
               </div>
             </Link>
 

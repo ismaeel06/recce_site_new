@@ -10,7 +10,7 @@ interface BlogCardProps {
 export default function BlogCard({ title, date, image, href = "#" }: BlogCardProps) {
   return (
     <a href={href} className="group block">
-      <div className="rounded-2xl overflow-hidden">
+      <div className="rounded-2xl  overflow-hidden">
         {/* Image Section - Top */}
         <div className="relative h-48 overflow-hidden bg-gray-700">
           <Image

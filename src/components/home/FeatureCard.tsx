@@ -7,7 +7,7 @@ interface FeatureCardProps {
 
 export default function FeatureCard({ icon, title, description, image }: FeatureCardProps) {
   return (
-    <div className="relative h-80 bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group cursor-pointer">
+    <div className="relative h-80 bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group cursor-pointer">
       {/* Background Image */}
       {image ? (
         <img 
