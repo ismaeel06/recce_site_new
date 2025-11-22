@@ -1,3 +1,4 @@
+import NewsLetter from "./NewsLetter";
 export default function CTASection() {
   return (
     <section className="py-20 bg-[#191919]">
@@ -9,13 +10,13 @@ export default function CTASection() {
           </h2>
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
             Join thousands of movie and TV lovers who trust Recce for authentic recommendations. Build your watchlist, share reviews, and earn rewards for helping others discover great content.
-          </p> 
+          </p>
 
           {/* Download Buttons */}
           <div className="flex flex-row gap-4 justify-center items-center flex-wrap">
             <div className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer">
               <div className="mr-3">
-                <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
+                <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 md:w-6 h-5 md:h-6" />
               </div>
               <div className="text-left">
                 <div className="text-xs text-gray-300">GET IT ON</div>
@@ -25,7 +26,7 @@ export default function CTASection() {
 
             <div className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer">
               <div className="mr-3">
-                <img src="/assets/icons/Apple.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
+                <img src="/assets/icons/Apple.svg" alt="" className="w-5 md:w-6 h-5 md:h-6" />
               </div>
               <div className="text-left">
                 <div className="text-xs text-gray-300">Download on the</div>
@@ -138,7 +139,7 @@ export default function CTASection() {
                   </p>
                 </div>
 
-                {/* Bottom Right Badge */}     
+                {/* Bottom Right Badge */}
                 <div className="flex flex-col items-center text-center gap-2">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
                     <img src="/assets/icons/ctagift.svg" alt="" />
@@ -153,29 +154,7 @@ export default function CTASection() {
         </div>
 
         {/* Bottom Section - Newsletter */}
-        <div className="mt-32 bg-[#FFFFFF1A] rounded-3xl p-6 md:p-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="w-full md:flex-1">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                Get the Best Stories, Straight to Your Inbox
-              </h3>
-              <p className="text-[#848686] text-sm">
-                Sign up for our newsletter for a weekly round-up of our top articles and picks
-              </p>
-            </div>
-
-            <div className="flex gap-0 w-full md:w-auto border border-[rgba(255, 255, 255, 0.3)] rounded-2xl overflow-hidden">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-3 md:px-4 py-2 md:py-3 bg-[#2a2a2a] text-white placeholder-text-gray-100 focus:outline-none text-sm"
-              />
-              <button className="px-1 md:px-8 py-2 md:py-3 bg-[#ff7802] border border-[#ff7802] hover:bg-orange-600 text-white font-semibold transition-colors whitespace-nowrap text-sm md:text-base">
-                Subscribe
-              </button>
-            </div>
-          </div>                                                      
-        </div>
+        <NewsLetter />
       </div>
     </section>
   );

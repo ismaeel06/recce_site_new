@@ -69,7 +69,7 @@ export default function Partners() {
     }
   ]
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       <Header />
 
       <main className="py-16">
