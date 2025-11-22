@@ -18,7 +18,7 @@ export default function RewardsHero() {
         'Bring a friend to Recce using your unique invite link. You both get bonus points when they join.',
     },
     {
-      icon: '/assets/icons/HandShake.svg',
+      icon: '/assets/icons/Handshake.svg',
       title: 'Trust a Recce',
       description:
         'Watch something based on a friend\'s recommendation and mark it as "Watched" in the app',
