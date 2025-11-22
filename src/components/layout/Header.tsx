@@ -54,7 +54,7 @@ export default function Header() {
             {/* Left: R logo placeholder */}
             <Link href="/" className="flex items-center shrink-0">
               <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm">
-                <img src="/assets/Recce_logo.svg" alt="" />
+                <img src="/assets/Recce_Logo.svg" alt="" />
               </div>
             </Link>
 
