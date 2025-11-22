@@ -81,7 +81,7 @@ export default function RecentBlogsSection() {
               title={blog.title}
               date={blog.date}
               image={blog.image}
-              href={`/blog/${blog.id}`}
+              href={`/gossip`}
             />
           ))}
         </div>
