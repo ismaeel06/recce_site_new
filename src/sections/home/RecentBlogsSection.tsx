@@ -67,7 +67,7 @@ export default function RecentBlogsSection() {
           </h2>
           <a
             href="/blog"
-            className="inline-flex items-center px-6 py-2 border border-gray-600 text-white rounded-lg hover:border-[#ff7802] hover:text-[#ff7802] transition-colors text-sm md:text-base"
+            className="inline-flex items-center px-6 py-2 border border-white text-white rounded-xl hover:border-[#ff7802] hover:text-[#ff7802] transition-colors text-sm md:text-base"
           >
             View All
           </a>
