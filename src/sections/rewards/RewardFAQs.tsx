@@ -46,7 +46,7 @@ export default function RewardFAQs() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#404040] rounded-2xl border border-gray-700 overflow-hidden"
+              className="bg-[#FFFFFF1A] rounded-2xl border border-white/30 overflow-hidden"
             >
               <button
                 onClick={() => toggleFAQ(index)}
@@ -58,7 +58,7 @@ export default function RewardFAQs() {
 
               {/* Answer - Collapsible */}
               {openIndex === index && (
-                <div className="px-6 pb-4 pt-2 border-t border-gray-700">
+                <div className="px-6 pb-4 pt-2">
                   <p className="text-gray-400">{faq.answer}</p>
                 </div>
               )}
