@@ -12,7 +12,7 @@ export default function RedeemRewardCard({
   description,
 }: RedeemRewardCardProps) {
   return (
-    <div className="bg-[#FFFFFF1A ] rounded-2xl overflow-hidden border border-[#383838] hover:scale-105 transition-all duration-300 group cursor-pointer">
+    <div className="bg-[#FFFFFF1A] rounded-2xl overflow-hidden border border-[#383838] hover:scale-105 transition-all duration-300 group cursor-pointer">
       {/* Image Section */}
       <div className="relative h-48 w-full overflow-hidden bg-gray-700 group-hover:bg-gray-600 transition-colors">
         <Image
