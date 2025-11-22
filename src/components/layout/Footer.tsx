@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="w-full">
       <div className="w-full">
-        <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
+        <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] lg:rounded-t-[48px] border-t-[1.5px] overflow-hidden shadow-inner">
           <div className="px-4 sm:px-6 lg:px-8 py-10">
             {/* Desktop Layout - visible on lg and above */}
             <div className="hidden lg:grid grid-cols-4 gap-8 items-start">

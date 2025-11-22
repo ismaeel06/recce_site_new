@@ -126,7 +126,9 @@ export default function Partners() {
                 <div
                   key={index}
                   data-index={index}
-                  ref={(el) => (itemRefs.current[index] = el)}
+                  ref={(el) => {
+                    if (el) itemRefs.current[index] = el;
+                  }}
                   className="snap-center flex-shrink-0 w-[260px] sm:w-[300px] md:w-full mx-2"
                 >
                   {/* ensure PerksCard sits in a full-height wrapper */}
