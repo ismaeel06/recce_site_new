@@ -4,10 +4,10 @@ export default function Footer() {
   return (
     <footer className="w-full">
       <div className="w-full">
-        <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] border-t overflow-hidden shadow-inner">
-          <div className="px-8 py-10">
-            {/* Desktop Layout */}
-            <div className="hidden md:grid grid-cols-4 gap-8 items-start">
+        <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] lg:rounded-t-[48px] border-t-[1.5px] overflow-hidden shadow-inner">
+          <div className="px-4 sm:px-6 lg:px-8 py-10">
+            {/* Desktop Layout - visible on lg and above */}
+            <div className="hidden lg:grid grid-cols-4 gap-8 items-start">
               {/* Left: Brand */}
               <div className="col-span-1">
                 <Link href="/" className="inline-block">
@@ -24,7 +24,7 @@ export default function Footer() {
 
               {/* Middle: Navigation columns */}
               <div className="col-span-2 flex justify-center">
-                <div className="grid grid-cols-2 gap-26 ">
+                <div className="grid grid-cols-2 gap-12">
                   <div>
                     <ul className="space-y-3 text-gray-300 text-sm">
                       <li><Link href="/why-recce" className="hover:text-white">Why Recce?</Link></li>
@@ -45,19 +45,19 @@ export default function Footer() {
               </div>
 
               {/* Right: Download buttons */}
-              <div className="pl-36 col-span-1 flex flex-col items-end">
+              <div className="pl-12 xl:pl-36 col-span-1 flex flex-col items-end">
                 <h3 className="text-sm font-semibold text-white/90 self-start">Download app</h3>
                 <div className="mt-4 flex flex-col items-end gap-3 w-full">
-                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer">
-                    <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
+                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer transition-colors">
+                    <img src="/assets/icons/Google_Play.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">GET IT ON</div>
                       <div className="font-medium text-white">Google Play</div>
                     </div>
                   </button>
 
-                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer">
-                    <img src="/assets/icons/Apple.svg" alt="" className="w-5 md:w-6 h-5 md:h-6"/>
+                  <button className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer transition-colors">
+                    <img src="/assets/icons/Apple.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-sm">
                       <div className="text-xs text-gray-300">Download on the</div>
                       <div className="font-medium text-white">App Store</div>
@@ -66,8 +66,70 @@ export default function Footer() {
                 </div>
               </div>
             </div>
+
+            {/* Tablet/iPad Layout - visible on md to lg */}
+            <div className="hidden md:grid lg:hidden grid-cols-2 gap-8">
+              {/* Left: Brand with socials */}
+              <div>
+                <Link href="/" className="inline-block">
+                  <h2 className="text-3xl font-extrabold tracking-tight">Recce</h2>
+                </Link>
+                <p className="mt-3 text-[#848686] text-sm">Cures Content Overload</p>
+
+                <div className="mt-6 flex items-center gap-3">
+                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer"/>
+                </div>
+              </div>
+
+              {/* Right: Navigation and Download */}
+              <div className="flex flex-col gap-6">
+                {/* Navigation */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <ul className="space-y-2 text-gray-300 text-sm">
+                      <li><Link href="/why-recce" className="hover:text-white">Why Recce?</Link></li>
+                      <li><Link href="/how-it-works" className="hover:text-white">How it Works</Link></li>
+                      <li><Link href="/rewards" className="hover:text-white">Rewards</Link></li>
+                      <li><Link href="/gossip" className="hover:text-white">Gossip</Link></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <ul className="space-y-2 text-gray-300 text-sm">
+                      <li><Link href="/help" className="hover:text-white">Help</Link></li>
+                      <li><Link href="/partners" className="hover:text-white">Partners</Link></li>
+                      <li><Link href="/team" className="hover:text-white">Team</Link></li>
+                      <li><Link href="/benefits" className="hover:text-white">Benefits</Link></li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Download buttons */}
+                <div>
+                  <h3 className="text-sm font-semibold text-white/90 mb-3">Download app</h3>
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg transition-colors cursor-pointer">
+                      <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 h-5 flex-shrink-0"/>
+                      <div className="text-left text-xs">
+                        <div className="text-gray-300 text-xs">GET IT ON</div>
+                        <div className="font-medium text-white text-xs whitespace-nowrap">Google Play</div>
+                      </div>
+                    </button>
+
+                    <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg transition-colors cursor-pointer">
+                      <img src="/assets/icons/Apple.svg" alt="" className="w-5 h-5 flex-shrink-0"/>
+                      <div className="text-left text-xs">
+                        <div className="text-gray-300 text-xs whitespace-nowrap">Download on the</div>
+                        <div className="font-medium text-white text-xs">App Store</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
    
-            {/* Mobile Layout */}
+            {/* Mobile Layout - visible on below md */}
             <div className="md:hidden flex flex-col gap-8">
               {/* Top: Brand with socials on right */}
               <div className="flex items-start justify-between">
@@ -110,7 +172,7 @@ export default function Footer() {
               <div>
                 <h3 className="text-sm font-semibold text-white/90 mb-3">Download app</h3>
                 <div className="flex gap-2">
-                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg">
+                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg transition-colors cursor-pointer">
                     <img src="/assets/icons/Google_Play.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-xs">
                       <div className="text-gray-300 text-xs">GET IT ON</div>
@@ -118,7 +180,7 @@ export default function Footer() {
                     </div>
                   </button>
 
-                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg">
+                  <button className="flex-1 flex items-center gap-2 bg-[#FFFFFF1A] hover:bg-[#484848] px-3 py-2 rounded-lg transition-colors cursor-pointer">
                     <img src="/assets/icons/Apple.svg" alt="" className="w-6 h-6 flex-shrink-0"/>
                     <div className="text-left text-xs">
                       <div className="text-gray-300 text-xs whitespace-nowrap">Download on the</div>
@@ -130,16 +192,16 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="border-t border-gray-700/60 px-8 py-6">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-4">
-              <div className="text-[#848686] text-sm">© 2025 Recce. All rights reserved.</div>
+          <div className="border-t border-gray-700/60 px-4 sm:px-6 lg:px-8 py-6">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-4 text-sm">
+              <div className="text-[#848686]">© 2025 Recce. All rights reserved.</div>
 
-              <div className="flex gap-6 text-sm">
+              <div className="flex gap-4 md:gap-6 text-sm">
                 <Link href="#" className="text-[#848686] hover:text-white">Privacy Policy</Link>
                 <Link href="#" className="text-[#848686] hover:text-white">Terms and Conditions</Link>
               </div>
 
-              <div className="text-[#848686] text-sm">Design & Developed by <Link href="#" className="underline">Yellow Panther</Link></div>
+              <div className="text-[#848686]">Design & Developed by <Link href="#" className="underline">Yellow Panther</Link></div>
             </div>
           </div>
         </div>

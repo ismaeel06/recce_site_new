@@ -50,7 +50,7 @@ export default function RewardFAQs() {
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-750 transition-colors text-left"
+                className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-750 transition-colors text-left cursor-pointer"
               >
                 <span className="text-gray-300 font-medium text-lg">{faq.question}</span>
                 <img src="/assets/icons/arrow_down.svg" alt="\/" className={`w-6 h-6 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""}`}/>
