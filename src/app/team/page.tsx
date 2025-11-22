@@ -7,14 +7,28 @@ import TeamMember from "@/components/team/TeamMember";
 export default function Team() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showMoreTeam, setShowMoreTeam] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
 
   useEffect(() => {
+    // Set initial mobile state
+    setIsMobile(window.innerWidth < 768);
+
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setIsModalOpen(false);
     }
+
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const openModal = () => {
@@ -113,25 +127,39 @@ export default function Team() {
           </div>
         </div>
 
-        <div className="md:grid md:grid-cols-4 justify-center gap-6 px-6 sm:px-12">
-          {teamMembers.map((teamMember: any, index: number) => {
-            return (
-              // wrap in a clickable div for the "you" (Join Our Team) card so it opens the modal
-              <div
-                key={index}
-                className={`rounded-lg transition-transform hover:scale-[1.01] ${teamMember.you ? "cursor-pointer" : ""}`}
-                onClick={() => teamMember.you && openModal()}
-              >
-                <TeamMember
-                  name={teamMember.name}
-                  title={teamMember.title}
-                  description={teamMember.description}
-                  you={teamMember.you}
-                />
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-center gap-6 px-6 sm:px-12">
+          {teamMembers
+            .slice(0, isMobile && !showMoreTeam ? 4 : teamMembers.length)
+            .map((teamMember: any, index: number) => {
+              return (
+                // wrap in a clickable div for the "you" (Join Our Team) card so it opens the modal
+                <div
+                  key={index}
+                  className={`rounded-lg transition-transform hover:scale-[1.01] ${teamMember.you ? "cursor-pointer" : ""}`}
+                  onClick={() => teamMember.you && openModal()}
+                >
+                  <TeamMember
+                    name={teamMember.name}
+                    title={teamMember.title}
+                    description={teamMember.description}
+                    you={teamMember.you}
+                  />
+                </div>
+              );
+            })}
         </div>
+
+        {/* Load More Button for Mobile */}
+        {!showMoreTeam && teamMembers.length > 4 && (
+          <div className="md:hidden flex justify-center mt-8 px-6">
+            <button
+              onClick={() => setShowMoreTeam(true)}
+              className="px-8 py-2 border border-white text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            >
+              Load More
+            </button>
+          </div>
+        )}
 
         {/* Modal */}
         {isModalOpen && (
@@ -187,7 +215,7 @@ export default function Team() {
 
                           <input
                             required
-                            name="first-name"
+                            name="firstName"
                             value={form.firstName}
                             onChange={handleChange}
                             placeholder="First Name*"
@@ -205,7 +233,7 @@ export default function Team() {
 
                           <input
                             required
-                            name="last-name"
+                            name="lastName"
                             value={form.lastName}
                             onChange={handleChange}
                             placeholder="Last Name*"
