@@ -1,7 +1,7 @@
 export default function BenefitsHero() {
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-12 flex flex-col md:py-32 items-center md:min-h-screen">
+      <div className="text-center mb-12 flex flex-col md:py-32 items-center">
         <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium md:mb-6 text-center font-bold">
           The Auteur Club <span className="text-[#ff7802]">Top 1%</span>
         </h1>
