@@ -68,7 +68,7 @@ export default function Header() {
 
                   return (
                     <li key={link.href} className="relative flex items-center">
-                      <Link href={link.href} className="z-10 px-2 py-3 text-sm">
+                      <Link href={link.href} className="z-10 px-2 py-3 text-sm transition-colors duration-300 hover:text-orange-100">
                         <span className="leading-none">{link.name}</span>
                       </Link>
                       {isActive && (
