@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function RewardFAQs() {
+export default function RewardFAQs({ page }: { page?: string }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
@@ -33,16 +33,18 @@ export default function RewardFAQs() {
   };
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+    <section className={page !== 'help' ? 'py-16 md:py-24' : ''}>
+      <div className="msx-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`${page === 'help' ? 'mb-4' : 'mb-12 text-center'}`}>
+          {page === 'help' ? <h2 className="text-2xl md:text-4xl font-bold text-white">
+            Frequently Asked Questions
+          </h2> : <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Frequently Asked <span className="text-[#ff7802]">Questions</span>
-          </h2>
+          </h2>}
         </div>
 
         {/* FAQ Accordion */}
-        <div className="space-y-3">
+        <div className={`space-y-3 ${page === 'help' ? 'xl:w-4xl' : ''}`}>
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -52,14 +54,14 @@ export default function RewardFAQs() {
                 onClick={() => toggleFAQ(index)}
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-750 transition-colors text-left cursor-pointer"
               >
-                <span className="text-gray-300 font-medium text-lg">{faq.question}</span>
-                <img src="/assets/icons/arrow_down.svg" alt="\/" className={`w-6 h-6 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""}`}/>
+                <span className="text-white/60 font-medium text-sm md:text-lg">{faq.question}</span>
+                <img src="/assets/icons/arrow_down.svg" alt="\/" className={`w-6 h-6 transition-transform duration-300 flex-shrink-0 ml-4 ${openIndex === index ? "rotate-180" : ""}`} />
               </button>
 
               {/* Answer - Collapsible */}
               {openIndex === index && (
                 <div className="px-6 pb-4 pt-2">
-                  <p className="text-gray-400">{faq.answer}</p>
+                  <p className="text-white/50">{faq.answer}</p>
                 </div>
               )}
             </div>

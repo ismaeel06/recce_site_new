@@ -1,30 +1,30 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import RewardFAQs from "@/sections/rewards/RewardFAQs";
+import Contact from "@/sections/help/Contact";
 
-export default function Help() {
+export default function Partners() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       <Header />
-      
+
       <main className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-6">Help</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Get support and find answers to frequently asked questions about Recce.
-            </p>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-semibold mb-4">Coming Soon</h2>
-            <p className="text-gray-600">
-              This page will contain FAQs, troubleshooting guides, contact information, 
-              and other resources to help users get the most out of Recce.
+        <div className="mx-auto">
+          <div className="text-center mb-12 flex flex-col justify-center items-center">
+            <h1 className="text-[26px] md:text-[60px] font-medium text-center">
+              How Can We <span className="text-[#ff7802]">Help?</span>
+            </h1>
+            <p className="text-xs md:text-xl text-white/60 md:max-w-5xl mx-auto text-center">
+              Find what you need below or get in touch with our team.
             </p>
           </div>
         </div>
+        <div className="flex flex-col xl:flex-row justify-center gap-8 xl:gap-0">
+          <RewardFAQs page="help" />
+          <Contact />
+        </div>
       </main>
-      
+
       <Footer />
     </div>
   );
