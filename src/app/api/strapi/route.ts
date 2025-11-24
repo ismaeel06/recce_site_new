@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 // Normalize: remove trailing slash to avoid accidental '//' when joining with paths
 const STRAPI_URL = rawStrapiUrl.replace(/\/$/, '');
-const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
+const STRAPI_TOKEN = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 console.log("STRAPI URL: ", STRAPI_URL);
 console.log("STRAPI_TOKEN: ", STRAPI_TOKEN);
 if (!STRAPI_TOKEN) {
