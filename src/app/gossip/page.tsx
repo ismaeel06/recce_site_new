@@ -4,15 +4,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import NewsLetter from "@/sections/home/NewsLetter";
 import Card from "@/components/gossip/Card";
+import { getBlogsList, formatBlogDate, getStrapiImageUrl } from "@/lib/strapi";
+import { Blog } from "@/types/strapi";
 
-type Blog = {
-  imgUrl: string | null;
-  description: string;
-  date: string;
-  tag: string;
-};
-
-export default function Partners() {
+export default function GossipPage() {
   const tabs = [
     "All",
     "Film",
@@ -23,26 +18,17 @@ export default function Partners() {
     "Hidden Gems",
   ];
 
-  const blogs: Blog[] = [
-    { imgUrl: "/assets/Blog6.png", description: "In a world overflowing with choices and where Content Overload is a problem...", date: "Sunday , 1 Jan 2023", tag: "Film" },
-    { imgUrl: "/assets/Blog1.png", description: "With around 100 Alpha testers on Recce, we’re already changing what people...", date: "Sunday , 1 Jan 2023", tag: "Interviews" },
-    { imgUrl: "/assets/Blog2.png", description: "From directors including Kristen Stewart, Joachim Trier and Jafar Panahi, traversing Australia...", date: "Sunday , 1 Jan 2023", tag: "TV" },
-    { imgUrl: "/assets/Blog1.png", description: "With around 100 Alpha testers on Recce, we’re already changing what people...", date: "Sunday , 1 Jan 2023", tag: "Interviews" },
-    { imgUrl: "/assets/Blog3.png", description: "In a world overflowing with choices and where Content Overload is a problem...", date: "Sunday , 1 Jan 2023", tag: "Film" },
-    { imgUrl: "/assets/Blog4.png", description: "From directors including Kristen Stewart, Joachim Trier and Jafar Panahi, traversing Australia...", date: "Sunday , 1 Jan 2023", tag: "TV" },
-    { imgUrl: "/assets/Blog5.png", description: "In a world overflowing with choices and where Content Overload is a problem...", date: "Sunday , 1 Jan 2023", tag: "Film" },
-    { imgUrl: "/assets/Blog6.png", description: "With around 100 Alpha testers on Recce, we’re already changing what people...", date: "Sunday , 1 Jan 2023", tag: "Interviews" },
-    { imgUrl: "/assets/Blog7.png", description: "From directors including Kristen Stewart, Joachim Trier and Jafar Panahi, traversing Australia...", date: "Sunday , 1 Jan 2023", tag: "TV" },
-  ];
-
   const BATCH_SIZE = 4;
 
   const [activeTab, setActiveTab] = useState<string>("All");
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [visibleCount, setVisibleCount] = useState<number>(BATCH_SIZE);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Handle window resize
   useEffect(() => {
-    // Set initial state
     setIsMobile(window.innerWidth < 1024);
 
     function handleResize() {
@@ -53,16 +39,36 @@ export default function Partners() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // reset visibleCount when device type or activeTab changes
+  // Fetch blogs from Strapi
+  useEffect(() => {
+    async function fetchBlogs() {
+      try {
+        setLoading(true);
+        const tag = activeTab === "All" ? undefined : activeTab;
+        const data = await getBlogsList(tag, 100, 0); // Fetch up to 100 blogs
+        setBlogs(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
+        setError("Failed to load blogs");
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchBlogs();
+  }, [activeTab]);
+
+  // Reset visible count when device type or active tab changes
   useEffect(() => {
     setVisibleCount(isMobile ? BATCH_SIZE : blogs.length);
-  }, [isMobile, activeTab]);
+  }, [isMobile, activeTab, blogs.length]);
 
-  const filteredBlogs = blogs.filter((b) => activeTab === "All" || b.tag === activeTab);
-  const visibleBlogs = filteredBlogs.slice(0, visibleCount);
+  const visibleBlogs = blogs.slice(0, visibleCount);
 
   const loadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, filteredBlogs.length));
+    setVisibleCount((prev) => Math.min(prev + BATCH_SIZE, blogs.length));
   };
 
   return (
@@ -94,22 +100,51 @@ export default function Partners() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 md:mt-12 lg:mt-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-            {visibleBlogs.map((blog: any, index: number) => (
-              <Card key={index} imgUrl={blog.imgUrl} description={blog.description} date={blog.date} tag={blog.tag} />
-            ))}
-          </div>
-
-          {/* Load more — only show on mobile and tablet, hidden on lg+ */}
-          {isMobile && visibleCount < filteredBlogs.length && (
-            <div className="w-full flex justify-center mt-8 md:mt-12">
-              <button
-                onClick={loadMore}
-                className="bg-[#191919] text-white py-2 px-6 md:px-8 rounded-xl border border-white hover:bg-white/10 transition-colors duration-300 text-sm md:text-base"
-              >
-                Load more
-              </button>
+          {loading && (
+            <div className="text-center py-12">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-white border-r-[#ff7802]"></div>
             </div>
+          )}
+
+          {error && (
+            <div className="text-center py-12 text-red-500">
+              <p>{error}</p>
+            </div>
+          )}
+
+          {!loading && !error && blogs.length === 0 && (
+            <div className="text-center py-12 text-gray-400">
+              <p>No blogs found for this category.</p>
+            </div>
+          )}
+
+          {!loading && blogs.length > 0 && (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+                {visibleBlogs.map((blog: Blog) => (
+                  <Card
+                    key={blog.documentId}
+                    imgUrl={getStrapiImageUrl(blog.featuredImage)}
+                    description={blog.content}
+                    date={formatBlogDate(blog.publishedAt)}
+                    tag={blog.tag}
+                    slug={blog.slug}
+                  />
+                ))}
+              </div>
+
+              {/* Load more — only show on mobile and tablet, hidden on lg+ */}
+              {isMobile && visibleCount < blogs.length && (
+                <div className="w-full flex justify-center mt-8 md:mt-12">
+                  <button
+                    onClick={loadMore}
+                    className="bg-[#191919] text-white py-2 px-6 md:px-8 rounded-xl border border-white hover:bg-white/10 transition-colors duration-300 text-sm md:text-base"
+                  >
+                    Load more
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
 

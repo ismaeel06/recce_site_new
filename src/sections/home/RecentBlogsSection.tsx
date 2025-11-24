@@ -1,39 +1,42 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import BlogCard from "@/components/blog/BlogCard";
+import { getLatestBlogs, formatBlogDate, getStrapiImageUrl } from "@/lib/strapi";
+import { Blog } from "@/types/strapi";
 
 export default function RecentBlogsSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const recentBlogs = [
-    {
-      id: 1,
-      title: "In a world overflowing with choices and where Content Overload is a problem...",
-      date: "Sunday, 1 Jan 2023",
-      image: "/assets/writing.webp"
-    },
-    {
-      id: 2,
-      title: "With around 100 Alpha testers on Recce, we're already changing what people...",
-      date: "Sunday, 1 Jan 2023",
-      image: "/assets/writing.webp"
-    },
-    {
-      id: 3,
-      title: "Thrilled to introduce Recce's new Marketing team",
-      date: "Sunday, 1 Jan 2023",
-      image: "/assets/writing.webp"
+  // Fetch latest blogs
+  useEffect(() => {
+    async function fetchBlogs() {
+      try {
+        const data = await getLatestBlogs(3);
+        setBlogs(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching latest blogs:", err);
+        setError("Failed to load blogs");
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
     }
-  ];
+
+    fetchBlogs();
+  }, []);
 
   const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % recentBlogs.length);
+    setActiveSlide((prev) => (prev + 1) % blogs.length);
   };
 
   const prevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + recentBlogs.length) % recentBlogs.length);
+    setActiveSlide((prev) => (prev - 1 + blogs.length) % blogs.length);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -58,15 +61,19 @@ export default function RecentBlogsSection() {
     }
   };
 
+  if (loading || error || blogs.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-16 bg-[#191919]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-2xl md:text-4xl font-bold text-white">
-            Recent Blog <span className="text-[#ff7802">Posts</span>
+            Recent Blog <span className="text-[#ff7802]">Posts</span>
           </h2>
           <a
-            href="/blog"
+            href="/gossip"
             className="inline-flex items-center px-6 py-2 border border-white text-white rounded-xl hover:border-[#ff7802] hover:text-[#ff7802] transition-colors text-sm md:text-base"
           >
             View All
@@ -75,13 +82,13 @@ export default function RecentBlogsSection() {
 
         {/* Desktop Grid - Hidden on Mobile */}
         <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {recentBlogs.map((blog) => (
+          {blogs.map((blog) => (
             <BlogCard
-              key={blog.id}
+              key={blog.documentId}
               title={blog.title}
-              date={blog.date}
-              image={blog.image}
-              href={`/gossip`}
+              date={formatBlogDate(blog.publishedAt)}
+              image={getStrapiImageUrl(blog.featuredImage) || "/assets/writing.webp"}
+              href={`/gossip/${blog.slug}`}
             />
           ))}
         </div>
@@ -96,13 +103,13 @@ export default function RecentBlogsSection() {
               onTouchEnd={handleTouchEnd}
             >
               <div className="flex transition-transform duration-300" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
-                {recentBlogs.map((blog) => (
-                  <div key={blog.id} className="w-full flex-shrink-0 px-4">
+                {blogs.map((blog) => (
+                  <div key={blog.documentId} className="w-full flex-shrink-0 px-4">
                     <BlogCard
                       title={blog.title}
-                      date={blog.date}
-                      image={blog.image}
-                      href={`/blog/${blog.id}`}
+                      date={formatBlogDate(blog.publishedAt)}
+                      image={getStrapiImageUrl(blog.featuredImage) || "/assets/writing.webp"}
+                      href={`/gossip/${blog.slug}`}
                     />
                   </div>
                 ))}
@@ -112,7 +119,7 @@ export default function RecentBlogsSection() {
 
           {/* Dots Indicator */}
           <div className="flex justify-center gap-2 mt-6">
-            {recentBlogs.map((_, index) => (
+            {blogs.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveSlide(index)}
