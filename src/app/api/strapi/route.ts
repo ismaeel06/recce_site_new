@@ -6,8 +6,21 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+// Prefer a server-only STRAPI_URL (set this in your deployment). Fall back to NEXT_PUBLIC for compatibility.
+const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+// Normalize: remove trailing slash to avoid accidental '//' when joining with paths
+const STRAPI_URL = rawStrapiUrl.replace(/\/$/, '');
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
+
+if (!STRAPI_TOKEN) {
+  console.warn('Warning: STRAPI_API_TOKEN is not set. Protected Strapi endpoints will return 403.');
+}
+
+// Helpful warning if someone sets the API base to a CDN (CloudFront) which usually serves assets,
+// not the Strapi API. This commonly causes errors like "Malicious Path" when requests are routed incorrectly.
+if (/cloudfront\.net/i.test(STRAPI_URL)) {
+  console.warn(`STRAPI_URL appears to be a CloudFront CDN (${STRAPI_URL}). Ensure STRAPI_URL points to your Strapi API origin, and use NEXT_PUBLIC_STRAPI_URL for CDN image hosts.`);
+}
 
 export async function GET(request: NextRequest) {
   try {

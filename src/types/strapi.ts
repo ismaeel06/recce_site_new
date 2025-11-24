@@ -39,7 +39,7 @@ export interface StrapiImage {
 // ============ HomePage Types ============
 
 export interface HeroSectionAttributes {
-  heroBackgroundImage: StrapiImage;
+  heroBackgroundImage?: StrapiImage | null;
   heroSubtitle: string;
   heroMainTitle: string;
   heroSectionTitle: string;
@@ -51,7 +51,7 @@ export interface HeroSectionAttributes {
 
 export interface BulletPoint {
   id: string | number;
-  bulletIcon?: StrapiImage;
+  bulletIcon?: StrapiImage | null;
   bulletText: string;
   [key: string]: any;
 }
@@ -68,10 +68,10 @@ export interface FeaturesSectionAttributes {
 
 export interface FeatureCard {
   id: string | number;
-  featureIcon?: StrapiImage;
+  featureIcon?: StrapiImage | null;
   featureTitle: string;
   featureDescription: string;
-  featureBackgroundImage?: StrapiImage;
+  featureBackgroundImage?: StrapiImage | null;
   displayOrder: number;
   [key: string]: any;
 }
@@ -86,7 +86,7 @@ export interface FeatureCardsAttributes {
 
 export interface CTABadge {
   id: string | number;
-  badgeIcon?: StrapiImage;
+  badgeIcon?: StrapiImage | null;
   badgeText: string;
   badgePosition?: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
   [key: string]: any;
@@ -96,7 +96,7 @@ export interface CTASectionAttributes {
   ctaMainTitle: string;
   ctaHighlightText: string;
   ctaDescription: string;
-  ctaCentralImage: StrapiImage;
+  ctaCentralImage?: StrapiImage | null;
   googlePlayLink: string;
   appleAppLink: string;
   ctaBadges: CTABadge[];
