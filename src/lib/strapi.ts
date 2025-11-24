@@ -1,54 +1,342 @@
-// Basic Strapi API utility functions (placeholder for future implementation)
+import { z } from 'zod';
+import type {
+  HomePageContent,
+  HeroSectionAttributes,
+  FeaturesSectionAttributes,
+  FeatureCardsAttributes,
+  CTASectionAttributes,
+  NewsLetterSectionAttributes,
+  StrapiResponse,
+  StrapiImage,
+  StrapiEntity,
+  BulletPoint,
+  CTABadge,
+  FeatureCard,
+} from '@/types/strapi';
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
+// Note: STRAPI_API_TOKEN is kept secret on the server and NOT used client-side.
+// All client requests go through /api/strapi proxy route which calls Strapi server-side.
 
-// Basic fetch wrapper for Strapi API
-export async function strapiApi(endpoint: string, options: RequestInit = {}) {
-  const url = `${STRAPI_URL}/api${endpoint}`;
-  
+// ============ Validation Schemas ============
+
+const StrapiImageSchema = z.object({
+  id: z.number(),
+  url: z.string(),
+  alternativeText: z.string().optional().nullable(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+  mime: z.string(),
+  name: z.string().optional(),
+  hash: z.string().optional(),
+  size: z.number().optional(),
+  formats: z.record(z.string(), z.any()).optional().nullable(),
+  documentId: z.string().optional(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  publishedAt: z.string().optional(),
+  provider: z.string().optional(),
+}).passthrough();
+
+const BulletPointSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  bulletIcon: StrapiImageSchema.optional(),
+  bulletText: z.string(),
+}).passthrough();
+
+const CTABadgeSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  badgeIcon: StrapiImageSchema.optional(),
+  badgeText: z.string(),
+  badgePosition: z.enum(['topLeft', 'topRight', 'bottomLeft', 'bottomRight']).optional(),
+}).passthrough();
+
+const FeatureCardSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  featureIcon: StrapiImageSchema.optional(),
+  featureTitle: z.string(),
+  featureDescription: z.string(),
+  featureBackgroundImage: StrapiImageSchema.optional(),
+  displayOrder: z.number(),
+}).passthrough();
+
+const HeroSectionSchema = z.object({
+  heroBackgroundImage: StrapiImageSchema,
+  heroSubtitle: z.string(),
+  heroMainTitle: z.string(),
+  heroSectionTitle: z.string(),
+  heroSectionHighlight: z.string(),
+  heroDescription: z.string(),
+  googlePlayStoreLink: z.string().url(),
+  appleAppStoreLink: z.string().url(),
+});
+
+const FeaturesSectionSchema = z.object({
+  sectionTitle: z.string(),
+  sectionDescription: z.string(),
+  sectionHighlightText: z.string(),
+  seeRecceInActionTitle: z.string(),
+  seeRecceInActionDescription: z.string(),
+  seeRecceInActionImage: StrapiImageSchema,
+  seeRecceInActionBulletPoints: z.array(BulletPointSchema),
+});
+
+const CTASectionSchema = z.object({
+  ctaMainTitle: z.string(),
+  ctaHighlightText: z.string(),
+  ctaDescription: z.string(),
+  ctaCentralImage: StrapiImageSchema,
+  googlePlayLink: z.string().url(),
+  appleAppLink: z.string().url(),
+  ctaBadges: z.array(CTABadgeSchema),
+});
+
+const NewsLetterSectionSchema = z.object({
+  newsletterTitle: z.string(),
+  newsletterDescription: z.string(),
+  newsletterPlaceholder: z.string(),
+  newsletterButtonText: z.string(),
+});
+
+const HomePageContentSchema = z.object({
+  heroSection: HeroSectionSchema,
+  featuresSection: FeaturesSectionSchema,
+  featureCards: z.array(FeatureCardSchema),
+  ctaSection: CTASectionSchema,
+  newsLetterSection: NewsLetterSectionSchema,
+});
+
+// ============ Base API Fetch Wrapper ============
+
+/**
+ * Proxies Strapi API requests through Next.js /api/strapi route.
+ * This keeps the STRAPI_API_TOKEN secret on the server.
+ * Client makes request to /api/strapi?endpoint=... and the server proxies it to Strapi with the token.
+ */
+export async function strapiApi<T>(
+  endpoint: string,
+  options: RequestInit = {}
+) {
+  // Call the Next.js API proxy, passing the Strapi endpoint as a query parameter
+  const proxyUrl = new URL('/api/strapi', typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+  proxyUrl.searchParams.set('endpoint', `/api${endpoint}`);
+
   const config: RequestInit = {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(STRAPI_TOKEN && { Authorization: `Bearer ${STRAPI_TOKEN}` }),
       ...options.headers,
     },
     ...options,
   };
 
   try {
-    const response = await fetch(url, config);
-    
+    const response = await fetch(proxyUrl.toString(), config);
+
     if (!response.ok) {
-      throw new Error(`Strapi API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Strapi API error: ${response.status} ${response.statusText}`
+      );
     }
-    
-    return response.json();
+
+    return response.json() as Promise<T>;
   } catch (error) {
     console.error('Strapi API error:', error);
     throw error;
   }
 }
 
-// Placeholder functions for future blog/content management
-export async function getBlogPosts(params?: {
-  page?: number;
-  pageSize?: number;
-  populate?: string[];
-}) {
-  // This will be implemented when Strapi is configured
-  console.log('getBlogPosts called with params:', params);
-  return { data: [], meta: {} };
+// ============ HomePage API Functions ============
+
+/**
+ * Fetches the hero section content from Strapi
+ */
+export async function getHeroSection(): Promise<HeroSectionAttributes> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/home-page-hero-section?populate=*'
+    );
+
+    // In new Strapi format, attributes are directly on response.data
+    const heroData = response.data;
+
+    if (!heroData) {
+      throw new Error('Hero section data not found in Strapi');
+    }
+
+    const validated = HeroSectionSchema.parse(heroData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching hero section:', error);
+    throw error;
+  }
 }
 
-export async function getBlogPost(slug: string) {
-  // This will be implemented when Strapi is configured
-  console.log('getBlogPost called with slug:', slug);
-  return { data: null };
+/**
+ * Fetches the features section content from Strapi
+ */
+export async function getFeaturesSection(): Promise<FeaturesSectionAttributes> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/home-page-features-section?populate[seeRecceInActionImage][populate]=*&populate[seeRecceInActionBulletPoints][populate]=*'
+    );
+
+    // In new Strapi format, attributes are directly on response.data
+    const featuresData = response.data;
+
+    if (!featuresData) {
+      throw new Error('Features section data not found in Strapi');
+    }
+
+    const validated = FeaturesSectionSchema.parse(featuresData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching features section:', error);
+    throw error;
+  }
 }
 
-export async function getPageContent(slug: string) {
-  // This will be implemented when Strapi is configured
-  console.log('getPageContent called with slug:', slug);
-  return { data: null };
+/**
+ * Fetches all feature cards from Strapi, sorted by displayOrder
+ */
+export async function getFeatureCards(): Promise<FeatureCard[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/home-page-feature-cards?populate[featureIcon][populate]=*&populate[featureBackgroundImage][populate]=*&sort=displayOrder:asc'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('Feature cards data is not an array');
+    }
+
+    // In new Strapi format, each item has attributes directly on it
+    const featureCards = (response.data as any).map((item: any) => {
+      // If item has .attributes, use that; otherwise use the item directly
+      const itemData = item.attributes || item;
+      const validated = FeatureCardSchema.parse(itemData);
+      return validated;
+    });
+
+    return featureCards;
+  } catch (error) {
+    console.error('Error fetching feature cards:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the CTA section content from Strapi
+ */
+export async function getCTASection(): Promise<CTASectionAttributes> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/home-page-cta-section?populate[ctaCentralImage][populate]=*&populate[ctaBadges][populate]=*'
+    );
+
+    // In new Strapi format, attributes are directly on response.data
+    const ctaData = response.data;
+
+    if (!ctaData) {
+      throw new Error('CTA section data not found in Strapi');
+    }
+
+    const validated = CTASectionSchema.parse(ctaData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching CTA section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the newsletter section content from Strapi
+ */
+export async function getNewsLetterSection(): Promise<NewsLetterSectionAttributes> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/news-letter-section?populate=*'
+    );
+
+    // In new Strapi format, attributes are directly on response.data
+    const newsletterData = response.data;
+
+    if (!newsletterData) {
+      throw new Error('Newsletter section data not found in Strapi');
+    }
+
+    const validated = NewsLetterSectionSchema.parse(newsletterData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching newsletter section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all home page content in a single request
+ * This is the main function to use for the homepage
+ */
+export async function getHomePageContent(): Promise<HomePageContent> {
+  try {
+    const [heroSection, featuresSection, featureCards, ctaSection, newsLetterSection] =
+      await Promise.all([
+        getHeroSection(),
+        getFeaturesSection(),
+        getFeatureCards(),
+        getCTASection(),
+        getNewsLetterSection(),
+      ]);
+
+    const homePageContent: HomePageContent = {
+      heroSection,
+      featuresSection,
+      featureCards,
+      ctaSection,
+      newsLetterSection,
+    };
+
+    const validated = HomePageContentSchema.parse(homePageContent);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching complete home page content:', error);
+    throw error;
+  }
+}
+
+// ============ Utility Functions ============
+
+/**
+ * Constructs a full image URL from Strapi image data.
+ * In Strapi v4, images are returned directly (not wrapped in .data).
+ * If the URL is relative, it's served through Strapi's public folder at NEXT_PUBLIC_STRAPI_URL.
+ */
+export function getStrapiImageUrl(image: StrapiImage | undefined | null): string | null {
+  if (!image) {
+    return null;
+  }
+
+  // Handle direct image objects (v4 format)
+  const url = image.url;
+
+  if (!url) {
+    return null;
+  }
+
+  // If URL is already absolute, return as-is
+  if (url.startsWith('http')) {
+    return url;
+  }
+
+  // Otherwise prepend Strapi URL
+  const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  return `${strapiUrl}${url}`;
+}
+
+/**
+ * Constructs a full image URL with optional alt text
+ */
+export function getImageData(image: StrapiImage | undefined | null) {
+  return {
+    src: getStrapiImageUrl(image),
+    alt: image?.alternativeText || 'Image',
+  };
 }

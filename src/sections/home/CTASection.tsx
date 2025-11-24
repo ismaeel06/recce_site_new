@@ -1,38 +1,146 @@
-import NewsLetter from "./NewsLetter";
+'use client';
+
+import { useEffect, useState } from 'react';
+import NewsLetter from './NewsLetter';
+import type { CTASectionAttributes } from '@/types/strapi';
+import { getCTASection, getStrapiImageUrl } from '@/lib/strapi';
+
+interface CTAState {
+  data: CTASectionAttributes | null;
+  loading: boolean;
+  error: Error | null;
+}
+
 export default function CTASection() {
+  const [state, setState] = useState<CTAState>({
+    data: null,
+    loading: true,
+    error: null,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        setState((prev) => ({ ...prev, loading: true, error: null }));
+        const ctaData = await getCTASection();
+
+        if (isMounted) {
+          setState({
+            data: ctaData,
+            loading: false,
+            error: null,
+          });
+        }
+      } catch (err) {
+        if (isMounted) {
+          setState({
+            data: null,
+            loading: false,
+            error:
+              err instanceof Error ? err : new Error('Failed to load CTA section'),
+          });
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (state.error) {
+    return (
+      <section className="py-20 bg-[#191919]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-red-500">
+            <h2 className="text-2xl font-bold mb-2">Error Loading CTA Section</h2>
+            <p>{state.error.message}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (state.loading || !state.data) {
+    return (
+      <section className="py-20 bg-[#191919]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="h-32 bg-gray-800 animate-pulse rounded-lg"></div>
+        </div>
+      </section>
+    );
+  }
+
+  // Organize badges by position
+  const badgesByPosition = {
+    topLeft: state.data.ctaBadges.find((b) => b.badgePosition === 'topLeft'),
+    topRight: state.data.ctaBadges.find((b) => b.badgePosition === 'topRight'),
+    bottomLeft: state.data.ctaBadges.find((b) => b.badgePosition === 'bottomLeft'),
+    bottomRight: state.data.ctaBadges.find(
+      (b) => b.badgePosition === 'bottomRight'
+    ),
+  };
+
+  const ctaCentralImageUrl = getStrapiImageUrl(state.data.ctaCentralImage);
+
   return (
     <section className="py-20 bg-[#191919]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section - Title and Download Buttons */}
         <div className="text-center mb-16">
           <h2 className="text-2xl md:text-5xl font-bold text-white mb-6">
-            Ready to Discover Your <span className="text-[#ff7802] block md:inline-block">Next Favorite Show?</span>
+            {state.data.ctaMainTitle}{' '}
+            <span className="text-[#ff7802] block md:inline-block">
+              {state.data.ctaHighlightText}
+            </span>
           </h2>
           <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of movie and TV lovers who trust Recce for authentic recommendations. Build your watchlist, share reviews, and earn rewards for helping others discover great content.
+            {state.data.ctaDescription}
           </p>
 
           {/* Download Buttons */}
           <div className="flex flex-row gap-4 justify-center items-center flex-wrap">
-            <div className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer">
+            <a
+              href={state.data.googlePlayLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
+            >
               <div className="mr-3">
-                <img src="/assets/icons/Google_Play.svg" alt="" className="w-5 md:w-6 h-5 md:h-6" />
+                <img
+                  src="/assets/icons/Google_Play.svg"
+                  alt=""
+                  className="w-5 md:w-6 h-5 md:h-6"
+                />
               </div>
               <div className="text-left">
                 <div className="text-xs text-gray-300">GET IT ON</div>
                 <div className="text-sm font-semibold text-white">Google Play</div>
               </div>
-            </div>
+            </a>
 
-            <div className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer">
+            <a
+              href={state.data.appleAppLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
+            >
               <div className="mr-3">
-                <img src="/assets/icons/Apple.svg" alt="" className="w-5 md:w-6 h-5 md:h-6" />
+                <img
+                  src="/assets/icons/Apple.svg"
+                  alt=""
+                  className="w-5 md:w-6 h-5 md:h-6"
+                />
               </div>
               <div className="text-left">
                 <div className="text-xs text-gray-300">Download on the</div>
                 <div className="text-sm font-semibold text-white">App Store</div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
 
@@ -49,105 +157,178 @@ export default function CTASection() {
 
               {/* Phone Mockup */}
               <div className="relative z-10 flex justify-center items-center">
-                <img src="/assets/HomeCTA.svg" width="600" height="700" />
+                {ctaCentralImageUrl && (
+                  <img src={ctaCentralImageUrl} width="600" height="700" alt="App Mockup" />
+                )}
               </div>
 
               {/* Top Left Badge */}
-              <div className="absolute top-20 left-4 md:top-32 md:left-[-118px] flex items-center gap-3 md:gap-4 z-20">
-                <div className="flex flex-col items-start gap-1">
-                  <p className="text-white text-xs md:text-sm font-medium max-w-xs">
-                    Never waste time on disappointing content again
-                  </p>
+              {badgesByPosition.topLeft && (
+                <div className="absolute top-20 left-4 md:top-32 md:left-[-118px] flex items-center gap-3 md:gap-4 z-20">
+                  <div className="flex flex-col items-start gap-1">
+                    <p className="text-white text-xs md:text-sm font-medium max-w-xs">
+                      {badgesByPosition.topLeft.badgeText}
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img
+                      src={
+                        getStrapiImageUrl(badgesByPosition.topLeft.badgeIcon) ||
+                        ''
+                      }
+                      alt=""
+                    />
+                  </div>
                 </div>
-                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
-                  <img src="/assets/icons/time.svg" alt="" />
-                </div>
-              </div>
+              )}
 
               {/* Bottom Left Badge */}
-              <div className="absolute bottom-20 left-4 md:bottom-44  md:left-[-78px] flex items-center gap-3 md:gap-4 z-20">
-                <div className="flex flex-col items-start gap-1">
-                  <p className="text-white text-xs md:text-sm font-medium max-w-xs">
-                    Build your ultimate personalized watchlist
-                  </p>
+              {badgesByPosition.bottomLeft && (
+                <div className="absolute bottom-20 left-4 md:bottom-44 md:left-[-78px] flex items-center gap-3 md:gap-4 z-20">
+                  <div className="flex flex-col items-start gap-1">
+                    <p className="text-white text-xs md:text-sm font-medium max-w-xs">
+                      {badgesByPosition.bottomLeft.badgeText}
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img
+                      src={
+                        getStrapiImageUrl(badgesByPosition.bottomLeft.badgeIcon) ||
+                        ''
+                      }
+                      alt=""
+                    />
+                  </div>
                 </div>
-                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
-                  <img src="/assets/icons/flame.svg" alt="" />
-                </div>
-              </div>
+              )}
 
               {/* Top Right Badge */}
-              <div className="absolute top-20 right-4 md:top-26 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
-                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
-                  <img src="/assets/icons/binoculor.svg" alt="" />
+              {badgesByPosition.topRight && (
+                <div className="absolute top-20 right-4 md:top-26 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
+                  <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img
+                      src={
+                        getStrapiImageUrl(badgesByPosition.topRight.badgeIcon) ||
+                        ''
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
+                      {badgesByPosition.topRight.badgeText}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-end gap-1">
-                  <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
-                    Discover shows your friends actually love
-                  </p>
-                </div>
-              </div>
+              )}
 
               {/* Bottom Right Badge */}
-              <div className="absolute bottom-20 right-4 md:bottom-44 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
-                <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
-                  <img src="/assets/icons/ctagift.svg" alt="" />
+              {badgesByPosition.bottomRight && (
+                <div className="absolute bottom-20 right-4 md:bottom-44 md:right-[-56px] flex items-center gap-3 md:gap-4 z-20">
+                  <div className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#191919] flex items-center justify-center">
+                    <img
+                      src={
+                        getStrapiImageUrl(badgesByPosition.bottomRight.badgeIcon) ||
+                        ''
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
+                      {badgesByPosition.bottomRight.badgeText}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col items-end gap-1">
-                  <p className="text-white text-xs md:text-sm font-medium max-w-xs text-right">
-                    Get rewarded for sharing honest reviews
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Mobile & Tablet (iPad Pro): Phone centered with badges below in 2x2 grid */}
             <div className="xl:hidden flex flex-col items-center w-full">
               <div className="relative w-full flex justify-center mb-8">
-                <img src="/assets/HomeCTA.svg" width="200" height="280" />
+                {ctaCentralImageUrl && (
+                  <img
+                    src={ctaCentralImageUrl}
+                    width="200"
+                    height="280"
+                    alt="App Mockup"
+                  />
+                )}
               </div>
 
               {/* Mobile Badge Grid - 2x2 */}
               <div className="grid grid-cols-2 gap-6 w-full max-w-xs">
                 {/* Top Left Badge */}
-                <div className="flex flex-col items-center text-center gap-2">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
-                    <img src="/assets/icons/time.svg" alt="" />
+                {badgesByPosition.topLeft && (
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                      <img
+                        src={
+                          getStrapiImageUrl(badgesByPosition.topLeft.badgeIcon) ||
+                          ''
+                        }
+                        alt=""
+                      />
+                    </div>
+                    <p className="text-white text-xs font-medium">
+                      {badgesByPosition.topLeft.badgeText}
+                    </p>
                   </div>
-                  <p className="text-white text-xs font-medium">
-                    Never waste time on disappointing content again
-                  </p>
-                </div>
+                )}
 
                 {/* Top Right Badge */}
-                <div className="flex flex-col items-center text-center gap-2">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
-                    <img src="/assets/icons/binoculor.svg" alt="" />
+                {badgesByPosition.topRight && (
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                      <img
+                        src={
+                          getStrapiImageUrl(badgesByPosition.topRight.badgeIcon) ||
+                          ''
+                        }
+                        alt=""
+                      />
+                    </div>
+                    <p className="text-white text-xs font-medium">
+                      {badgesByPosition.topRight.badgeText}
+                    </p>
                   </div>
-                  <p className="text-white text-xs font-medium">
-                    Discover shows your friends actually love
-                  </p>
-                </div>
+                )}
 
                 {/* Bottom Left Badge */}
-                <div className="flex flex-col items-center text-center gap-2">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
-                    <img src="/assets/icons/flame.svg" alt="" />
+                {badgesByPosition.bottomLeft && (
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                      <img
+                        src={
+                          getStrapiImageUrl(badgesByPosition.bottomLeft.badgeIcon) ||
+                          ''
+                        }
+                        alt=""
+                      />
+                    </div>
+                    <p className="text-white text-xs font-medium">
+                      {badgesByPosition.bottomLeft.badgeText}
+                    </p>
                   </div>
-                  <p className="text-white text-xs font-medium">
-                    Build your ultimate personalized watchlist
-                  </p>
-                </div>
+                )}
 
                 {/* Bottom Right Badge */}
-                <div className="flex flex-col items-center text-center gap-2">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
-                    <img src="/assets/icons/ctagift.svg" alt="" />
+                {badgesByPosition.bottomRight && (
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#191919] flex items-center justify-center">
+                      <img
+                        src={
+                          getStrapiImageUrl(badgesByPosition.bottomRight.badgeIcon) ||
+                          ''
+                        }
+                        alt=""
+                      />
+                    </div>
+                    <p className="text-white text-xs font-medium">
+                      {badgesByPosition.bottomRight.badgeText}
+                    </p>
                   </div>
-                  <p className="text-white text-xs font-medium">
-                    Get rewarded for sharing honest reviews
-                  </p>
-                </div>
+                )}
               </div>
             </div>
           </div>
