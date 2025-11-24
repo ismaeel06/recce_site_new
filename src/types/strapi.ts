@@ -152,6 +152,51 @@ export interface BlogPost extends StrapiEntity {
   };
 }
 
+// ============ Blog Collection Types ============
+
+export interface Blog {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  content: string;
+  optionalImage?: StrapiImage | null;
+  contentContinued?: string;
+  featuredImage: StrapiImage;
+  tag: string;
+  author?: string | null;
+  publishedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  [key: string]: any;
+}
+
+export interface RelatedBlog {
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  content: string;
+  featuredImage: StrapiImage;
+  tag: string;
+  publishedAt: string;
+  [key: string]: any;
+}
+
+// ============ Global Social Links Type ============
+
+export interface GlobalSocialLinks {
+  id: number;
+  facebook?: string;
+  instagram?: string;
+  linkedin?: string;
+  twitter?: string;
+  publishedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  [key: string]: any;
+}
+
 // ============ Complete HomePage Content Type ============
 
 export interface HomePageContent {

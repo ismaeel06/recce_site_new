@@ -6,8 +6,9 @@ This document describes the Strapi collections and their fields for the Recce we
 
 ## Table of Contents
 1. [HomePage Content Collections](#homepage-content-collections)
-2. [Navigation Configuration](#navigation-configuration)
-3. [Field Types Reference](#field-types-reference)
+2. [Blog Collections](#blog-collections)
+3. [Navigation Configuration](#navigation-configuration)
+4. [Field Types Reference](#field-types-reference)
 
 ---
 
@@ -212,7 +213,125 @@ This document describes the Strapi collections and their fields for the Recce we
 
 ---
 
-## Navigation Configuration
+## Blog Collections
+
+### 1. Blog
+
+**Collection Type:** `Collection Type`  
+**Purpose:** Main blog post collection for the Gossip page and homepage recent blogs section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Blog post title |
+| `slug` | String (Short Text) | Yes | URL-friendly identifier (auto-generated or manual, must be unique) |
+| `content` | Rich Text (or Long Text) | Yes | Main blog content (first section before optional image) |
+| `optionalImage` | Media (Image) | No | Optional image placed between content sections |
+| `contentContinued` | Rich Text (or Long Text) | No | Continuation of blog content after optional image |
+| `featuredImage` | Media (Image) | Yes | Hero image displayed at top of individual blog post |
+| `tag` | Enumeration | Yes | Blog category for filtering |
+| `author` | String (Short Text) | No | Author name only (no image/bio) |
+
+**Enumeration Values for `tag`:**
+- `Film`
+- `TV`
+- `Interviews`
+- `Coming Soon`
+- `Festivals`
+- `Hidden Gems`
+
+**System Fields (Auto-managed by Strapi):**
+- `publishedAt` — Publication timestamp, used for sorting (newest first)
+- `createdAt` — Creation timestamp
+- `updatedAt` — Last update timestamp
+
+**Example Data:**
+```json
+{
+  "title": "Recce video search app launched in bid to solve 'viewer decision fatigue'",
+  "slug": "recce-video-search-app-launched",
+  "content": "A UK start-up is seeking to tackle the problem of audiences feeling overwhelmed by choice with a new social platform for film and TV fans...",
+  "optionalImage": "/api/upload/image123.jpg",
+  "contentContinued": "Unlike the algorithm-driven recommendation engines of streaming services, Recce features recommendations from people...",
+  "featuredImage": "/api/upload/featured456.jpg",
+  "tag": "Film",
+  "author": "Jim Irving",
+  "publishedAt": "2025-11-24T10:00:00.000Z"
+}
+```
+
+**Frontend Usage:**
+- **Blog Read Page** (`/gossip/[slug]`): Displays single blog using `slug` parameter
+- **Blog Listing Page** (`/gossip`): Lists blogs with tab filtering by `tag`
+- **Homepage Recent Blogs**: Shows 6 latest blogs sorted by `publishedAt`
+- **More to Explore Section**: Shows 3 related blogs with same `tag`, excluding current blog
+
+---
+
+### 2. Global Social Links
+
+**Collection Type:** `Single Type`  
+**Purpose:** Global social media links displayed on all blog posts and used as share buttons.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `facebook` | String (Short Text) — URL validation | No | Facebook profile or page URL |
+| `instagram` | String (Short Text) — URL validation | No | Instagram profile URL |
+| `linkedin` | String (Short Text) — URL validation | No | LinkedIn profile or company URL |
+| `twitter` | String (Short Text) — URL validation | No | Twitter/X profile URL |
+
+**System Fields (Auto-managed by Strapi):**
+- `publishedAt` — Last publication timestamp
+- `createdAt` — Creation timestamp
+- `updatedAt` — Last update timestamp
+
+**Example Data:**
+```json
+{
+  "facebook": "https://facebook.com/recceapp",
+  "instagram": "https://instagram.com/recceapp",
+  "linkedin": "https://linkedin.com/company/recceapp",
+  "twitter": "https://twitter.com/recceapp"
+}
+```
+
+**Frontend Usage:**
+- **Blog Read Page** (`/gossip/[slug]`): Displays social share buttons with these links
+- Called once per page load and cached/memoized to avoid duplicate API calls
+
+---
+
+## API Endpoints for Blog
+
+All blog data is fetched through the Next.js API proxy at `/api/strapi` to keep the API token server-side. The following Strapi endpoints are used internally:
+
+### Get Single Blog by Slug
+```
+GET /api/blogs?filters[slug][$eq]={slug}&populate=*
+```
+
+### Get Latest Blogs (for Homepage)
+```
+GET /api/blogs?sort=-publishedAt&pagination[limit]=6
+```
+
+### Get Blogs with Tag Filter (for Listing Page)
+```
+GET /api/blogs?filters[tag][$eq]={tag}&sort=-publishedAt&pagination[limit]={limit}&pagination[start]={offset}
+```
+
+### Get Related Blogs (3 with same tag, excluding current)
+```
+GET /api/blogs?filters[tag][$eq]={tag}&filters[documentId][$ne]={currentBlogId}&sort=-publishedAt&pagination[limit]=3
+```
+
+### Get Global Social Links
+```
+GET /api/global-social-links?populate=*
+```
+
+---
+
+
 
 ### navigationLinks
 
@@ -293,5 +412,5 @@ Detailed API implementation can be found in `src/lib/strapi.ts`
 
 ---
 
-**Last Updated:** November 23, 2025  
-**Schema Version:** 1.0
+**Last Updated:** November 24, 2025  
+**Schema Version:** 2.0 (Blog Collections Added)

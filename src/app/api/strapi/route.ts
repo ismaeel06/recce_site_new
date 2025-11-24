@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   try {
     // Extract query parameters from the client request
     const { searchParams } = request.nextUrl;
-    const endpoint = searchParams.get('endpoint');
+    let endpoint = searchParams.get('endpoint');
 
     if (!endpoint) {
       return NextResponse.json(
@@ -22,11 +22,25 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Decode the endpoint parameter (it may be URL-encoded by the client)
+    try {
+      endpoint = decodeURIComponent(endpoint);
+    } catch (e) {
+      console.error('Error decoding endpoint:', e);
+      return NextResponse.json(
+        { error: 'Invalid endpoint encoding' },
+        { status: 400 }
+      );
+    }
+
     // Parse the endpoint to extract path and query string
-    const [path, queryString] = endpoint.split('?');
+    const questionMarkIndex = endpoint.indexOf('?');
+    const path = questionMarkIndex === -1 ? endpoint : endpoint.substring(0, questionMarkIndex);
+    const queryString = questionMarkIndex === -1 ? '' : endpoint.substring(questionMarkIndex + 1);
 
     // Validate endpoint path to prevent arbitrary requests
     if (!path.startsWith('/api/')) {
+      console.error(`Invalid endpoint path: ${path}`);
       return NextResponse.json(
         { error: 'Invalid endpoint' },
         { status: 400 }
@@ -39,6 +53,8 @@ export async function GET(request: NextRequest) {
       strapiUrl += `?${queryString}`;
     }
 
+    console.log(`Fetching from Strapi: ${strapiUrl}`);
+
     const config: RequestInit = {
       method: 'GET',
       headers: {
@@ -50,11 +66,13 @@ export async function GET(request: NextRequest) {
     const response = await fetch(strapiUrl, config);
 
     if (!response.ok) {
+      const errorText = await response.text();
       console.error(
-        `Strapi API error: ${response.status} ${response.statusText} for ${strapiUrl}`
+        `Strapi API error: ${response.status} ${response.statusText} for ${strapiUrl}`,
+        errorText
       );
       return NextResponse.json(
-        { error: `Strapi API error: ${response.status}` },
+        { error: `Strapi API error: ${response.status}`, details: errorText },
         { status: response.status }
       );
     }
@@ -66,7 +84,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('API proxy error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: String(error) },
       { status: 500 }
     );
   }

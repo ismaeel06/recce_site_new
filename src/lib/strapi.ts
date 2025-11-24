@@ -12,6 +12,9 @@ import type {
   BulletPoint,
   CTABadge,
   FeatureCard,
+  Blog,
+  RelatedBlog,
+  GlobalSocialLinks,
 } from '@/types/strapi';
 
 // Note: STRAPI_API_TOKEN is kept secret on the server and NOT used client-side.
@@ -116,9 +119,16 @@ export async function strapiApi<T>(
   endpoint: string,
   options: RequestInit = {}
 ) {
+  // Build the full endpoint path with /api prefix if not already present
+  const fullEndpoint = endpoint.startsWith('/api') ? endpoint : `/api${endpoint}`;
+  
   // Call the Next.js API proxy, passing the Strapi endpoint as a query parameter
-  const proxyUrl = new URL('/api/strapi', typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
-  proxyUrl.searchParams.set('endpoint', `/api${endpoint}`);
+  // Use encodeURIComponent to properly encode the entire endpoint string
+  const proxyUrl = typeof window !== 'undefined' 
+    ? window.location.origin 
+    : 'http://localhost:3000';
+  
+  const url = `${proxyUrl}/api/strapi?endpoint=${encodeURIComponent(fullEndpoint)}`;
 
   const config: RequestInit = {
     method: 'GET',
@@ -130,11 +140,12 @@ export async function strapiApi<T>(
   };
 
   try {
-    const response = await fetch(proxyUrl.toString(), config);
+    const response = await fetch(url, config);
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        `Strapi API error: ${response.status} ${response.statusText}`
+        `Strapi API error: ${response.status} ${response.statusText}${errorData.details ? ` - ${errorData.details}` : ''}`
       );
     }
 
@@ -339,4 +350,142 @@ export function getImageData(image: StrapiImage | undefined | null) {
     src: getStrapiImageUrl(image),
     alt: image?.alternativeText || 'Image',
   };
+}
+
+// ============ Blog API Functions ============
+
+/**
+ * Formats a date string from Strapi (ISO 8601) to readable format
+ * Example: "2023-01-01T00:00:00.000Z" → "Sunday, 1 Jan 2023"
+ */
+export function formatBlogDate(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  } catch {
+    return dateString;
+  }
+}
+
+/**
+ * Fetches a single blog post by slug from Strapi
+ */
+export async function getBlogBySlug(slug: string): Promise<Blog | null> {
+  try {
+    const response = await strapiApi<StrapiResponse<Blog[]>>(
+      `/blogs?filters[slug][$eq]=${slug}&sort=publishedAt:desc&populate=*`
+    );
+
+    if (!Array.isArray(response.data) || response.data.length === 0) {
+      return null;
+    }
+
+    return response.data[0];
+  } catch (error) {
+    console.error('Error fetching blog by slug:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the latest published blogs from Strapi
+ * @param limit - Number of blogs to fetch (default: 6)
+ */
+export async function getLatestBlogs(limit: number = 6): Promise<Blog[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<Blog[]>>(
+      `/blogs?sort=publishedAt:desc&pagination[limit]=${limit}&populate=*`
+    );
+
+    if (!Array.isArray(response.data)) {
+      return [];
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all blogs with optional filtering by tag and sorting
+ */
+export async function getBlogsList(
+  tag?: string,
+  limit?: number,
+  offset: number = 0
+): Promise<Blog[]> {
+  try {
+    let endpoint = `/blogs?sort=publishedAt:desc&populate=*`;
+
+    if (tag && tag !== 'All') {
+      endpoint += `&filters[tag][$eq]=${tag}`;
+    }
+
+    if (limit) {
+      endpoint += `&pagination[limit]=${limit}&pagination[start]=${offset}`;
+    }
+
+    const response = await strapiApi<StrapiResponse<Blog[]>>(endpoint);
+
+    if (!Array.isArray(response.data)) {
+      return [];
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching blogs list:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches related blogs by tag, excluding the current blog by documentId
+ * @param currentBlogId - documentId of the current blog to exclude
+ * @param tag - Blog tag to filter by
+ * @param limit - Number of related blogs to fetch (default: 3)
+ */
+export async function getRelatedBlogs(
+  currentBlogId: string,
+  tag: string,
+  limit: number = 3
+): Promise<RelatedBlog[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<RelatedBlog[]>>(
+      `/blogs?filters[tag][$eq]=${tag}&filters[documentId][$ne]=${currentBlogId}&sort=publishedAt:desc&pagination[limit]=${limit}&populate=*`
+    );
+
+    if (!Array.isArray(response.data)) {
+      return [];
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching related blogs:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches global social links from Strapi
+ * Returns null if not found (optional field)
+ */
+export async function getGlobalSocialLinks(): Promise<GlobalSocialLinks | null> {
+  try {
+    const response = await strapiApi<StrapiResponse<GlobalSocialLinks>>(
+      `/global-social-link?populate=*`
+    );
+
+    return response.data || null;
+  } catch (error) {
+    // Silently fail - global social links are optional
+    // This endpoint may not exist yet in Strapi
+    return null;
+  }
 }
