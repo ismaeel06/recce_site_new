@@ -11,7 +11,8 @@ const rawStrapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:133
 // Normalize: remove trailing slash to avoid accidental '//' when joining with paths
 const STRAPI_URL = rawStrapiUrl.replace(/\/$/, '');
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
-
+console.log("STRAPI URL: ", STRAPI_URL);
+console.log("STRAPI_TOKEN: ", STRAPI_TOKEN);
 if (!STRAPI_TOKEN) {
   console.warn('Warning: STRAPI_API_TOKEN is not set. Protected Strapi endpoints will return 403.');
 }
