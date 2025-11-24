@@ -42,28 +42,28 @@ const StrapiImageSchema = z.object({
 
 const BulletPointSchema = z.object({
   id: z.union([z.string(), z.number()]),
-  bulletIcon: StrapiImageSchema.optional(),
+  bulletIcon: StrapiImageSchema.optional().nullable(),
   bulletText: z.string(),
 }).passthrough();
 
 const CTABadgeSchema = z.object({
   id: z.union([z.string(), z.number()]),
-  badgeIcon: StrapiImageSchema.optional(),
+  badgeIcon: StrapiImageSchema.optional().nullable(),
   badgeText: z.string(),
   badgePosition: z.enum(['topLeft', 'topRight', 'bottomLeft', 'bottomRight']).optional(),
 }).passthrough();
 
 const FeatureCardSchema = z.object({
   id: z.union([z.string(), z.number()]),
-  featureIcon: StrapiImageSchema.optional(),
+  featureIcon: StrapiImageSchema.optional().nullable(),
   featureTitle: z.string(),
   featureDescription: z.string(),
-  featureBackgroundImage: StrapiImageSchema.optional(),
+  featureBackgroundImage: StrapiImageSchema.optional().nullable(),
   displayOrder: z.number(),
 }).passthrough();
 
 const HeroSectionSchema = z.object({
-  heroBackgroundImage: StrapiImageSchema,
+  heroBackgroundImage: StrapiImageSchema.optional().nullable(),
   heroSubtitle: z.string(),
   heroMainTitle: z.string(),
   heroSectionTitle: z.string(),
@@ -87,7 +87,7 @@ const CTASectionSchema = z.object({
   ctaMainTitle: z.string(),
   ctaHighlightText: z.string(),
   ctaDescription: z.string(),
-  ctaCentralImage: StrapiImageSchema,
+  ctaCentralImage: StrapiImageSchema.optional().nullable(),
   googlePlayLink: z.string().url(),
   appleAppLink: z.string().url(),
   ctaBadges: z.array(CTABadgeSchema),
@@ -337,9 +337,22 @@ export function getStrapiImageUrl(image: StrapiImage | undefined | null): string
     return url;
   }
 
-  // Otherwise prepend Strapi URL
-  const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-  return `${strapiUrl}${url}`;
+  // Otherwise prepend public Strapi/CDN base URL.
+  // Normalize to avoid accidental double slashes when joining.
+  const rawPublicBase = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  const publicBase = rawPublicBase.replace(/\/$/, '');
+  const path = url.startsWith('/') ? url : `/${url}`;
+
+  // Diagnostic warning: if images are stored with provider 'local' but the public base
+  // appears to be a CDN (e.g., CloudFront), it may not serve the `/uploads` path unless
+  // the CDN is configured to forward that path to your Strapi origin.
+  if (image.provider === 'local' && /cloudfront\.net/i.test(publicBase)) {
+    // Use console.warn so developers can see this in browser devtools during debugging.
+    // This is not sensitive: we don't log tokens or secrets.
+    console.warn(`getStrapiImageUrl: using CDN base (${publicBase}) for locally-hosted image path (${path}). Ensure the CDN forwards /uploads to your Strapi origin.`);
+  }
+
+  return `${publicBase}${path}`;
 }
 
 /**

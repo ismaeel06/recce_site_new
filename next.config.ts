@@ -3,8 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  images: {
-    remotePatterns: [
+  images: (() => {
+    // Build remotePatterns safely. Avoid calling `new URL('')` when env is unset.
+    const patterns: any[] = [
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -15,15 +16,28 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '1337',
       },
-      // Add your production Strapi domain here when deployed
-      // {
-      //   protocol: 'https',
-      //   hostname: 'your-strapi-domain.com',
-      // },
-    ],
-    // Allow unoptimized images from private IPs in development
-    unoptimized: process.env.NODE_ENV === 'development',
-  },
+    ];
+
+    const raw = process.env.NEXT_PUBLIC_STRAPI_URL;
+    if (raw) {
+      try {
+        const host = new URL(raw).hostname;
+        if (host) {
+          patterns.push({ protocol: 'https', hostname: host });
+        }
+      } catch (e) {
+        // If NEXT_PUBLIC_STRAPI_URL is not a valid URL, skip adding it.
+        // This avoids crashing the build when the env variable is empty or malformed.
+        console.warn('NEXT_PUBLIC_STRAPI_URL is not a valid URL, skipping image remotePattern');
+      }
+    }
+
+    return {
+      remotePatterns: patterns,
+      // Allow unoptimized images from private IPs in development
+      unoptimized: process.env.NODE_ENV === 'development',
+    };
+  })(),
 };
 
 export default nextConfig;
