@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import NewsLetter from './NewsLetter';
 import type { CTASectionAttributes } from '@/types/strapi';
-import { getCTASection, getStrapiImageUrl } from '@/lib/strapi';
+import { getCTASection, getStrapiImageUrl, getDownloadLinks } from '@/lib/strapi';
 
 interface CTAState {
   data: CTASectionAttributes | null;
@@ -17,6 +17,7 @@ export default function CTASection() {
     loading: true,
     error: null,
   });
+  const [downloadLinks, setDownloadLinks] = useState<any>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -33,6 +34,25 @@ export default function CTASection() {
             error: null,
           });
         }
+
+        async function fetchDownloadLinks() {
+          try {
+            const data = await getDownloadLinks();
+            console.log("Data for download links: ", data);
+            setDownloadLinks({
+              playstoreLink: data.playstoreLink,
+              appstoreLink: data.appstoreLink
+            });
+          } catch (err) {
+            console.error("Error fetching latest blogs:", err);
+            setDownloadLinks({
+              playstoreLink: "",
+              appstoreLink: ""
+            });
+          }
+        }
+
+        fetchDownloadLinks();
       } catch (err) {
         if (isMounted) {
           setState({
@@ -87,6 +107,14 @@ export default function CTASection() {
 
   const ctaCentralImageUrl = getStrapiImageUrl(state.data.ctaCentralImage);
 
+  const redirectToPlaystore = () => {
+    window.open(downloadLinks?.playstoreLink, "_blank");
+  }
+
+  const redirectToAppstore = () => {
+    window.open(downloadLinks?.appstoreLink, "_blank");
+  }
+
   return (
     <section className="py-20 bg-[#191919]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,10 +132,8 @@ export default function CTASection() {
 
           {/* Download Buttons */}
           <div className="flex flex-row gap-4 justify-center items-center flex-wrap">
-            <a
-              href={state.data.googlePlayLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={redirectToPlaystore}
               className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
             >
               <div className="mr-3">
@@ -121,12 +147,10 @@ export default function CTASection() {
                 <div className="text-xs text-gray-300">GET IT ON</div>
                 <div className="text-sm font-semibold text-white">Google Play</div>
               </div>
-            </a>
+            </button>
 
             <a
-              href={state.data.appleAppLink}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={redirectToAppstore}
               className="flex items-center bg-[#FFFFFF1A] rounded-lg px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
             >
               <div className="mr-3">

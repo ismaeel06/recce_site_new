@@ -121,13 +121,13 @@ export async function strapiApi<T>(
 ) {
   // Build the full endpoint path with /api prefix if not already present
   const fullEndpoint = endpoint.startsWith('/api') ? endpoint : `/api${endpoint}`;
-  
+
   // Call the Next.js API proxy, passing the Strapi endpoint as a query parameter
   // Use encodeURIComponent to properly encode the entire endpoint string
-  const proxyUrl = typeof window !== 'undefined' 
-    ? window.location.origin 
+  const proxyUrl = typeof window !== 'undefined'
+    ? window.location.origin
     : 'http://localhost:3000';
-  
+
   const url = `${proxyUrl}/api/strapi?endpoint=${encodeURIComponent(fullEndpoint)}`;
 
   const config: RequestInit = {
@@ -500,5 +500,18 @@ export async function getGlobalSocialLinks(): Promise<GlobalSocialLinks | null> 
     // Silently fail - global social links are optional
     // This endpoint may not exist yet in Strapi
     return null;
+  }
+}
+
+export async function getDownloadLinks(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/global-download-button`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
   }
 }

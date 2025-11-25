@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/layout/Header';
 import Image from 'next/image';
 import type { HeroSectionAttributes } from '@/types/strapi';
-import { getHeroSection, getStrapiImageUrl } from '@/lib/strapi';
+import { getHeroSection, getStrapiImageUrl, getDownloadLinks } from '@/lib/strapi';
 
 interface HeroSectionState {
   data: HeroSectionAttributes | null;
@@ -18,6 +18,8 @@ export default function HeroSection() {
     loading: true,
     error: null,
   });
+
+  const [downloadLinks, setDownloadLinks] = useState<any>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -47,6 +49,25 @@ export default function HeroSection() {
 
     fetchData();
 
+    async function fetchDownloadLinks() {
+      try {
+        const data = await getDownloadLinks();
+        console.log("Data for download links: ", data);
+        setDownloadLinks({
+          playstoreLink: data.playstoreLink,
+          appstoreLink: data.appstoreLink
+        });
+      } catch (err) {
+        console.error("Error fetching latest blogs:", err);
+        setDownloadLinks({
+          playstoreLink: "",
+          appstoreLink: ""
+        });
+      }
+    }
+
+    fetchDownloadLinks();
+
     return () => {
       isMounted = false;
     };
@@ -75,6 +96,14 @@ export default function HeroSection() {
         <div className="relative h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden bg-gray-800 animate-pulse"></div>
       </section>
     );
+  }
+
+  const redirectToPlaystore = () => {
+    window.open(downloadLinks?.playstoreLink, "_blank");
+  }
+
+  const redirectToAppstore = () => {
+    window.open(downloadLinks?.appstoreLink, "_blank");
   }
 
   return (
@@ -134,10 +163,8 @@ export default function HeroSection() {
 
               {/* App Store Buttons */}
               <div className="flex flex-row gap-4 flex-wrap justify-center md:justify-start md:pl-8 lg:pl-20">
-                <a
-                  href={state.data.googlePlayStoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={redirectToPlaystore}
                   className="flex items-center bg-[#FFFFFF1A] rounded-lg px-4 md:px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
                 >
                   <div className="mr-3">
@@ -151,12 +178,10 @@ export default function HeroSection() {
                     <div className="text-xs text-gray-300">GET IT ON</div>
                     <div className="text-sm font-semibold">Google Play</div>
                   </div>
-                </a>
+                </button>
 
-                <a
-                  href={state.data.appleAppStoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={redirectToAppstore}
                   className="flex items-center bg-[#FFFFFF1A] rounded-lg px-4 md:px-6 py-3 hover:bg-gray-800 transition-colors cursor-pointer"
                 >
                   <div className="mr-3">
@@ -170,7 +195,7 @@ export default function HeroSection() {
                     <div className="text-xs text-gray-300">Download on the</div>
                     <div className="text-sm font-semibold">App Store</div>
                   </div>
-                </a>
+                </button>
               </div>
             </div>
           </div>
