@@ -515,3 +515,55 @@ export async function getDownloadLinks(): Promise<any> {
     throw error;
   }
 }
+
+export async function getWhyRecceHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/why-recce-hero-section`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getWhyRecceCards(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/why-recce-cards?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getWhyRecceRationale(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/why-recce-rationale?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getWhyRecceStandouts(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/why-recce-standouts`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
