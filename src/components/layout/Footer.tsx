@@ -1,29 +1,61 @@
 'use client';
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getDownloadLinks } from "@/lib/strapi";
+import { getDownloadLinks, getGlobalSocialLinks } from "@/lib/strapi";
+
+// Helper function to ensure URL has protocol
+const ensureProtocol = (url: string | undefined): string => {
+  if (!url) return "#";
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  return `https://${url}`;
+};
 
 export default function Footer() {
   const [downloadLinks, setDownloadLinks] = useState<any>(null);
+  const [socialLinks, setSocialLinks] = useState<any>(null);
+
   useEffect(() => {
-    async function fetchBlogs() {
+    async function fetchData() {
       try {
-        const data = await getDownloadLinks();
-        console.log("Data for download links: ", data);
+        const [downloadData, socialData] = await Promise.all([
+          getDownloadLinks(),
+          getGlobalSocialLinks(),
+        ]);
+
+        console.log("Data for download links: ", downloadData);
+        console.log("Data for social links: ", socialData);
+
         setDownloadLinks({
-          playstoreLink: data.playstoreLink,
-          appstoreLink: data.appstoreLink
+          playstoreLink: downloadData?.playstoreLink,
+          appstoreLink: downloadData?.appstoreLink
+        });
+
+        setSocialLinks({
+          facebook: ensureProtocol(socialData?.facebook),
+          instagram: ensureProtocol(socialData?.instagram),
+          linkedin: ensureProtocol(socialData?.linkedin),
+          twitter: ensureProtocol(socialData?.twitter),
+          tiktok: ensureProtocol(socialData?.tiktok)
         });
       } catch (err) {
-        console.error("Error fetching latest blogs:", err);
+        console.error("Error fetching data:", err);
         setDownloadLinks({
           playstoreLink: "",
           appstoreLink: ""
         });
+        setSocialLinks({
+          facebook: "#",
+          instagram: "#",
+          linkedin: "#",
+          twitter: "#",
+          tiktok: "#"
+        });
       }
     }
 
-    fetchBlogs();
+    fetchData();
   }, []);
 
   const redirectToPlaystore = () => {
@@ -49,9 +81,15 @@ export default function Footer() {
                 <p className="mt-3 text-[#848686]">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Tiktok.svg" alt="Twitter" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.instagram} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
                 </div>
               </div>
 
@@ -116,9 +154,15 @@ export default function Footer() {
                 <p className="mt-3 text-[#848686] text-sm">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.instagram} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
                 </div>
               </div>
 
@@ -186,9 +230,15 @@ export default function Footer() {
                 </div>
 
                 <div className="flex items-center gap-2 self-end">
-                  <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
-                  <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Facebook.svg" alt="Facebook" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.instagram} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Instagram.svg" alt="Instagram" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
+                  <a href={socialLinks?.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block">
+                    <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
+                  </a>
                 </div>
               </div>
 

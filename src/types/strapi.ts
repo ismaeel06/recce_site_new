@@ -152,6 +152,34 @@ export interface BlogPost extends StrapiEntity {
   };
 }
 
+// ============ How It Works Types ============
+
+export interface HowItWorksStepAttributes {
+  stepNumber: number;
+  stepTitle: string;
+  stepDescription: string;
+  stepImage?: StrapiImage | null;
+  displayOrder: number;
+}
+
+export interface HowItWorksHeroSectionAttributes {
+  heroTitle: string;
+  heroTitleHighlight: string;
+  heroDescription: string;
+}
+
+export interface HowItWorksExtraAttributes {
+  extraIcon?: StrapiImage | null;
+  extraTitle: string;
+  extraDescription: string;
+  displayOrder: number;
+}
+
+export interface HowItWorksExtrasSectionAttributes {
+  extrasTitle: string;
+  extrasTitleHighlight: string;
+}
+
 // ============ Blog Collection Types ============
 
 export interface Blog {
@@ -191,6 +219,7 @@ export interface GlobalSocialLinks {
   instagram?: string;
   linkedin?: string;
   twitter?: string;
+  tiktok?: string;
   publishedAt?: string;
   createdAt?: string;
   updatedAt?: string;
