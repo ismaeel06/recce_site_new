@@ -10,7 +10,7 @@ function Rationale() {
             const rationaleData = await getWhyRecceRationale();
             setRationale({
                 title: rationaleData?.title,
-                thumbnail: process.env.NEXT_PUBLIC_STRAPI_URL + rationaleData?.thumbnail?.url
+                thumbnail: rationaleData?.thumbnail?.url
             })
             const standoutData = await getWhyRecceStandouts();
             setStandouts(standoutData?.map((d: any) => ({

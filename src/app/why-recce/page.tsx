@@ -21,7 +21,7 @@ export default function WhyRecce() {
       setCards(data?.map((d: any) => ({
         title: d.title,
         description: d.description,
-        imgUrl: process.env.NEXT_PUBLIC_STRAPI_URL + d.thumbnail.url
+        imgUrl: d.thumbnail.url
       })))
     }
     getData();
