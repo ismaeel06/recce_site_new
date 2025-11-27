@@ -6,8 +6,9 @@ This document describes the Strapi collections and their fields for the Recce we
 
 ## Table of Contents
 1. [HomePage Content Collections](#homepage-content-collections)
-2. [Blog Collections](#blog-collections)
-3. [Navigation Configuration](#navigation-configuration)
+2. [How It Works Page Collections](#how-it-works-page-collections)
+3. [Blog Collections](#blog-collections)
+4. [Navigation Configuration](#navigation-configuration)
 4. [Field Types Reference](#field-types-reference)
 
 ---
@@ -213,6 +214,100 @@ This document describes the Strapi collections and their fields for the Recce we
 
 ---
 
+## How It Works Page Collections
+
+### 1. howItWorksHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Controls the hero section heading and description for the How It Works page.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `heroTitle` | String (Short Text) | Yes | Main title text (e.g., "Get Started in") |
+| `heroTitleHighlight` | String (Short Text) | Yes | Highlighted portion of title (e.g., "3 Easy Steps") |
+| `heroDescription` | String (Long Text) | Yes | Description text below title |
+
+**Example Data:**
+```json
+{
+  "heroTitle": "Get Started in",
+  "heroTitleHighlight": "3 Easy Steps",
+  "heroDescription": "From setup to your first great recommendation in minutes."
+}
+```
+
+---
+
+### 2. howItWorksSteps
+
+**Collection Type:** `Collection Type` (Repeatable)  
+**Purpose:** Individual step cards displayed in the hero section grid (typically 3 steps).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `stepNumber` | Integer | Yes | Step number (1, 2, 3) |
+| `stepTitle` | String (Short Text) | Yes | Step title (e.g., "Set Up Your Tastes") |
+| `stepDescription` | String (Long Text) | Yes | Detailed description of the step |
+| `stepImage` | Media (Image) | Yes | SVG/PNG image for the step |
+| `displayOrder` | Integer | Yes | Order in which steps appear (1, 2, 3) |
+
+**Example Data:**
+```json
+{
+  "stepNumber": 1,
+  "stepTitle": "Set Up Your Tastes",
+  "stepDescription": "Tell us your favorite genres, directors, and actors. This helps us calibrate your initial discovery feed.",
+  "stepImage": "/assets/SetTastes.svg",
+  "displayOrder": 1
+}
+```
+
+---
+
+### 3. howItWorksExtrasSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Controls the "Optional Extras" section heading and description.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `extrasTitle` | String (Short Text) | Yes | Section title (e.g., "And a Few") |
+| `extrasTitleHighlight` | String (Short Text) | Yes | Highlighted portion of title (e.g., "Optional Extras...") |
+
+**Example Data:**
+```json
+{
+  "extrasTitle": "And a Few",
+  "extrasTitleHighlight": "Optional Extras..."
+}
+```
+
+---
+
+### 4. howItWorksExtras
+
+**Collection Type:** `Collection Type` (Repeatable)  
+**Purpose:** Individual extra feature cards displayed in the extras section (typically 3 extras).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `extraIcon` | Media (Image) | Yes | Icon representing the extra feature |
+| `extraTitle` | String (Short Text) | Yes | Feature title (e.g., "Creator Recommendations") |
+| `extraDescription` | String (Long Text) | Yes | Detailed description of the extra feature |
+| `displayOrder` | Integer | Yes | Order in which extras appear (1, 2, 3) |
+
+**Example Data:**
+```json
+{
+  "extraIcon": "/assets/icons/star.svg",
+  "extraTitle": "Creator Recommendations",
+  "extraDescription": "Go beyond your network and explore picks from critics, filmmakers, and top Recce community members.",
+  "displayOrder": 1
+}
+```
+
+---
+
 ## Blog Collections
 
 ### 1. Blog
@@ -278,6 +373,7 @@ This document describes the Strapi collections and their fields for the Recce we
 | `instagram` | String (Short Text) — URL validation | No | Instagram profile URL |
 | `linkedin` | String (Short Text) — URL validation | No | LinkedIn profile or company URL |
 | `twitter` | String (Short Text) — URL validation | No | Twitter/X profile URL |
+| `tiktok` | String (Short Text) — URL validation | No | TikTok profile URL |
 
 **System Fields (Auto-managed by Strapi):**
 - `publishedAt` — Last publication timestamp
@@ -290,12 +386,14 @@ This document describes the Strapi collections and their fields for the Recce we
   "facebook": "https://facebook.com/recceapp",
   "instagram": "https://instagram.com/recceapp",
   "linkedin": "https://linkedin.com/company/recceapp",
-  "twitter": "https://twitter.com/recceapp"
+  "twitter": "https://twitter.com/recceapp",
+  "tiktok": "https://tiktok.com/@recceapp"
 }
 ```
 
 **Frontend Usage:**
 - **Blog Read Page** (`/gossip/[slug]`): Displays social share buttons with these links
+- **Footer Component**: Displays social media icons with links across all pages
 - Called once per page load and cached/memoized to avoid duplicate API calls
 
 ---
@@ -412,5 +510,5 @@ Detailed API implementation can be found in `src/lib/strapi.ts`
 
 ---
 
-**Last Updated:** November 24, 2025  
-**Schema Version:** 2.0 (Blog Collections Added)
+**Last Updated:** November 27, 2025  
+**Schema Version:** 2.1 (How It Works Page Collections Added)

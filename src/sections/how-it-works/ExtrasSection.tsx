@@ -1,26 +1,64 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import ExtrasCard from '@/components/how-it-works/ExtrasCard';
+import { getHowItWorksExtrasSection, getHowItWorksExtras, getStrapiImageUrl } from '@/lib/strapi';
+
+interface ExtraData {
+  extraTitle: string;
+  extraDescription: string;
+  extraIcon?: any;
+}
+
+interface ExtrasSectionData {
+  extrasTitle: string;
+  extrasTitleHighlight: string;
+}
 
 export default function ExtrasSection() {
-  const extras = [
-    {
-      icon: <img src="/assets/icons/star.svg" alt="Star Icon" className="w-full h-full" />,
-      title: 'Creator Recommendations',
-      description:
-        'Go beyond your network and explore picks from critics, filmmakers, and top Recce community members.',
-    },
-    {
-      icon: <img src="/assets/icons/list.svg" alt="List Icon" className="w-full h-full" />,
-      title: 'Power-Up Your Lists',
-      description:
-        'Create and share custom watchlists for any mood—"Friday Night Thrillers," "Oscar Winners," or "Comfort Comedies."',
-    },
-    {
-      icon: <img src="/assets/icons/filter.svg" alt="Filter Icon" className="w-full h-full" />,
-      title: 'Advanced Filters',
-      description:
-        'Drill down with powerful filters. Search by streaming service, runtime, audience score, and even "recommended by" specific friends.',
-    },
-  ];
+  const [extrasSection, setExtrasSection] = useState<ExtrasSectionData | null>(null);
+  const [extras, setExtras] = useState<ExtraData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [section, extrasData] = await Promise.all([
+          getHowItWorksExtrasSection(),
+          getHowItWorksExtras(),
+        ]);
+
+        if (isMounted) {
+          setExtrasSection(section);
+          setExtras(extrasData);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err : new Error('Failed to load How It Works extras'));
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (error) {
+    console.error('How It Works Extras Error:', error);
+  }
 
   return (
     <section className="py-16 md:py-24">
@@ -28,20 +66,27 @@ export default function ExtrasSection() {
         <div className="bg-[#FFFFFF1A] rounded-4xl px-8 md:px-16 py-8 md:py-10 border border-gray-700">
           <div className="text-left mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              And a Few <span className="text-orange-500">Optional Extras...</span>
+              {extrasSection?.extrasTitle} <span className="text-orange-500">{extrasSection?.extrasTitleHighlight}</span>
             </h2>
           </div>
 
           {/* Three Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-            {extras.map((extra, index) => (
-              <ExtrasCard
-                key={index}
-                icon={extra.icon}
-                title={extra.title}
-                description={extra.description}
-              />
-            ))}
+            {extras.map((extra, index) => {
+              const iconUrl = extra.extraIcon ? getStrapiImageUrl(extra.extraIcon) : null;
+              const iconElement = iconUrl ? (
+                <img src={iconUrl} alt={extra.extraTitle} className="w-full h-full" />
+              ) : null;
+
+              return (
+                <ExtrasCard
+                  key={index}
+                  icon={iconElement}
+                  title={extra.extraTitle}
+                  description={extra.extraDescription}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

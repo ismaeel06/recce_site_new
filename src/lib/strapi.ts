@@ -100,6 +100,34 @@ const NewsLetterSectionSchema = z.object({
   newsletterButtonText: z.string(),
 });
 
+const HowItWorksStepSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  stepNumber: z.number(),
+  stepTitle: z.string(),
+  stepDescription: z.string(),
+  stepImage: StrapiImageSchema.optional().nullable(),
+  displayOrder: z.number(),
+}).passthrough();
+
+const HowItWorksHeroSchema = z.object({
+  heroTitle: z.string(),
+  heroTitleHighlight: z.string(),
+  heroDescription: z.string(),
+});
+
+const HowItWorksExtraSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  extraIcon: StrapiImageSchema.optional().nullable(),
+  extraTitle: z.string(),
+  extraDescription: z.string(),
+  displayOrder: z.number(),
+}).passthrough();
+
+const HowItWorksExtrasSectionSchema = z.object({
+  extrasTitle: z.string(),
+  extrasTitleHighlight: z.string(),
+});
+
 const HomePageContentSchema = z.object({
   heroSection: HeroSectionSchema,
   featuresSection: FeaturesSectionSchema,
@@ -363,6 +391,106 @@ export function getImageData(image: StrapiImage | undefined | null) {
     src: getStrapiImageUrl(image),
     alt: image?.alternativeText || 'Image',
   };
+}
+
+// ============ How It Works API Functions ============
+
+/**
+ * Fetches the How It Works hero section content from Strapi
+ */
+export async function getHowItWorksHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/how-it-works-hero-section'
+    );
+
+    const heroData = response.data;
+
+    if (!heroData) {
+      throw new Error('How It Works hero section data not found in Strapi');
+    }
+
+    const validated = HowItWorksHeroSchema.parse(heroData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching How It Works hero section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all How It Works steps from Strapi, sorted by displayOrder
+ */
+export async function getHowItWorksSteps(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/how-it-works-steps?populate[stepImage][populate]=*&sort=displayOrder:asc'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('How It Works steps data is not an array');
+    }
+
+    const steps = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = HowItWorksStepSchema.parse(itemData);
+      return validated;
+    });
+
+    return steps;
+  } catch (error) {
+    console.error('Error fetching How It Works steps:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the How It Works extras section header from Strapi
+ */
+export async function getHowItWorksExtrasSection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/how-it-works-extras-section'
+    );
+
+    const extrasData = response.data;
+
+    if (!extrasData) {
+      throw new Error('How It Works extras section data not found in Strapi');
+    }
+
+    const validated = HowItWorksExtrasSectionSchema.parse(extrasData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching How It Works extras section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all How It Works extras from Strapi, sorted by displayOrder
+ */
+export async function getHowItWorksExtras(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/how-it-works-extras?populate[extraIcon][populate]=*&sort=displayOrder:asc'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('How It Works extras data is not an array');
+    }
+
+    const extras = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = HowItWorksExtraSchema.parse(itemData);
+      return validated;
+    });
+
+    return extras;
+  } catch (error) {
+    console.error('Error fetching How It Works extras:', error);
+    throw error;
+  }
 }
 
 // ============ Blog API Functions ============
