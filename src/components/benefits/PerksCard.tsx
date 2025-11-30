@@ -12,7 +12,7 @@ function PerksCard({ title, imgUrl, description, number }: { title: string, imgU
                     {description}
                 </p>
             </div>
-            <div className={`text-[60px] font-bold ${number === '01' ? 'text-white' : 'text-white/60'} mt-6 lg:mt-2`}>{number}</div>
+            <div className={`text-[60px] font-bold ${number === '1' ? 'text-white' : 'text-white/60'} mt-6 lg:mt-2`}>{parseInt(number) < 10 ? '0' + number : number}</div>
         </div>
     )
 }
