@@ -19,7 +19,10 @@ export default function Team() {
       const heroData = await getTeamHero();
       setTeamHero(heroData);
       const membersData = await getTeamMembers();
-      setTeamMembers(membersData);
+      setTeamMembers(membersData.map((m: any) => ({
+        ...m,
+        image: m?.image?.url
+      })));
     };
     getData();
   })
@@ -94,6 +97,7 @@ export default function Team() {
                     name={teamMember.name}
                     title={teamMember.title}
                     description={teamMember.description}
+                    image={teamMember.image}
                   />
                 </div>
               );
