@@ -88,7 +88,7 @@ export default function Team() {
                 <div
                   key={index}
                   className={`rounded-lg transition-transform hover:scale-[1.01] ${teamMember.you ? "cursor-pointer" : ""}`}
-                  onClick={() => teamMember.you && openModal()}
+                  onClick={() => teamMember.name === 'Join Our Team' && openModal()}
                 >
                   <TeamMember
                     name={teamMember.name}
