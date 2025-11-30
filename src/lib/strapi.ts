@@ -760,3 +760,29 @@ export async function getQualifyPoints(): Promise<any> {
     throw error;
   }
 }
+
+export async function getTeamHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/team-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getTeamMembers(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/team-members?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
