@@ -786,3 +786,42 @@ export async function getTeamMembers(): Promise<any> {
     throw error;
   }
 }
+
+export async function getHelpHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/help-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getFaqs(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/faqs`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getContactPoints(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/contact-points`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}

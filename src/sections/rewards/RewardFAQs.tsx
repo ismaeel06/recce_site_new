@@ -1,32 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getFaqs } from "@/lib/strapi";
 
 export default function RewardFAQs({ page }: { page?: string }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [faqs, setFaqs] = useState<any[]>([]);
 
-  const faqs = [
-    {
-      question: "How do I add friends on Recce?",
-      answer: "You can add friends by searching for their username, scanning their profile QR code, or inviting them via your unique invite link. Once you're connected, you can see each other's reviews and recommendations."
-    },
-    {
-      question: "Can I import my watchlist from another service?",
-      answer: "Yes! Recce supports importing watchlists from popular streaming platforms and movie databases. Visit Settings > Import Watchlist and follow the prompts to get started."
-    },
-    {
-      question: "How does Recce handle spoilers in reviews?",
-      answer: "We have a built-in spoiler protection system. You can mark your review as containing spoilers, which will blur the content for other users until they choose to reveal it."
-    },
-    {
-      question: "Is Recce free to use?",
-      answer: "Yes, Recce is completely free to use! You can write reviews, earn rewards, and enjoy all our features without any subscription fees."
-    },
-    {
-      question: "How are rewards calculated?",
-      answer: "Rewards are calculated based on engagement metrics like review quality, community upvotes, friend invitations, and the impact of your recommendations. The more active and helpful you are, the more points you earn!"
-    }
-  ];
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getFaqs();
+      setFaqs(data);
+    };
+    getData();
+  })
+
+  // const faqs = [
+  //   {
+  //     question: "How do I add friends on Recce?",
+  //     answer: "You can add friends by searching for their username, scanning their profile QR code, or inviting them via your unique invite link. Once you're connected, you can see each other's reviews and recommendations."
+  //   },
+  //   {
+  //     question: "Can I import my watchlist from another service?",
+  //     answer: "Yes! Recce supports importing watchlists from popular streaming platforms and movie databases. Visit Settings > Import Watchlist and follow the prompts to get started."
+  //   },
+  //   {
+  //     question: "How does Recce handle spoilers in reviews?",
+  //     answer: "We have a built-in spoiler protection system. You can mark your review as containing spoilers, which will blur the content for other users until they choose to reveal it."
+  //   },
+  //   {
+  //     question: "Is Recce free to use?",
+  //     answer: "Yes, Recce is completely free to use! You can write reviews, earn rewards, and enjoy all our features without any subscription fees."
+  //   },
+  //   {
+  //     question: "How are rewards calculated?",
+  //     answer: "Rewards are calculated based on engagement metrics like review quality, community upvotes, friend invitations, and the impact of your recommendations. The more active and helpful you are, the more points you earn!"
+  //   }
+  // ];
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
