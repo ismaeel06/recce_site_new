@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '1337',
       },
+      // Allow S3 bucket images
+      {
+        protocol: 'https',
+        hostname: '**.s3.eu-west-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
     ];
 
     const raw = process.env.NEXT_PUBLIC_STRAPI_URL;
