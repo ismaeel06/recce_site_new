@@ -1,33 +1,68 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import RedeemRewardCard from '../../components/rewards/RedeemRewardCard';
+import { getRewardsRedeemSection, getRewardsRedeemOptions, getStrapiImageUrl } from '@/lib/strapi';
+
+interface RedeemOptionData {
+  optionImage?: any;
+  optionTitle: string;
+  optionDescription: string;
+}
+
+interface RedeemSectionData {
+  redeemTitle: string;
+  redeemTitleHighlight: string;
+  redeemDescription: string;
+}
 
 export default function RedeemRewards() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [sectionData, setSectionData] = useState<RedeemSectionData | null>(null);
+  const [redeemOptions, setRedeemOptions] = useState<RedeemOptionData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const redeemOptions = [
-    {
-      image: '/assets/writing.webp',
-      title: 'Movie Ticket Vouchers',
-      description:
-        'Enjoy a night at the movies. Redeem points for tickets at participating cinemas.',
-    },
-    {
-      image: '/assets/writing.webp',
-      title: 'Streaming Subscriptions',
-      description:
-        'Get a month of your favorite streaming service paid for with your Recce points.',
-    },
-    {
-      image: '/assets/writing.webp',
-      title: 'Exclusive Merchandise',
-      description:
-        'Show your love for film with exclusive discounts on movie-themed apparel and gear.',
-    },
-  ];
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [section, options] = await Promise.all([
+          getRewardsRedeemSection(),
+          getRewardsRedeemOptions(),
+        ]);
+
+        if (isMounted) {
+          setSectionData(section);
+          setRedeemOptions(options);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err : new Error('Failed to load Redeem Rewards data'));
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (error) {
+    console.error('Redeem Rewards Error:', error);
+  }
 
   const nextSlide = () => {
     setActiveSlide((prev) => (prev + 1) % redeemOptions.length);
@@ -65,11 +100,10 @@ export default function RedeemRewards() {
         <div className="bg-[#FFFFFF1A] rounded-3xl p-8 md:p-16 border border-[#383838]">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Redeem Your <span className="text-[#ff7802]">Points</span>
+              {sectionData?.redeemTitle} <span className="text-[#ff7802]">{sectionData?.redeemTitleHighlight}</span>
             </h2>
             <p className="text-gray-300 text-lg max-w-4xl mx-auto">
-              Your hard-earned points can be exchanged for real-world perks and
-              digital goods. Here are a few examples.
+              {sectionData?.redeemDescription}
             </p>
           </div>
 
@@ -89,9 +123,9 @@ export default function RedeemRewards() {
                     <div className="flex justify-center">
                       <div className="w-full max-w-sm">
                         <RedeemRewardCard
-                          image={option.image}
-                          title={option.title}
-                          description={option.description}
+                          image={getStrapiImageUrl(option.optionImage) || ''}
+                          title={option.optionTitle}
+                          description={option.optionDescription}
                         />
                       </div>
                     </div>
@@ -100,28 +134,30 @@ export default function RedeemRewards() {
               </div>
             </div>
 
-            {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-6">
-              {redeemOptions.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveSlide(index)}
-                  className={`h-1 rounded-2xl transition-all ${index === activeSlide ? 'bg-white w-10' : 'bg-gray-600 w-4'
+            {/* Mobile Navigation */}
+            <div className="flex items-center justify-center mt-6">
+              <div className="flex gap-2">
+                {redeemOptions.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveSlide(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === activeSlide ? 'bg-[#ffffff] w-8' : 'bg-gray-600'
                     }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Desktop Grid */}
-          <div className="hidden md:grid grid-cols-3 gap-6">
+          <div className="hidden md:grid grid-cols-3 gap-8">
             {redeemOptions.map((option, index) => (
               <RedeemRewardCard
                 key={index}
-                image={option.image}
-                title={option.title}
-                description={option.description}
+                image={getStrapiImageUrl(option.optionImage) || ''}
+                title={option.optionTitle}
+                description={option.optionDescription}
               />
             ))}
           </div>
