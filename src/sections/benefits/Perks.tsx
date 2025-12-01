@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import PerksCard from "@/components/benefits/PerksCard";
+import { getPerksHeader, getPerks } from "@/lib/strapi";
 
 type Perk = {
   imgUrl: string;
@@ -15,51 +16,68 @@ export default function Perks() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const [hero, setHero] = useState<any>({});
+  const [perks, setPerks] = useState<any[]>([]);
 
-  const perks: Perk[] = [
-    {
-      imgUrl: "/assets/Perk1.png",
-      title: "Early Screenings",
-      number: "01",
-      description:
-        "Get exclusive invitations to pre-release digital and in-person screenings of upcoming movies and shows from our partner studios.",
-    },
-    {
-      imgUrl: "/assets/Perk2.png",
-      title: "Exclusive Quizzes",
-      number: "02",
-      description:
-        "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-    },
-    {
-      imgUrl: "/assets/Perk3.png",
-      title: "Product Lab Access",
-      number: "03",
-      description:
-        "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-    },
-    {
-      imgUrl: "/assets/Perk4.png",
-      title: "Creator Q&As",
-      number: "04",
-      description:
-        "Join live, intimate Q&A sessions with directors, writers, and actors. Ask the questions you've always wanted to ask.",
-    },
-    {
-      imgUrl: "/assets/Perk5.png",
-      title: "Prestige Profile Badge",
-      number: "05",
-      description:
-        "Your profile will be adorned with the exclusive Auteur Club badge, signaling your status as a top contributor in the community.",
-    },
-    {
-      imgUrl: "/assets/Perk6.png",
-      title: "Priority Support",
-      number: "06",
-      description:
-        "Get white-glove service from our dedicated community team. Your questions and feedback move to the front of the line, always.",
-    },
-  ];
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getPerksHeader();
+      setHero({ ...data, thumbnail: data?.thumbnail?.url });
+      const perksData = await getPerks();
+      setPerks(perksData.map((d: any) => (
+        {
+          ...d,
+          icon: d.icon.url
+        }
+      )));
+    }
+    getData();
+  }, [])
+
+  // const perks: Perk[] = [
+  //   {
+  //     imgUrl: "/assets/Perk1.png",
+  //     title: "Early Screenings",
+  //     number: "01",
+  //     description:
+  //       "Get exclusive invitations to pre-release digital and in-person screenings of upcoming movies and shows from our partner studios.",
+  //   },
+  //   {
+  //     imgUrl: "/assets/Perk2.png",
+  //     title: "Exclusive Quizzes",
+  //     number: "02",
+  //     description:
+  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
+  //   },
+  //   {
+  //     imgUrl: "/assets/Perk3.png",
+  //     title: "Product Lab Access",
+  //     number: "03",
+  //     description:
+  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
+  //   },
+  //   {
+  //     imgUrl: "/assets/Perk4.png",
+  //     title: "Creator Q&As",
+  //     number: "04",
+  //     description:
+  //       "Join live, intimate Q&A sessions with directors, writers, and actors. Ask the questions you've always wanted to ask.",
+  //   },
+  //   {
+  //     imgUrl: "/assets/Perk5.png",
+  //     title: "Prestige Profile Badge",
+  //     number: "05",
+  //     description:
+  //       "Your profile will be adorned with the exclusive Auteur Club badge, signaling your status as a top contributor in the community.",
+  //   },
+  //   {
+  //     imgUrl: "/assets/Perk6.png",
+  //     title: "Priority Support",
+  //     number: "06",
+  //     description:
+  //       "Get white-glove service from our dedicated community team. Your questions and feedback move to the front of the line, always.",
+  //   },
+  // ];
 
   const INDICATOR_COUNT = 6;
 
@@ -120,10 +138,10 @@ export default function Perks() {
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col md:py-20 lg:py-32 items-center">
         <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium md:mb-6 text-center font-bold">
-          Exclusive Member <span className="text-[#ff7802]">Perks</span>
+          {hero?.title} <span className="text-[#ff7802]">{hero?.highlighted}</span>
         </h1>
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
-          As a member of The Auteur Club, you unlock a suite of benefits designed to enhance your entertainment experience.
+          {hero?.description}
         </p>
       </div>
 
@@ -131,7 +149,7 @@ export default function Perks() {
       <div className="hidden lg:block">
         <div className="flex flex-col md:flex-row items-center md:items-start mx-auto gap-8 mb-16 md:mb-20 lg:mb-24">
           <div className="w-[70%] md:w-[50%]">
-            <img src="/assets/TvLounge.png" alt="TV Lounge" className="w-full h-auto object-contain" />
+            <img src={hero?.thumbnail} alt="TV Lounge" className="w-full h-auto object-contain" />
           </div>
 
           <div className="w-[70%] md:w-[50%] flex flex-col gap-4">
@@ -150,10 +168,10 @@ export default function Perks() {
                 >
                   <div className="">
                     <PerksCard
-                      number={perk.number}
+                      number={perk.order}
                       title={perk.title}
                       description={perk.description}
-                      imgUrl={perk.imgUrl}
+                      imgUrl={perk.icon}
                     />
                   </div>
                 </div>
@@ -168,9 +186,9 @@ export default function Perks() {
         <div className="flex flex-col gap-6">
           {/* Image - Always TvLounge */}
           <div className="w-full rounded-3xl overflow-hidden">
-            <img 
-              src="/assets/TvLounge.png" 
-              alt="TV Lounge" 
+            <img
+              src="/assets/TvLounge.png"
+              alt="TV Lounge"
               className="w-full h-auto object-cover"
             />
           </div>
@@ -182,8 +200,8 @@ export default function Perks() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              <div 
-                className="flex transition-transform duration-300" 
+              <div
+                className="flex transition-transform duration-300"
                 style={{ transform: `translateX(-${activeIndex * 100}%)` }}
               >
                 {perks.map((perk, index) => (
@@ -206,9 +224,8 @@ export default function Perks() {
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`h-1 rounded-full transition-all ${
-                  index === activeIndex ? "bg-white w-8" : "bg-[#ffffff1a] w-2"
-                }`}
+                className={`h-1 rounded-full transition-all ${index === activeIndex ? "bg-white w-8" : "bg-[#ffffff1a] w-2"
+                  }`}
                 aria-label={`Go to perk ${index + 1}`}
               />
             ))}

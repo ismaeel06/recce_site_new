@@ -925,3 +925,133 @@ export async function getWhyRecceStandouts(): Promise<any> {
     throw error;
   }
 }
+
+export async function getBenefitsHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/benefits-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getPerksHeader(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/perks-header?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getPerks(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/perks?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getQualifySection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/qualify-section?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getQualifyPoints(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/qualify-points?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getTeamHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/team-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getTeamMembers(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/team-members?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getHelpHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/help-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getFaqs(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/faqs`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getContactPoints(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/contact-points`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}

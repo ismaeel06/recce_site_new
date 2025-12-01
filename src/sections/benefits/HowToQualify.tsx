@@ -1,6 +1,23 @@
+'use client';
+import { useEffect, useState } from "react";
 import QualifyCard from "@/components/benefits/QualifyCard";
+import { getQualifySection, getQualifyPoints } from "@/lib/strapi";
 
 export default function HowToQualify() {
+  const [qualifySection, setQualifySection] = useState<any>({});
+  const [qualifyPoints, setQualifyPoints] = useState<any[]>([]);
+  useEffect(() => {
+    const getData = async () => {
+      const sectionData = await getQualifySection();
+      setQualifySection({ ...sectionData, image: sectionData?.image?.url })
+      const pointsData = await getQualifyPoints();
+      setQualifyPoints(pointsData?.map((d: any) => ({
+        ...d,
+        icon: d?.icon?.url
+      })))
+    };
+    getData();
+  }, [])
   const qualifyItems = [
     {
       icon: "/assets/Star.png",
@@ -30,9 +47,9 @@ export default function HowToQualify() {
           {/* Left: Image */}
           <div className="w-full lg:w-1/2 flex items-center justify-center pt-12">
             <div className="rounded-3xl overflow-hidden w-full max-w-sm lg:max-w-none">
-              <img 
-                src="/assets/BenefitsPrize.png" 
-                alt="Trophy" 
+              <img
+                src={qualifySection?.image}
+                alt="Trophy"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -41,16 +58,16 @@ export default function HowToQualify() {
           {/* Right: Content */}
           <div className="w-full lg:w-1/2">
             <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-6 md:mb-8">
-              How to <span className="text-[#ff7802]">Qualify</span>
+              {qualifySection?.title} <span className="text-[#ff7802]">{qualifySection?.highlighted}</span>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl mb-8 md:mb-12">
-              Membership to The Auteur Club is exclusive and earned. There's no application—only recognition of your valuable contributions to the Recce community.
+              {qualifySection?.description}
             </p>
 
-            <QualifyCard items={qualifyItems} />
+            <QualifyCard items={qualifyPoints} />
 
             <p className="text-xs md:text-sm text-white/60 mt-6 md:mt-8">
-              Your status is reviewed every three months. Keep sharing your passion to secure or reclaim your spot in the club.
+              {qualifySection?.footerText}
             </p>
           </div>
         </div>
@@ -70,9 +87,9 @@ export default function HowToQualify() {
 
         {/* Image */}
         <div className="w-full rounded-3xl overflow-hidden">
-          <img 
-            src="/assets/BenefitsPrize.png" 
-            alt="Trophy" 
+          <img
+            src="/assets/BenefitsPrize.png"
+            alt="Trophy"
             className="w-full h-auto object-contain"
           />
         </div>
