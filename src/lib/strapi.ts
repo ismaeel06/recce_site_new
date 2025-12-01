@@ -128,6 +128,61 @@ const HowItWorksExtrasSectionSchema = z.object({
   extrasTitleHighlight: z.string(),
 });
 
+const RewardsHeroSchema = z.object({
+  heroTitle: z.string(),
+  heroTitleHighlight: z.string(),
+  heroDescription: z.string(),
+  heroImage: StrapiImageSchema.optional().nullable(),
+});
+
+const RewardsActionCardSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  cardIcon: StrapiImageSchema.optional().nullable(),
+  cardTitle: z.string(),
+  cardDescription: z.string(),
+  actionOrder: z.number(),
+}).passthrough();
+
+const RewardsEarnWaysSectionSchema = z.object({
+  earnTitle: z.string(),
+  earnTitleHighlight: z.string(),
+  earnDescription: z.string(),
+});
+
+const RewardPointSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  pointText: z.string(),
+}).passthrough();
+
+const RewardsEarnWaysCardSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  earnWayTitle: z.string(),
+  earnWayDescription: z.string(),
+  rewardPoints: z.array(RewardPointSchema),
+  displayOrder: z.number(),
+}).passthrough();
+
+const RewardsRedeemSectionSchema = z.object({
+  redeemTitle: z.string(),
+  redeemTitleHighlight: z.string(),
+  redeemDescription: z.string(),
+});
+
+const RewardsRedeemOptionSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  optionImage: StrapiImageSchema.optional().nullable(),
+  optionTitle: z.string(),
+  optionDescription: z.string(),
+  displayOrder: z.number(),
+}).passthrough();
+
+const GlobalFAQSchema = z.object({
+  id: z.union([z.string(), z.number()]),
+  question: z.string(),
+  answer: z.string(),
+  displayOrder: z.number().optional().default(0),
+}).passthrough();
+
 const HomePageContentSchema = z.object({
   heroSection: HeroSectionSchema,
   featuresSection: FeaturesSectionSchema,
@@ -489,6 +544,181 @@ export async function getHowItWorksExtras(): Promise<any[]> {
     return extras;
   } catch (error) {
     console.error('Error fetching How It Works extras:', error);
+    throw error;
+  }
+}
+
+// ============ Rewards Page API Functions ============
+
+/**
+ * Fetches the Rewards hero section content from Strapi
+ */
+export async function getRewardsHeroSection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/rewards-hero-section?populate[heroImage][populate]=*'
+    );
+
+    const heroData = response.data;
+
+    if (!heroData) {
+      throw new Error('Rewards hero section data not found in Strapi');
+    }
+
+    const validated = RewardsHeroSchema.parse(heroData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching Rewards hero section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all Rewards action cards from Strapi, sorted by displayOrder
+ */
+export async function getRewardsActionCards(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/rewards-action-cards?populate[cardIcon][populate]=*'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('Rewards action cards data is not an array');
+    }
+
+    const cards = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = RewardsActionCardSchema.parse(itemData);
+      return validated;
+    });
+
+    return cards;
+  } catch (error) {
+    console.error('Error fetching Rewards action cards:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the Rewards earn ways section header from Strapi
+ */
+export async function getRewardsEarnWaysSection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/rewards-earn-ways-section'
+    );
+
+    const sectionData = response.data;
+
+    if (!sectionData) {
+      throw new Error('Rewards earn ways section data not found in Strapi');
+    }
+
+    const validated = RewardsEarnWaysSectionSchema.parse(sectionData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching Rewards earn ways section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all Rewards earn ways cards from Strapi, sorted by displayOrder
+ */
+export async function getRewardsEarnWaysCards(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/rewards-earn-ways-cards?populate[rewardPoints][populate]=*'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('Rewards earn ways cards data is not an array');
+    }
+
+    const cards = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = RewardsEarnWaysCardSchema.parse(itemData);
+      return validated;
+    });
+
+    return cards;
+  } catch (error) {
+    console.error('Error fetching Rewards earn ways cards:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches the Rewards redeem section header from Strapi
+ */
+export async function getRewardsRedeemSection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      '/rewards-redeem-section'
+    );
+
+    const sectionData = response.data;
+
+    if (!sectionData) {
+      throw new Error('Rewards redeem section data not found in Strapi');
+    }
+
+    const validated = RewardsRedeemSectionSchema.parse(sectionData);
+    return validated;
+  } catch (error) {
+    console.error('Error fetching Rewards redeem section:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all Rewards redeem options from Strapi, sorted by displayOrder
+ */
+export async function getRewardsRedeemOptions(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/rewards-redeem-options?populate[optionImage][populate]=*'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('Rewards redeem options data is not an array');
+    }
+
+    const options = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = RewardsRedeemOptionSchema.parse(itemData);
+      return validated;
+    });
+
+    return options;
+  } catch (error) {
+    console.error('Error fetching Rewards redeem options:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all FAQs from Strapi, sorted by displayOrder
+ */
+export async function getFAQs(): Promise<any[]> {
+  try {
+    const response = await strapiApi<StrapiResponse<any[]>>(
+      '/faqs'
+    );
+
+    if (!Array.isArray(response.data)) {
+      throw new Error('Global FAQs data is not an array');
+    }
+
+    const faqs = (response.data as any).map((item: any) => {
+      const itemData = item.attributes || item;
+      const validated = GlobalFAQSchema.parse(itemData);
+      return validated;
+    });
+
+    return faqs;
+  } catch (error) {
+    console.error('Error fetching FAQs:', error);
     throw error;
   }
 }
