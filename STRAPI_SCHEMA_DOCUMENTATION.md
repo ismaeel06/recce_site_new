@@ -8,8 +8,9 @@ This document describes the Strapi collections and their fields for the Recce we
 1. [HomePage Content Collections](#homepage-content-collections)
 2. [How It Works Page Collections](#how-it-works-page-collections)
 3. [Blog Collections](#blog-collections)
-4. [Navigation Configuration](#navigation-configuration)
-4. [Field Types Reference](#field-types-reference)
+4. [Rewards Page Collections](#rewards-page-collections)
+5. [Navigation Configuration](#navigation-configuration)
+6. [Field Types Reference](#field-types-reference)
 
 ---
 
@@ -431,6 +432,265 @@ GET /api/global-social-links?populate=*
 
 
 
+## Rewards Page Collections
+
+The Rewards page consists of 7 Strapi collections that manage different sections of the page. These collections follow the same pattern as How It Works and Blog pages.
+
+**Frontend Location:** `/src/sections/rewards/` (RewardsHero, EarnWays, RedeemRewards, RewardFAQs)  
+**Strapi Functions:** `getRewardsHeroSection()`, `getRewardsActionCards()`, `getRewardsEarnWaysSection()`, `getRewardsEarnWaysCards()`, `getRewardsRedeemSection()`, `getRewardsRedeemOptions()`, `getGlobalFAQs()`
+
+---
+
+### 1. rewardsHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section at the top of the Rewards page with 3 action cards.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `heroTitle` | String (Short Text) | Yes | Main hero title (e.g., "Earn and Redeem") |
+| `heroTitleHighlight` | String (Short Text) | Yes | Highlighted portion of title (displayed in orange) |
+| `heroDescription` | String (Long Text) | Yes | Hero section description/subtitle |
+| `heroImage` | Media (Image) | No | Background or accent image for hero section |
+
+**Example Data:**
+```json
+{
+  "heroTitle": "Earn",
+  "heroTitleHighlight": "Recce Points",
+  "heroDescription": "Unlock amazing rewards and exclusive perks by engaging with the Recce community. The more you interact, the more you earn!",
+  "heroImage": "/api/assets/hero-rewards.webp"
+}
+```
+
+---
+
+### 2. rewardsActionCards
+
+**Collection Type:** `Collection Type`  
+**Purpose:** Manages the 3 action cards displayed in the hero section (usually "Quick Overview" type cards).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `cardTitle` | String (Short Text) | Yes | Action card title (e.g., "Earn Points") |
+| `cardDescription` | String (Long Text) | Yes | Action card description |
+| `cardIcon` | Media (Image) | No | Icon/image for the card |
+| `actionOrder` | Integer | Yes | Display order (1, 2, 3) |
+
+**Example Data:**
+```json
+[
+  {
+    "cardTitle": "Quick Overview",
+    "cardDescription": "Understand how the rewards system works and what you can achieve.",
+    "cardIcon": "/api/assets/icons/overview.svg",
+    "actionOrder": 1
+  },
+  {
+    "cardTitle": "Start Earning",
+    "cardDescription": "Discover all the ways you can accumulate points on Recce.",
+    "cardIcon": "/api/assets/icons/earning.svg",
+    "actionOrder": 2
+  },
+  {
+    "cardTitle": "Redeem Now",
+    "cardDescription": "Browse available rewards and redeem your hard-earned points.",
+    "cardIcon": "/api/assets/icons/redeem.svg",
+    "actionOrder": 3
+  }
+]
+```
+
+---
+
+### 3. rewardsEarnWaysSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Section header for the "Ways to Earn" section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `earnTitle` | String (Short Text) | Yes | Section title (e.g., "Two Ways to Earn") |
+| `earnTitleHighlight` | String (Short Text) | Yes | Highlighted portion of title |
+| `earnDescription` | String (Long Text) | Yes | Section description |
+
+**Example Data:**
+```json
+{
+  "earnTitle": "Two Ways to",
+  "earnTitleHighlight": "Earn",
+  "earnDescription": "Accumulate points through personal engagement and community contributions. Both paths reward your dedication to Recce!"
+}
+```
+
+---
+
+### 4. rewardsEarnWaysCards
+
+**Collection Type:** `Collection Type`  
+**Purpose:** Manages the 2 earn ways cards (Personal & Community rewards).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `earnWayTitle` | String (Short Text) | Yes | Card title (e.g., "Personal Rewards") |
+| `earnWayDescription` | String (Long Text) | Yes | Card description |
+| `rewardPoints` | Component (Repeatable) | Yes | Array of reward point items |
+| `displayOrder` | Integer | Yes | Display order (1 or 2) |
+
+**Repeatable Component: `rewardPoints`**
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `pointIcon` | Media (Image) | Yes | Icon representing the activity/reward |
+| `pointText` | String (Short Text) | Yes | Activity name (e.g., "Write a Review") |
+
+**Example Data:**
+```json
+[
+  {
+    "earnWayTitle": "Personal Rewards",
+    "earnWayDescription": "Earn points through your individual activities on Recce.",
+    "rewardPoints": [
+      {
+        "pointIcon": "/api/assets/icons/review.svg",
+        "pointText": "Write a Review"
+      },
+      {
+        "pointIcon": "/api/assets/icons/rate.svg",
+        "pointText": "Rate a Film"
+      },
+      {
+        "pointIcon": "/api/assets/icons/share.svg",
+        "pointText": "Share a Recommendation"
+      }
+    ],
+    "displayOrder": 1
+  },
+  {
+    "earnWayTitle": "Community Rewards",
+    "earnWayDescription": "Earn bonus points by helping and inspiring your Recce community.",
+    "rewardPoints": [
+      {
+        "pointIcon": "/api/assets/icons/invite.svg",
+        "pointText": "Invite a Friend"
+      },
+      {
+        "pointIcon": "/api/assets/icons/votes.svg",
+        "pointText": "Get Helpful Votes"
+      },
+      {
+        "pointIcon": "/api/assets/icons/trending.svg",
+        "pointText": "Trending Content"
+      }
+    ],
+    "displayOrder": 2
+  }
+]
+```
+
+---
+
+### 5. rewardsRedeemSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Section header for the "Redemption Options" section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `redeemTitle` | String (Short Text) | Yes | Section title (e.g., "Ready to Redeem") |
+| `redeemTitleHighlight` | String (Short Text) | Yes | Highlighted portion of title |
+| `redeemDescription` | String (Long Text) | Yes | Section description |
+
+**Example Data:**
+```json
+{
+  "redeemTitle": "Ready to",
+  "redeemTitleHighlight": "Redeem?",
+  "redeemDescription": "Choose from a wide range of rewards and perks. Redeem your points for movie tickets, streaming subscriptions, exclusive merchandise, and more!"
+}
+```
+
+---
+
+### 6. rewardsRedeemOptions
+
+**Collection Type:** `Collection Type`  
+**Purpose:** Manages redemption options in a carousel (displayed as grid on desktop, carousel on mobile).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `optionTitle` | String (Short Text) | Yes | Redemption option title (e.g., "Movie Tickets") |
+| `optionDescription` | String (Long Text) | Yes | Description of the redemption option |
+| `optionImage` | Media (Image) | No | Featured image for the option |
+| `displayOrder` | Integer | Yes | Display order in carousel/grid |
+
+**Example Data:**
+```json
+[
+  {
+    "optionTitle": "Movie Ticket Vouchers",
+    "optionDescription": "Enjoy a night at the movies. Redeem points for tickets at participating cinemas.",
+    "optionImage": "/api/assets/rewards/movie-tickets.webp",
+    "displayOrder": 1
+  },
+  {
+    "optionTitle": "Streaming Subscriptions",
+    "optionDescription": "Get a month of your favorite streaming service paid for with your Recce points.",
+    "optionImage": "/api/assets/rewards/streaming.webp",
+    "displayOrder": 2
+  },
+  {
+    "optionTitle": "Exclusive Merchandise",
+    "optionDescription": "Show your love for film with exclusive discounts on movie-themed apparel and gear.",
+    "optionImage": "/api/assets/rewards/merchandise.webp",
+    "displayOrder": 3
+  }
+]
+```
+
+---
+
+### 7. faq
+
+**Collection Type:** `Collection Type`  
+**Purpose:** Manages FAQ items displayed in accordions across the site (Rewards page, Help page, etc.).
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `question` | String (Short Text) | Yes | FAQ question |
+| `answer` | String (Long Text) | Yes | FAQ answer/response |
+| `displayOrder` | Integer | Yes | Display order in accordion (1, 2, 3, etc.) |
+
+**Example Data:**
+```json
+[
+  {
+    "question": "How do I earn Recce points?",
+    "answer": "Points are awarded for every activity and interaction on the platform. Write reviews, share gossip, engage with content to accumulate points quickly.",
+    "displayOrder": 1
+  },
+  {
+    "question": "Can I share my points with others?",
+    "answer": "Not directly, but you can invite friends to join the community. When they sign up and become active, you both earn bonus rewards.",
+    "displayOrder": 2
+  },
+  {
+    "question": "What is the minimum points needed to redeem?",
+    "answer": "The minimum points required varies by reward. Check the individual reward pages to see the exact points needed for each item.",
+    "displayOrder": 3
+  },
+  {
+    "question": "How long do I have to use my rewards?",
+    "answer": "Rewards typically expire 12 months from redemption. We'll notify you before expiry so you don't miss out.",
+    "displayOrder": 4
+  }
+]
+```
+
+---
+
+## Navigation Configuration
+
 ### navigationLinks
 
 **Collection Type:** `Single Type`  
@@ -511,4 +771,4 @@ Detailed API implementation can be found in `src/lib/strapi.ts`
 ---
 
 **Last Updated:** November 27, 2025  
-**Schema Version:** 2.1 (How It Works Page Collections Added)
+**Schema Version:** 2.2 (Rewards Page Collections Added)

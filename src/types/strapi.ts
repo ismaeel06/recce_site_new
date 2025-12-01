@@ -180,6 +180,58 @@ export interface HowItWorksExtrasSectionAttributes {
   extrasTitleHighlight: string;
 }
 
+// ============ Rewards Page Types ============
+
+export interface RewardsHeroSectionAttributes {
+  heroTitle: string;
+  heroTitleHighlight: string;
+  heroDescription: string;
+  heroImage?: StrapiImage | null;
+}
+
+export interface RewardsActionCardAttributes {
+  cardIcon?: StrapiImage | null;
+  cardTitle: string;
+  cardDescription: string;
+  actionOrder: number;
+}
+
+export interface RewardsEarnWaysSectionAttributes {
+  earnTitle: string;
+  earnTitleHighlight: string;
+  earnDescription: string;
+}
+
+export interface RewardPointAttributes {
+  pointText: string;
+}
+
+export interface RewardsEarnWaysCardAttributes {
+  cardTitle: string;
+  cardDescription: string;
+  rewardPoints: RewardPointAttributes[];
+  displayOrder: number;
+}
+
+export interface RewardsRedeemSectionAttributes {
+  redeemTitle: string;
+  redeemTitleHighlight: string;
+  redeemDescription: string;
+}
+
+export interface RewardsRedeemOptionAttributes {
+  optionImage?: StrapiImage | null;
+  optionTitle: string;
+  optionDescription: string;
+  displayOrder: number;
+}
+
+export interface FAQAttributes {
+  question: string;
+  answer: string;
+  displayOrder: number;
+}
+
 // ============ Blog Collection Types ============
 
 export interface Blog {
