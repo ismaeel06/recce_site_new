@@ -825,3 +825,68 @@ export async function getContactPoints(): Promise<any> {
     throw error;
   }
 }
+
+export async function getPartnersHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/partners-page-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getPrincipalPartnersTitle(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/principal-partners-head`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getOfficialPartnersTitle(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/official-partners-title`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getOfficialPartners(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/offical-partners?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getPrinicpalPartners(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/princial-partners?populate=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}

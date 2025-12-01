@@ -3,10 +3,16 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Card from "@/components/partners/Card";
 import { useState, useEffect } from "react";
+import { getPartnersHero, getPrincipalPartnersTitle, getOfficialPartnersTitle, getPrinicpalPartners, getOfficialPartners } from "@/lib/strapi";
 
 export default function Partners() {
   const [showMoreOfficial, setShowMoreOfficial] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [heroData, setHeroData] = useState<any>({});
+  const [officalPartnersTitle, setOfficialPartnersTitle] = useState<any>({});
+  const [principalPartnersTitle, setPrinicipalPartnersTitle] = useState<any>({});
+  const [principalPartners, setPrincipalPartners] = useState<any[]>([]);
+  const [officialPartners, setOfficialPartners] = useState<any[]>([]);
 
   useEffect(() => {
     // Set initial mobile state
@@ -20,54 +26,24 @@ export default function Partners() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const principalPartners = [
-    {
-      imgUrl: '/assets/Pringles.png',
-      description: 'Netflix is a streaming service that offers a vast library of TV shows, movies, documentaries, and more for a monthly fee. continues to add new and award-winning content weekly'
-    },
-    {
-      imgUrl: '/assets/Wrangler.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    }
-  ]
-  const officialPartners = [
-    {
-      imgUrl: '/assets/HSBC.png',
-      description: 'Netflix is a streaming service that offers a vast library of TV shows, movies, documentaries, and more for a monthly fee. continues to add new and award-winning content weekly'
-    },
-    {
-      imgUrl: '/assets/Wrangler.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    },
-    {
-      imgUrl: '/assets/Pringles.png',
-      description: 'Netflix is a streaming service that offers a vast library of TV shows, movies, documentaries, and more for a monthly fee. continues to add new and award-winning content weekly'
-    },
-    {
-      imgUrl: '/assets/HSBC.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    },
-    {
-      imgUrl: '/assets/Wrangler.png',
-      description: 'Netflix is a streaming service that offers a vast library of TV shows, movies, documentaries, and more for a monthly fee. continues to add new and award-winning content weekly'
-    },
-    {
-      imgUrl: '/assets/HSBC.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    },
-    {
-      imgUrl: '/assets/Pringles.png',
-      description: 'Netflix is a streaming service that offers a vast library of TV shows, movies, documentaries, and more for a monthly fee. continues to add new and award-winning content weekly'
-    },
-    {
-      imgUrl: '/assets/Wrangler.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    },
-    {
-      imgUrl: '/assets/HSBC.png',
-      description: 'HBO (Home Box Office) is a premium American television network known for its original, high-quality, and award-winning series, films, and documentaries.'
-    }
-  ]
+  useEffect(() => {
+    const getData = async () => {
+      setHeroData(await getPartnersHero());
+      setPrinicipalPartnersTitle(await getPrincipalPartnersTitle());
+      setOfficialPartnersTitle(await getOfficialPartnersTitle());
+      const data1 = await getPrinicpalPartners();
+      setPrincipalPartners(data1.map((d: any) => ({
+        ...d,
+        image: d?.image?.url
+      })))
+      const data2 = await getOfficialPartners();
+      setOfficialPartners(data2.map((d: any) => ({
+        ...d,
+        image: d?.image?.url
+      })))
+    };
+    getData();
+  })
   return (
     <div className="min-h-screen font-sans">
       <Header />
@@ -76,26 +52,25 @@ export default function Partners() {
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 flex flex-col justify-center items-center">
             <h1 className="text-[26px] md:text-[60px] font-medium mb-6 text-center">
-              Great stories are Better <span className="text-[#ff7802]">Together</span>
+              {heroData?.title} <span className="text-[#ff7802]">{heroData?.highlighted}</span>
             </h1>
             <p className="text-base md:text-xl text-white/60 md:max-w-5xl mx-auto text-center">
-              Recce thrives on community. We're proud to collaborate with organizations and creators who
-              share our passion for film, TV, and authentic recommendations.
+              {heroData?.description}
             </p>
           </div>
           <div>
-            <p className="text-center text-2xl md:text-[48px] font-medium">Principal Partners</p>
+            <p className="text-center text-2xl md:text-[48px] font-medium">{principalPartnersTitle?.title}</p>
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mt-4">
               {principalPartners.map((p: any, index: number) => {
-                return <div key={index} className="sm:display:none  lg:w-[420px]"><Card imgUrl={p.imgUrl} description={p.description} /></div>
+                return <div key={index} className="sm:display:none  lg:w-[420px]"><Card imgUrl={p.image} description={p.description} /></div>
               })}
             </div>
           </div>
           <div className="mt-16 flex flex-col justofy-center m-auto">
-            <p className="text-center text-2xl md:text-[48px] font-medium">Official Partners</p>
+            <p className="text-center text-2xl md:text-[48px] font-medium">{officalPartnersTitle?.title}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 items-stretch">
               {officialPartners.slice(0, isMobile && !showMoreOfficial ? 3 : officialPartners.length).map((p: any, index: number) => {
-                return <Card key={index} imgUrl={p.imgUrl} description={p.description} />
+                return <Card key={index} imgUrl={p.image} description={p.description} />
               })}
             </div>
             {isMobile && !showMoreOfficial && officialPartners.length > 3 && (
