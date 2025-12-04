@@ -14,7 +14,7 @@ export default function Partners() {
       setHelpHero(heroData);
     };
     getData();
-  })
+  }, [])
   return (
     <div className="min-h-screen font-sans">
       <Header />

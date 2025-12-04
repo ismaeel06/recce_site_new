@@ -929,12 +929,12 @@ export async function getWhyRecceStandouts(): Promise<any> {
 export async function getBenefitsHero(): Promise<any> {
   try {
     const response = await strapiApi<StrapiResponse<any>>(
-      `/benefits-hero`
+      `/benefits-hero?populate=*`
     );
 
     return response.data;
   } catch (error) {
-    console.error('Error fetching latest blogs:', error);
+    console.error('Error fetching benefits hero:', error);
     throw error;
   }
 }
@@ -1039,6 +1039,19 @@ export async function getFaqs(): Promise<any> {
     return response.data;
   } catch (error) {
     console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getFaqSection(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/faq-section`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching FAQ section:', error);
     throw error;
   }
 }

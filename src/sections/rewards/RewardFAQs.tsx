@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getFaqs } from "@/lib/strapi";
+import { getFaqs, getFaqSection } from "@/lib/strapi";
 
 export default function RewardFAQs({ page }: { page?: string }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [faqs, setFaqs] = useState<any[]>([]);
+  const [faqSection, setFaqSection] = useState<any>({});
 
   useEffect(() => {
     const getData = async () => {
       const data = await getFaqs();
+      const sectionData = await getFaqSection();
       setFaqs(data);
+      setFaqSection(sectionData);
     };
     getData();
-  })
+  }, [])
 
   // const faqs = [
   //   {
@@ -47,9 +50,9 @@ export default function RewardFAQs({ page }: { page?: string }) {
       <div className="msx-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`${page === 'help' ? 'mb-4' : 'mb-12 text-center'}`}>
           {page === 'help' ? <h2 className="text-2xl md:text-4xl font-bold text-white">
-            Frequently Asked Questions
+            {faqSection?.title} {faqSection?.highlighted}
           </h2> : <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Frequently Asked <span className="text-[#ff7802]">Questions</span>
+            {faqSection?.title} <span className="text-[#ff7802]">{faqSection?.highlighted}</span>
           </h2>}
         </div>
 
