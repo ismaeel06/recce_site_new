@@ -41,12 +41,8 @@ export default function ReviewClient({ reviewId, referralCode }: ReviewClientPro
       params.set('referralCode', effectiveReferralCode);
     }
     const suffix = params.toString();
-    
-    // Use deep link (recce://) for direct app opening, works regardless of domain
-    const target = suffix
-      ? `recce://review/${encodeURIComponent(reviewId)}?${suffix}`
-      : `recce://review/${encodeURIComponent(reviewId)}`;
-    
+    const base = `https://www.recce.site/review/${encodeURIComponent(reviewId)}`;
+    const target = suffix ? `${base}?${suffix}` : base;
     analytics.trackReviewOpenInApp({
       reviewId,
       referralCode: effectiveReferralCode ?? undefined,
