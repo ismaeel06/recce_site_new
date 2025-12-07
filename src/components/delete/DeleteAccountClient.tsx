@@ -133,7 +133,6 @@ export default function DeleteAccountClient() {
           captchaToken: token,
         }),
       });
-      console.log('Captcha: ', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
