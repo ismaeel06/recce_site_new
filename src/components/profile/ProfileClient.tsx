@@ -13,7 +13,7 @@ interface ProfileClientProps {
 
 export default function ProfileClient({ profileId, referralCode }: ProfileClientProps) {
   const router = useRouter();
-  const [attemptedRedirect, setAttemptedRedirect] = useState(false);
+  const [attemptedDeepLink, setAttemptedDeepLink] = useState(false);
   const referralContext = resolveReferralContext({ explicitReferral: referralCode, primaryId: profileId });
   const trackableCode = referralContext.effectiveCode;
   const referralRecorded = useRef(false);
@@ -40,31 +40,45 @@ export default function ProfileClient({ profileId, referralCode }: ProfileClient
     const isApple = /iphone|ipad|ipod/i.test(ua);
     if (!isAndroid && !isApple) return;
 
+    // Try deep link first on mobile
     const t = setTimeout(() => {
-      setAttemptedRedirect(true);
+      setAttemptedDeepLink(true);
 
       if (trackableCode && !referralRecorded.current) {
         referralRecorded.current = true;
         recordReferralHit(trackableCode);
       }
 
-      if (isAndroid) {
-        analytics.trackProfileAutoRedirect({
-          profileId,
-          referralCode: effectiveReferralCode ?? undefined,
-          platform: 'android',
-        });
-        const playUrl = getStoreUrl('android');
-        window.location.href = playUrl;
-      } else if (isApple) {
-        analytics.trackProfileAutoRedirect({
-          profileId,
-          referralCode: effectiveReferralCode ?? undefined,
-          platform: 'ios',
-        });
-        const appStoreUrl = getStoreUrl('ios');
-        window.location.href = appStoreUrl;
+      // Attempt to open the app via deep link
+      const params = new URLSearchParams();
+      if (effectiveReferralCode) {
+        params.set('referralCode', effectiveReferralCode);
       }
+      const suffix = params.toString();
+      const deepLinkUrl = suffix
+        ? `recce://profile/${encodeURIComponent(profileId)}?${suffix}`
+        : `recce://profile/${encodeURIComponent(profileId)}`;
+
+      analytics.trackProfileAutoRedirect({
+        profileId,
+        referralCode: effectiveReferralCode ?? undefined,
+        platform: isAndroid ? 'android' : 'ios',
+      });
+
+      window.location.href = deepLinkUrl;
+
+      // If deep link fails (app not installed), fallback to store after 1.5 seconds
+      const fallbackTimer = setTimeout(() => {
+        if (isAndroid) {
+          const playUrl = getStoreUrl('android');
+          window.location.href = playUrl;
+        } else if (isApple) {
+          const appStoreUrl = getStoreUrl('ios');
+          window.location.href = appStoreUrl;
+        }
+      }, 1500);
+
+      return () => clearTimeout(fallbackTimer);
     }, 600);
 
     return () => clearTimeout(t);
@@ -118,9 +132,9 @@ export default function ProfileClient({ profileId, referralCode }: ProfileClient
               </div>
 
               <DownloadButtons className="mt-6" includeStoreParams={false} />
-              {attemptedRedirect && (
+              {attemptedDeepLink && (
                 <p className="mt-3 text-sm text-white/40">
-                  Redirecting to the app store... If nothing opens, use the download buttons.
+                  Attempting to open app... If nothing opens, use the download buttons.
                 </p>
               )}
             </div>
