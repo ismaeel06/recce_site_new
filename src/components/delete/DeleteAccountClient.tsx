@@ -133,6 +133,7 @@ export default function DeleteAccountClient() {
           captchaToken: token,
         }),
       });
+      console.log('Captcha: ', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
@@ -149,8 +150,8 @@ export default function DeleteAccountClient() {
         let topMessage =
           errorMessage ||
           (errorCode === 'invalid-email' ||
-          errorCode === 'invalid-username' ||
-          errorCode === 'invalid-reason'
+            errorCode === 'invalid-username' ||
+            errorCode === 'invalid-reason'
             ? 'Please correct the highlighted fields.'
             : "We couldn't process your request. Please try again.");
 
@@ -263,11 +264,10 @@ export default function DeleteAccountClient() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className={`w-full rounded-lg border ${
-                    fieldErrors.email || (!validEmail(email) && email.length > 0)
-                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
-                      : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
-                  } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2`}
+                  className={`w-full rounded-lg border ${fieldErrors.email || (!validEmail(email) && email.length > 0)
+                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
+                    : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
+                    } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2`}
                 />
                 {fieldErrors.email && <p className="text-sm text-red-400 mt-1">{fieldErrors.email}</p>}
                 {!validEmail(email) && email.length > 0 && !fieldErrors.email && (
@@ -285,11 +285,10 @@ export default function DeleteAccountClient() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username (if known)"
-                  className={`w-full rounded-lg border ${
-                    fieldErrors.username
-                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
-                      : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
-                  } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2`}
+                  className={`w-full rounded-lg border ${fieldErrors.username
+                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
+                    : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
+                    } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2`}
                 />
                 {fieldErrors.username && <p className="text-sm text-red-400 mt-1">{fieldErrors.username}</p>}
               </div>
@@ -304,11 +303,10 @@ export default function DeleteAccountClient() {
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="Optional: tell us why you're leaving"
                   rows={4}
-                  className={`w-full rounded-lg border ${
-                    fieldErrors.reason
-                      ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
-                      : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
-                  } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 resize-none`}
+                  className={`w-full rounded-lg border ${fieldErrors.reason
+                    ? 'border-red-500 focus:border-red-500 focus:ring-red-500/30'
+                    : 'border-[#383838] focus:border-[#ff7802] focus:ring-[#ff7802]/30'
+                    } bg-[#1E1E1E] px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 resize-none`}
                 />
                 {fieldErrors.reason && <p className="text-sm text-red-400 mt-1">{fieldErrors.reason}</p>}
               </div>
@@ -340,11 +338,10 @@ export default function DeleteAccountClient() {
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                    canSubmit
-                      ? 'bg-red-600 text-white hover:bg-red-700'
-                      : 'bg-[#383838] text-white/40 cursor-not-allowed'
-                  }`}
+                  className={`px-6 py-3 rounded-lg font-medium transition-colors ${canSubmit
+                    ? 'bg-red-600 text-white hover:bg-red-700'
+                    : 'bg-[#383838] text-white/40 cursor-not-allowed'
+                    }`}
                 >
                   {submitting ? 'Submitting…' : 'Request Deletion'}
                 </button>
