@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { DownloadButtons, getStoreUrl } from '@/components/common/DownloadButtons';
+import { DownloadButtons } from '@/components/common/DownloadButtons';
 import { analytics } from '@/lib/analytics';
 import { recordReferralHit, resolveReferralContext, shouldRecordReferralNow } from '@/lib/referral';
 
@@ -13,7 +13,6 @@ interface ReviewClientProps {
 
 export default function ReviewClient({ reviewId, referralCode }: ReviewClientProps) {
   const router = useRouter();
-  const [attemptedDeepLink, setAttemptedDeepLink] = useState(false);
   const referralContext = resolveReferralContext({ explicitReferral: referralCode, primaryId: reviewId });
   const trackableCode = referralContext.effectiveCode;
   const referralRecorded = useRef(false);
@@ -37,42 +36,22 @@ export default function ReviewClient({ reviewId, referralCode }: ReviewClientPro
 
   const openAppScheme = () => {
     if (!reviewId) return;
-    setAttemptedDeepLink(true);
-
     const params = new URLSearchParams();
     if (effectiveReferralCode) {
       params.set('referralCode', effectiveReferralCode);
     }
     const suffix = params.toString();
-
+    
+    // Use deep link (recce://) for direct app opening, works regardless of domain
+    const target = suffix
+      ? `recce://review/${encodeURIComponent(reviewId)}?${suffix}`
+      : `recce://review/${encodeURIComponent(reviewId)}`;
+    
     analytics.trackReviewOpenInApp({
       reviewId,
       referralCode: effectiveReferralCode ?? undefined,
     });
-
-    // Try deep link first
-    const deepLinkUrl = suffix
-      ? `recce://review/${encodeURIComponent(reviewId)}?${suffix}`
-      : `recce://review/${encodeURIComponent(reviewId)}`;
-
-    window.location.href = deepLinkUrl;
-
-    // If deep link fails (app not installed), fallback to store after 1.5 seconds
-    const fallbackTimer = setTimeout(() => {
-      const ua = navigator.userAgent || '';
-      const isAndroid = /android/i.test(ua);
-      const isApple = /iphone|ipad|ipod/i.test(ua);
-
-      if (isAndroid) {
-        const playUrl = getStoreUrl('android');
-        window.location.href = playUrl;
-      } else if (isApple) {
-        const appStoreUrl = getStoreUrl('ios');
-        window.location.href = appStoreUrl;
-      }
-    }, 1500);
-
-    return () => clearTimeout(fallbackTimer);
+    window.location.href = target;
   };
 
   return (
@@ -105,11 +84,6 @@ export default function ReviewClient({ reviewId, referralCode }: ReviewClientPro
                 </button>
               </div>
               <DownloadButtons className="mt-3" includeStoreParams={false} />
-              {attemptedDeepLink && (
-                <p className="mt-3 text-sm text-white/40">
-                  Attempting to open app... If nothing opens, use the download buttons.
-                </p>
-              )}
             </div>
           ) : (
             <div className="text-white/60 space-y-4">
