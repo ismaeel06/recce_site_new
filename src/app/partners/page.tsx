@@ -43,7 +43,7 @@ export default function Partners() {
       })))
     };
     getData();
-  })
+  }, [])
   return (
     <div className="min-h-screen font-sans">
       <Header />

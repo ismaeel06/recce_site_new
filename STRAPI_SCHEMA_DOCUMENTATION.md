@@ -9,8 +9,13 @@ This document describes the Strapi collections and their fields for the Recce we
 2. [How It Works Page Collections](#how-it-works-page-collections)
 3. [Blog Collections](#blog-collections)
 4. [Rewards Page Collections](#rewards-page-collections)
-5. [Navigation Configuration](#navigation-configuration)
-6. [Field Types Reference](#field-types-reference)
+5. [Benefits Page Collections](#benefits-page-collections)
+6. [Help Page Collections](#help-page-collections)
+7. [Team Page Collections](#team-page-collections)
+8. [Partners Page Collections](#partners-page-collections)
+9. [Why Recce Page Collections](#why-recce-page-collections)
+10. [Navigation Configuration](#navigation-configuration)
+11. [Field Types Reference](#field-types-reference)
 
 ---
 
@@ -650,7 +655,27 @@ The Rewards page consists of 7 Strapi collections that manage different sections
 
 ---
 
-### 7. faq
+### 7. faqSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the FAQ section heading displayed on different pages.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main FAQ section title |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (displayed in orange) |
+
+**Example Data:**
+```json
+{
+  "title": "Frequently Asked",
+  "highlighted": "Questions"
+}
+```
+
+---
+
+### 8. faq
 
 **Collection Type:** `Collection Type`  
 **Purpose:** Manages FAQ items displayed in accordions across the site (Rewards page, Help page, etc.).
@@ -659,7 +684,6 @@ The Rewards page consists of 7 Strapi collections that manage different sections
 |------------|------|----------|-------------|
 | `question` | String (Short Text) | Yes | FAQ question |
 | `answer` | String (Long Text) | Yes | FAQ answer/response |
-| `displayOrder` | Integer | Yes | Display order in accordion (1, 2, 3, etc.) |
 
 **Example Data:**
 ```json
@@ -667,24 +691,248 @@ The Rewards page consists of 7 Strapi collections that manage different sections
   {
     "question": "How do I earn Recce points?",
     "answer": "Points are awarded for every activity and interaction on the platform. Write reviews, share gossip, engage with content to accumulate points quickly.",
-    "displayOrder": 1
   },
   {
     "question": "Can I share my points with others?",
     "answer": "Not directly, but you can invite friends to join the community. When they sign up and become active, you both earn bonus rewards.",
-    "displayOrder": 2
   },
   {
     "question": "What is the minimum points needed to redeem?",
     "answer": "The minimum points required varies by reward. Check the individual reward pages to see the exact points needed for each item.",
-    "displayOrder": 3
   },
   {
     "question": "How long do I have to use my rewards?",
-    "answer": "Rewards typically expire 12 months from redemption. We'll notify you before expiry so you don't miss out.",
-    "displayOrder": 4
+    "answer": "Rewards typically expire 12 months from redemption. We'll notify you before expiry so you don't miss out."
   }
 ]
+```
+
+---
+
+## Benefits Page Collections
+
+### 1. benefitsHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section at the top of the Benefits page with background image.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main hero title (e.g., "The Auteur Club") |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (displayed in orange) (e.g., "Top 1%") |
+| `description` | String (Long Text) | Yes | Hero section description |
+| `backgroundImage` | Media (Image) | Yes | Background image for hero section |
+
+**Example Data:**
+```json
+{
+  "title": "The Auteur Club",
+  "highlighted": "Top 1%",
+  "description": "An exclusive circle for our Top 1% of contributors. This is where your passion for film and TV gets the VIP treatment you deserve.",
+  "backgroundImage": "/assets/benefits-hero-bg.webp"
+}
+```
+
+---
+
+## Help Page Collections
+
+### 1. helpHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section heading and description for the Help page.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main title text (e.g., "Get Help with") |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (e.g., "Recce") |
+| `description` | String (Long Text) | Yes | Hero section description |
+
+**Example Data:**
+```json
+{
+  "title": "Get Help with",
+  "highlighted": "Recce",
+  "description": "Find answers to common questions and connect with our support team."
+}
+```
+
+---
+
+## Team Page Collections
+
+### 1. teamHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section heading and description for the Team page.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main title text (e.g., "Meet the") |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (e.g., "Team") |
+| `description` | String (Long Text) | Yes | Hero section description |
+
+**Example Data:**
+```json
+{
+  "title": "Meet the",
+  "highlighted": "Team",
+  "description": "The passionate people behind Recce"
+}
+```
+
+---
+
+### 2. teamMembers
+
+**Collection Type:** `Collection Type` (Repeatable)  
+**Purpose:** Individual team member profiles displayed in the grid.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `name` | String (Short Text) | Yes | Team member name |
+| `title` | String (Short Text) | Yes | Job title/role |
+| `description` | String (Long Text) | Yes | Bio or description |
+| `image` | Media (Image) | Yes | Profile photo |
+
+**Example Data:**
+```json
+[
+  {
+    "name": "John Doe",
+    "title": "CEO & Founder",
+    "description": "Passionate about film and technology",
+    "image": "/assets/team/john-doe.webp"
+  }
+]
+```
+
+---
+
+## Partners Page Collections
+
+### 1. partnersHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section heading and description for the Partners page.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main title text (e.g., "Our") |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (e.g., "Partners") |
+| `description` | String (Long Text) | Yes | Hero section description |
+
+**Example Data:**
+```json
+{
+  "title": "Our",
+  "highlighted": "Partners",
+  "description": "Collaborating with industry leaders to bring you the best experience"
+}
+```
+
+---
+
+### 2. principalPartnersTitle
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the title/heading for the Principal Partners section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Section title (e.g., "Principal Partners") |
+
+**Example Data:**
+```json
+{
+  "title": "Principal Partners"
+}
+```
+
+---
+
+### 3. officialPartnersTitle
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the title/heading for the Official Partners section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Section title (e.g., "Official Partners") |
+
+**Example Data:**
+```json
+{
+  "title": "Official Partners"
+}
+```
+
+---
+
+### 4. principalPartners
+
+**Collection Type:** `Collection Type` (Repeatable)  
+**Purpose:** Individual principal partner cards displayed in the hero section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `description` | String (Long Text) | Yes | Partner description |
+| `image` | Media (Image) | Yes | Partner logo or featured image |
+
+**Example Data:**
+```json
+[
+  {
+    "description": "Leading streaming platform",
+    "image": "/assets/partners/netflix.webp"
+  }
+]
+```
+
+---
+
+### 5. officialPartners
+
+**Collection Type:** `Collection Type` (Repeatable)  
+**Purpose:** Individual official partner cards displayed in the grid section.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `description` | String (Long Text) | Yes | Partner description |
+| `image` | Media (Image) | Yes | Partner logo or featured image |
+
+**Example Data:**
+```json
+[
+  {
+    "description": "Movie database partner",
+    "image": "/assets/partners/imdb.webp"
+  }
+]
+```
+
+---
+
+## Why Recce Page Collections
+
+### 1. whyRecceHeroSection
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages the hero section heading and description for the Why Recce page.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main title text (e.g., "Why Choose") |
+| `highlighted` | String (Short Text) | Yes | Highlighted portion of title (e.g., "Recce") |
+| `description` | String (Long Text) | Yes | Hero section description |
+
+**Example Data:**
+```json
+{
+  "title": "Why Choose",
+  "highlighted": "Recce",
+  "description": "Discover what makes Recce different"
+}
 ```
 
 ---
