@@ -51,7 +51,7 @@ export default function ReviewClient({ reviewId, referralCode }: ReviewClientPro
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#191919] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <button
           onClick={() => router.push('/')}
