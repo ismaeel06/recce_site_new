@@ -1,6 +1,6 @@
 import mixpanel from "mixpanel-browser";
 
-const MIXPANEL_TOKEN = "b1bc9de3f668fe76f0d93b031b7e1147";
+const MIXPANEL_TOKEN = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN || "";
 const MIXPANEL_OPTIONS = {
   autocapture: true,
   record_sessions_percent: 100,
