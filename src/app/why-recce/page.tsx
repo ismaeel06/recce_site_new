@@ -33,7 +33,7 @@ export default function WhyRecce() {
       <main className="py-12 md:py-16 lg:py-20 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 md:mb-16 lg:mb-20 flex flex-col justify-center items-center">
-            <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 lg:mb-8 text-center leading-snug">
+            <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 text-center leading-snug sm:max-w-xs lg:max-w-3xl">
               {heroSection?.title} <span className="text-[#ff7802]">{heroSection?.highlighted}</span>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-xs sm:max-w-sm md:max-w-2xl mx-auto text-center">

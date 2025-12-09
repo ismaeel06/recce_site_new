@@ -171,15 +171,15 @@ export default function CTASection() {
         {/* Middle Section - Phone Mockup with Rings and Side Badges */}
         <div className="flex justify-center mb-16">
           <div className="relative w-full max-w-4xl flex flex-col justify-center items-center">
-            {/* Desktop: Full height container (only for 2xl and above) */}
-            <div className="hidden xl:flex relative w-full h-screen justify-center items-center">
+            {/* Desktop: Full height container (only for lg and above) */}
+            <div className="hidden lg:flex relative w-full justify-center items-center" style={{ minHeight: '600px' }}>
               <div className="absolute inset-0 flex justify-center items-center">
                 <div className="absolute w-48 h-48 md:w-96 md:h-96 border border-gray-700 rounded-full opacity-30"></div>
                 <div className="absolute w-64 h-64 md:w-[28rem] md:h-[28rem] border border-gray-700 rounded-full opacity-20"></div>
                 <div className="absolute w-80 h-80 md:w-[32rem] md:h-[32rem] border border-gray-700 rounded-full opacity-10"></div>
               </div>
 
-              {/* Phone Mockup */}
+              {/* Phone Image*/}
               <div className="relative z-10 flex justify-center items-center">
                 {ctaCentralImageUrl && (
                   <img src={ctaCentralImageUrl} width="600" height="700" alt="App Mockup" />
@@ -268,7 +268,7 @@ export default function CTASection() {
             </div>
 
             {/* Mobile & Tablet (iPad Pro): Phone centered with badges below in 2x2 grid */}
-            <div className="xl:hidden flex flex-col items-center w-full">
+            <div className="lg:hidden flex flex-col items-center w-full">
               <div className="relative w-full flex justify-center mb-8">
                 {ctaCentralImageUrl && (
                   <img

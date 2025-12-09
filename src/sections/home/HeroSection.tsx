@@ -131,11 +131,11 @@ export default function HeroSection() {
         </div>
 
         {/* Welcome to Recce - Centered at bottom of image */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 text-center">
-          <p className="text-white text-sm md:text-2xl mb-[-10px] md:mb-[-26px] md:text-left md:relative md:left-7 leading-tight">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 text-center w-full">
+          <p className="text-white text-sm md:text-2xl mb-[-10px] md:mb-[-26px] leading-tight">
             {state.data.heroSubtitle}
           </p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight md:relative md:right-6">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
             {state.data.heroMainTitle}
           </h1>
         </div>
@@ -146,7 +146,7 @@ export default function HeroSection() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-start md:items-center">
             {/* Left: Section Title and Highlight (single row on mobile) */}
-            <div className="text-white text-center md:text-left flex flex-row md:block items-center justify-center md:justify-start">
+            <div className="text-white text-center md:text-left flex flex-row md:block justify-center md:justify-start">
               <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mb-0 md:mb-4">
                 {state.data.heroSectionTitle}
               </h2>

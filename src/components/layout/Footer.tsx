@@ -70,15 +70,16 @@ export default function Footer() {
     <footer className="w-full">
       <div className="w-full">
         <div className="bg-[#FFFFFF1A] text-white rounded-t-[28px] lg:rounded-t-[48px] border-t-[1.5px] overflow-hidden shadow-inner">
-          <div className="px-4 sm:px-6 lg:px-8 py-10">
+          <div className="py-10">
             {/* Desktop Layout - visible on lg and above */}
-            <div className="hidden lg:grid grid-cols-4 gap-8 items-start">
+            <div className="hidden lg:block">
+              <div className="flex items-start justify-between px-4 sm:px-6 lg:px-16 xl:px-20 2xl:px-24">
               {/* Left: Brand */}
-              <div className="col-span-1">
+              <div>
                 <Link href="/" className="inline-block">
                   <h2 className="text-4xl font-extrabold tracking-tight">Recce</h2>
                 </Link>
-                <p className="mt-3 text-[#848686]">Cures Content Overload</p>
+                <p className="mt-1 text-[#848686]">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
                   <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer" className="inline-block">
@@ -93,9 +94,9 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Middle: Navigation columns */}
-              <div className="col-span-2 flex justify-center">
-                <div className="grid grid-cols-2 gap-12">
+                {/* Middle: Navigation columns */}
+                <div className="flex justify-center flex-1">
+                <div className="grid grid-cols-2 gap-12 lg:gap-16 2xl:gap-38">
                   <div>
                     <ul className="space-y-3 text-gray-300 text-sm">
                       <li><Link href="/why-recce" className="hover:text-white">Why Recce?</Link></li>
@@ -115,12 +116,12 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Right: Download buttons */}
-              <div className="pl-12 xl:pl-36 col-span-1 flex flex-col items-end">
-                <h3 className="text-sm font-semibold text-white/90 self-start">Download app</h3>
-                <div className="mt-4 flex flex-col items-end gap-3 w-full">
+                {/* Right: Download buttons */}
+                <div className="flex flex-col">
+                <h3 className="text-sm font-semibold text-white/90 mb-4">Download app</h3>
+                <div className="flex flex-col gap-3 w-48">
                   <button
-                    className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer transition-colors"
+                    className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg cursor-pointer transition-colors"
                     onClick={redirectToPlaystore}
                   >
                     <img src="/assets/icons/Google_Play.svg" alt="" className="w-6 h-6 flex-shrink-0" />
@@ -131,7 +132,7 @@ export default function Footer() {
                   </button>
 
                   <button
-                    className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg w-full cursor-pointer transition-colors"
+                    className="flex items-center gap-3 bg-[#FFFFFF1A] hover:bg-[#484848] px-4 py-2 rounded-lg cursor-pointer transition-colors"
                     onClick={redirectToAppstore}
                   >
                     <img src="/assets/icons/Apple.svg" alt="" className="w-6 h-6 flex-shrink-0" />
@@ -143,15 +144,16 @@ export default function Footer() {
                 </div>
               </div>
             </div>
+            </div>
 
             {/* Tablet/iPad Layout - visible on md to lg */}
-            <div className="hidden md:grid lg:hidden grid-cols-2 gap-8">
+            <div className="hidden md:grid lg:hidden grid-cols-2 gap-8 px-4 sm:px-6 lg:px-8">
               {/* Left: Brand with socials */}
               <div>
                 <Link href="/" className="inline-block">
                   <h2 className="text-3xl font-extrabold tracking-tight">Recce</h2>
                 </Link>
-                <p className="mt-3 text-[#848686] text-sm">Cures Content Overload</p>
+                <p className="mt-1 text-[#848686] text-sm">Cures Content Overload</p>
 
                 <div className="mt-6 flex items-center gap-3">
                   <a href={socialLinks?.facebook} target="_blank" rel="noopener noreferrer" className="inline-block">
@@ -219,14 +221,14 @@ export default function Footer() {
             </div>
 
             {/* Mobile Layout - visible on below md */}
-            <div className="md:hidden flex flex-col gap-8">
+            <div className="md:hidden flex flex-col gap-8 px-4 sm:px-6">
               {/* Top: Brand with socials on right */}
               <div className="flex items-start justify-between">
                 <div>
                   <Link href="/" className="inline-block">
                     <h2 className="text-3xl font-extrabold tracking-tight">Recce</h2>
                   </Link>
-                  <p className="mt-2 text-gray-400 text-sm">Cures Content Overload</p>
+                  <p className="mt-1 text-[#848686] text-sm">Cures Content Overload</p>
                 </div>
 
                 <div className="flex items-center gap-2 self-end">
@@ -293,16 +295,14 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="border-t border-gray-700/60 px-4 sm:px-6 lg:px-8 py-6">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-4 text-sm">
+          <div className="border-t border-gray-700/60 px-4 sm:px-6 lg:px-16 xl:px-20 2xl:px-24 py-6">
+            <div className="flex flex-col md:flex-row items-start justify-between gap-4 text-sm">
               <div className="text-[#848686]">© 2025 Recce. All rights reserved.</div>
 
               <div className="flex gap-4 md:gap-6 text-sm">
                 <Link href="#" className="text-[#848686] hover:text-white">Privacy Policy</Link>
                 <Link href="#" className="text-[#848686] hover:text-white">Terms and Conditions</Link>
               </div>
-
-              <div className="text-[#848686]">Design & Developed by <Link href="#" className="underline">Yellow Panther</Link></div>
             </div>
           </div>
         </div>
