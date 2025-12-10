@@ -34,53 +34,6 @@ export default function Perks() {
     getData();
   }, [])
 
-  // const perks: Perk[] = [
-  //   {
-  //     imgUrl: "/assets/Perk1.png",
-  //     title: "Early Screenings",
-  //     number: "01",
-  //     description:
-  //       "Get exclusive invitations to pre-release digital and in-person screenings of upcoming movies and shows from our partner studios.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk2.png",
-  //     title: "Exclusive Quizzes",
-  //     number: "02",
-  //     description:
-  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk3.png",
-  //     title: "Product Lab Access",
-  //     number: "03",
-  //     description:
-  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk4.png",
-  //     title: "Creator Q&As",
-  //     number: "04",
-  //     description:
-  //       "Join live, intimate Q&A sessions with directors, writers, and actors. Ask the questions you've always wanted to ask.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk5.png",
-  //     title: "Prestige Profile Badge",
-  //     number: "05",
-  //     description:
-  //       "Your profile will be adorned with the exclusive Auteur Club badge, signaling your status as a top contributor in the community.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk6.png",
-  //     title: "Priority Support",
-  //     number: "06",
-  //     description:
-  //       "Get white-glove service from our dedicated community team. Your questions and feedback move to the front of the line, always.",
-  //   },
-  // ];
-
-  const INDICATOR_COUNT = 6;
-
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
@@ -138,11 +91,11 @@ export default function Perks() {
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col pb-12 items-center">
         {/* Coming Soon Badge */}
-        <div className="mb-6 md:mb-8">
+        {hero?.isComingSoon && <div className="mb-6 md:mb-8">
           <div className="bg-[#ff7802] text-white px-6 sm:px-8 py-1 rounded-xl text-xs sm:text-base font-medium">
-            Coming Soon
+            {hero?.comingSoonText || "Coming Soon"}
           </div>
-        </div>
+        </div>}
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold md:mb-6 text-center font-bold">
           {hero?.title} <span className="text-[#ff7802]">{hero?.highlighted}</span>
