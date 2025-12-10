@@ -2,12 +2,22 @@
 
 import { useEffect, useState, use } from 'react';
 import Link from 'next/link';
+import { Linkedin, Twitter } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import NewsLetter from '@/sections/home/NewsLetter';
 import MoreToExplore from '@/sections/gossip/MoreToExplore';
 import { getBlogBySlug, getRelatedBlogs, formatBlogDate, getGlobalSocialLinks, getStrapiImageUrl } from '@/lib/strapi';
 import { Blog, RelatedBlog, GlobalSocialLinks } from '@/types/strapi';
+
+// Helper function to ensure URL has protocol
+const ensureProtocol = (url: string | undefined): string => {
+  if (!url) return '#';
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  return `https://${url}`;
+};
 
 export default function BlogReadPage({
   params,
@@ -57,7 +67,7 @@ export default function BlogReadPage({
     return (
       <div className="min-h-screen font-sans flex flex-col">
         <Header />
-        <main className="flex-grow py-12 md:py-16 lg:py-20">
+        <main className="flex-grow py-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="h-96 bg-gray-800 animate-pulse rounded-lg"></div>
           </div>
@@ -71,7 +81,7 @@ export default function BlogReadPage({
     return (
       <div className="min-h-screen font-sans flex flex-col">
         <Header />
-        <main className="flex-grow py-12 md:py-16 lg:py-20">
+        <main className="flex-grow py-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center text-red-500">
               <h2 className="text-2xl font-bold mb-2">
@@ -89,9 +99,9 @@ export default function BlogReadPage({
     <div className="min-h-screen font-sans flex flex-col">
       <Header />
 
-      <main className="flex-grow py-8 md:py-12 lg:py-16">
+      <main className="flex-grow py-4">
         {/* Back Button */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 md:mb-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
           <Link
             href="/gossip"
             className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
@@ -125,7 +135,7 @@ export default function BlogReadPage({
             <div className="flex items-center gap-4 mb-6 md:mb-8">
               {socialLinks.facebook && (
                 <a
-                  href={socialLinks.facebook}
+                  href={ensureProtocol(socialLinks.facebook)}
                   className="w-10 h-10 flex items-center justify-center bg-[#FFFFFF1A] hover:bg-[#ff7802] rounded-full transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -136,7 +146,7 @@ export default function BlogReadPage({
               )}
               {socialLinks.instagram && (
                 <a
-                  href={socialLinks.instagram}
+                  href={ensureProtocol(socialLinks.instagram)}
                   className="w-10 h-10 flex items-center justify-center bg-[#FFFFFF1A] hover:bg-[#ff7802] rounded-full transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -147,24 +157,24 @@ export default function BlogReadPage({
               )}
               {socialLinks.linkedin && (
                 <a
-                  href={socialLinks.linkedin}
+                  href={ensureProtocol(socialLinks.linkedin)}
                   className="w-10 h-10 flex items-center justify-center bg-[#FFFFFF1A] hover:bg-[#ff7802] rounded-full transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Share on LinkedIn"
                 >
-                  <img src="/assets/icons/Linkedin.svg" alt="" />
+                  <Linkedin className="w-5 h-5" />
                 </a>
               )}
               {socialLinks.twitter && (
                 <a
-                  href={socialLinks.twitter}
+                  href={ensureProtocol(socialLinks.twitter)}
                   className="w-10 h-10 flex items-center justify-center bg-[#FFFFFF1A] hover:bg-[#ff7802] rounded-full transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Share on Twitter"
                 >
-                  <img src="/assets/icons/X.svg" alt="" />
+                  <Twitter className="w-5 h-5" />
                 </a>
               )}
             </div>

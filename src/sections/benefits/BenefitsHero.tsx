@@ -42,6 +42,13 @@ export default function BenefitsHero() {
 
         {/* Content - Centered */}
         <div className="absolute inset-0 z-0 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+          {/* Coming Soon Badge */}
+          <div className="mb-6 md:mb-8">
+            <div className="bg-[#ff7802] text-white px-6 sm:px-8 py-1 rounded-xl text-xs sm:text-base font-medium">
+              Coming Soon
+            </div>
+          </div>
+
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-center font-bold text-white">
             {benefitsHero?.title} <span className="text-[#ff7802]">{benefitsHero?.highlighted}</span>
           </h1>

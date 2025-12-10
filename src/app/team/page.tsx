@@ -73,7 +73,7 @@ export default function Team() {
       <main className="py-16 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 flex flex-col justify-center items-center">
-            <h1 className="text-[26px] md:text-[60px] font-medium mb-6 md:w-[800px] text-center">
+            <h1 className="text-[26px] md:text-[60px] font-semibold mb-6 text-center">
               {teamHero?.title} <span className="text-[#ff7802]">{teamHero?.highlighted}</span>
             </h1>
             <p className="text-base md:text-xl text-white/60 md:max-w-5xl mx-auto text-center">

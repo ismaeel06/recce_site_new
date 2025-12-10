@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Linkedin} from 'lucide-react';
 import { getDownloadLinks, getGlobalSocialLinks } from "@/lib/strapi";
 
 // Helper function to ensure URL has protocol
@@ -91,6 +92,13 @@ export default function Footer() {
                   <a href={socialLinks?.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block">
                     <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer" />
                   </a>
+                  {socialLinks?.linkedin && (
+                    <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="inline-block">
+                      <div className="w-9 h-9 rounded-full bg-[#383838] flex items-center justify-center text-sm text-white/90 hover:scale-110 transition-all duration-300 cursor-pointer">
+                        <Linkedin className="w-5 h-5" />
+                      </div>
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -241,6 +249,11 @@ export default function Footer() {
                   <a href={socialLinks?.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block">
                     <img src="/assets/icons/Tiktok.svg" alt="TikTok" className="w-8 h-8 hover:scale-110 transition-all duration-300 cursor-pointer" />
                   </a>
+                  {socialLinks?.linkedin && (
+                    <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-110 transition-all duration-300 cursor-pointer">
+                      <Linkedin className="w-8 h-8 text-white/90" />
+                    </a>
+                  )}
                 </div>
               </div>
 

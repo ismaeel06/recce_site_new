@@ -13,6 +13,7 @@
     "@aws-amplify/ui-react": "^6.13.1",
     "@fontsource/manrope": "^5.2.8",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.559.0",
     "mixpanel-browser": "^2.72.0",
     "next": "16.0.3",
     "react": "19.2.0",

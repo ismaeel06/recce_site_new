@@ -732,7 +732,7 @@ export async function getFAQs(): Promise<any[]> {
 export function formatBlogDate(dateString: string): string {
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('en-GB', {
       weekday: 'long',
       year: 'numeric',
       month: 'short',

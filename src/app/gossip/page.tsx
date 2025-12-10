@@ -73,8 +73,8 @@ export default function GossipPage() {
 
       <main className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col justify-center items-center">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 md:mb-6 text-center">
+          <div className="text-center mb-2 md:mb-4 lg:mb-8 flex flex-col justify-center items-center">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 text-center">
               {heroData?.title} <span className="text-[#ff7802]">{heroData?.highlighted}</span>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">

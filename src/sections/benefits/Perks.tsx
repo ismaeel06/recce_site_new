@@ -136,8 +136,15 @@ export default function Perks() {
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col md:py-20 lg:py-32 items-center">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium md:mb-6 text-center font-bold">
+      <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col pb-12 items-center">
+        {/* Coming Soon Badge */}
+        <div className="mb-6 md:mb-8">
+          <div className="bg-[#ff7802] text-white px-6 sm:px-8 py-1 rounded-xl text-xs sm:text-base font-medium">
+            Coming Soon
+          </div>
+        </div>
+
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold md:mb-6 text-center font-bold">
           {hero?.title} <span className="text-[#ff7802]">{hero?.highlighted}</span>
         </h1>
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
