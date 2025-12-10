@@ -1133,3 +1133,29 @@ export async function getPrinicpalPartners(): Promise<any> {
     throw error;
   }
 }
+
+export async function getGossipHero(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/gossip-hero`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+export async function getBlogTags(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/blog-tags`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}

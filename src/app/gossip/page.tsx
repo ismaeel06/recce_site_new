@@ -4,19 +4,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import NewsLetter from "@/sections/home/NewsLetter";
 import Card from "@/components/gossip/Card";
-import { getBlogsList, formatBlogDate, getStrapiImageUrl } from "@/lib/strapi";
+import { getBlogsList, formatBlogDate, getStrapiImageUrl, getGossipHero, getBlogTags } from "@/lib/strapi";
 import { Blog } from "@/types/strapi";
 
 export default function GossipPage() {
-  const tabs = [
-    "All",
-    "Film",
-    "TV",
-    "Interviews",
-    "Coming Soon",
-    "Festivals",
-    "Hidden Gems",
-  ];
 
   const BATCH_SIZE = 4;
 
@@ -26,6 +17,8 @@ export default function GossipPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [heroData, setHeroData] = useState<any>(null);
+  const [tabs, setTabs] = useState<string[]>([]);
 
   // Handle window resize
   useEffect(() => {
@@ -43,6 +36,9 @@ export default function GossipPage() {
   useEffect(() => {
     async function fetchBlogs() {
       try {
+        setHeroData(await getGossipHero());
+        const objArray = await getBlogTags();
+        setTabs(objArray.map((obj: any) => obj.tag));
         setLoading(true);
         const tag = activeTab === "All" ? undefined : activeTab;
         const data = await getBlogsList(tag, 100, 0); // Fetch up to 100 blogs
@@ -79,10 +75,10 @@ export default function GossipPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col justify-center items-center">
             <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 md:mb-6 text-center">
-              Recce <span className="text-[#ff7802]">Gossip</span>
+              {heroData?.title} <span className="text-[#ff7802]">{heroData?.highlighted}</span>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
-              Your editorial hub for all things film and TV. Dive into interviews, deep dives, and hidden gems.
+              {heroData?.description}
             </p>
           </div>
 
