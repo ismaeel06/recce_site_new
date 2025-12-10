@@ -144,7 +144,7 @@ export default function HeroSection() {
       {/* Content Band - Dark section below image */}
       <div className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-start md:items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-start">
             {/* Left: Section Title and Highlight (single row on mobile) */}
             <div className="text-white text-center md:text-left flex flex-row md:block justify-center md:justify-start">
               <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mb-0 md:mb-4">

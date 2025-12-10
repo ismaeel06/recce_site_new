@@ -75,7 +75,7 @@ export default function GossipPage() {
     <div className="min-h-screen font-sans">
       <Header />
 
-      <main className="py-12 md:py-16 lg:py-20">
+      <main className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col justify-center items-center">
             <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 md:mb-6 text-center">
