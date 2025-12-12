@@ -1,0 +1,13 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-26.6667" y="-26.6667" width="117.333" height="117.333"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(13.33px);clip-path:url(#bgblur_0_122_1994_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="26.6667">
+<rect width="64" height="64" rx="32" fill="white" fill-opacity="0.08" style="fill:white;fill-opacity:0.08;"/>
+<path d="M43 26H21C20.4477 26 20 26.4477 20 27V31C20 31.5523 20.4477 32 21 32H43C43.5523 32 44 31.5523 44 31V27C44 26.4477 43.5523 26 43 26Z" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M42 32V41C42 41.2652 41.8946 41.5196 41.7071 41.7071C41.5196 41.8946 41.2652 42 41 42H23C22.7348 42 22.4804 41.8946 22.2929 41.7071C22.1054 41.5196 22 41.2652 22 41V32" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M32 26V42" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M38.0987 19.9011C39.2662 21.0686 39.335 23.0336 38.0987 24.1286C35.985 25.9999 32 25.9999 32 25.9999C32 25.9999 32 22.0149 33.875 19.9011C34.9662 18.6649 36.9312 18.7336 38.0987 19.9011Z" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.9012 19.9011C24.7337 21.0686 24.665 23.0336 25.9012 24.1286C28.015 25.9999 32 25.9999 32 25.9999C32 25.9999 32 22.0149 30.125 19.9011C29.0337 18.6649 27.0687 18.7336 25.9012 19.9011Z" stroke="#FF7802" style="stroke:#FF7802;stroke:color(display-p3 1.0000 0.4702 0.0066);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_122_1994_clip_path" transform="translate(26.6667 26.6667)"><rect width="64" height="64" rx="32"/>
+</clipPath></defs>
+</svg>

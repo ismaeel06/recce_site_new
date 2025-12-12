@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { getDownloadLinks } from "@/lib/strapi";
 
 const NAV_LINKS: { name: string; href: string }[] = [
   { name: "Why Recce?", href: "/why-recce" },
@@ -19,6 +20,7 @@ export default function Header() {
   const pathname = usePathname() || "/";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [downloadLinks, setDownloadLinks] = useState<{ playstoreLink: string; appstoreLink: string } | null>(null);
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -34,6 +36,22 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    async function fetchDownloadLinks() {
+      try {
+        const data = await getDownloadLinks();
+        setDownloadLinks({
+          playstoreLink: data.playstoreLink || "",
+          appstoreLink: data.appstoreLink || "",
+        });
+      } catch (err) {
+        console.error("Error fetching download links:", err);
+      }
+    }
+
+    fetchDownloadLinks();
+  }, []);
+
+  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
@@ -45,6 +63,25 @@ export default function Header() {
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [isMenuOpen]);
+
+  const handleDownloadClick = () => {
+    if (!downloadLinks) return;
+
+    const ua = navigator.userAgent || "";
+    const isAndroid = /android/i.test(ua);
+    const isApple = /iphone|ipad|ipod/i.test(ua);
+
+    if (isAndroid && downloadLinks.playstoreLink) {
+      window.open(downloadLinks.playstoreLink, "_blank");
+    } else if (isApple && downloadLinks.appstoreLink) {
+      window.open(downloadLinks.appstoreLink, "_blank");
+    } else {
+      // Fallback: open playstore if OS detection fails
+      if (downloadLinks.playstoreLink) {
+        window.open(downloadLinks.playstoreLink, "_blank");
+      }
+    }
+  };
 
   return (
     <header className="w-full py-4 relative z-50" ref={headerRef}>
@@ -85,13 +122,19 @@ export default function Header() {
 
             {/* Right: Download button and hamburger menu */}
             <div className="flex items-center gap-2 lg:gap-3 flex-shrink-0">
-              <button className="hidden lg:flex items-center justify-center bg-white text-gray-800 font-medium px-6 lg:px-8 py-2 rounded-2xl border border-white/30 shadow-sm text-sm lg:text-base">
+              <button 
+                onClick={handleDownloadClick}
+                className="hidden lg:flex items-center justify-center bg-white text-gray-800 font-semibold px-6 lg:px-8 py-2 rounded-xl border border-white/30 shadow-sm text-sm lg:text-base hover:bg-gray-200 cursor-pointer transition-colors"
+              >
                 Download Now
               </button>
 
               {/* Mobile Download button */}
-              <button className="lg:hidden flex items-center justify-center bg-white text-gray-800 font-medium px-3 py-2 rounded-lg text-xs">
-                Download
+              <button 
+                onClick={handleDownloadClick}
+                className="lg:hidden flex items-center justify-center bg-white text-gray-800 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-gray-100 transition-colors"
+              >
+                Download Now
               </button>
 
               {/* Hamburger menu - tablet and mobile only */}

@@ -732,7 +732,7 @@ export async function getFAQs(): Promise<any[]> {
 export function formatBlogDate(dateString: string): string {
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString('en-GB', {
       weekday: 'long',
       year: 'numeric',
       month: 'short',
@@ -1156,6 +1156,38 @@ export async function getBlogTags(): Promise<any> {
     return response.data;
   } catch (error) {
     console.error('Error fetching latest blogs:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches Privacy Policy content from Strapi
+ */
+export async function getPrivacyPolicy(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/privacy-policy?populate[sections][populate]=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching privacy policy:', error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches Terms and Conditions content from Strapi
+ */
+export async function getTermsAndConditions(): Promise<any> {
+  try {
+    const response = await strapiApi<StrapiResponse<any>>(
+      `/terms-and-condition?populate[sections][populate]=*`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching terms and conditions:', error);
     throw error;
   }
 }

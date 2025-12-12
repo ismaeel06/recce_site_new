@@ -14,8 +14,9 @@ This document describes the Strapi collections and their fields for the Recce we
 7. [Team Page Collections](#team-page-collections)
 8. [Partners Page Collections](#partners-page-collections)
 9. [Why Recce Page Collections](#why-recce-page-collections)
-10. [Navigation Configuration](#navigation-configuration)
-11. [Field Types Reference](#field-types-reference)
+10. [Legal Pages Collections](#legal-pages-collections)
+11. [Navigation Configuration](#navigation-configuration)
+12. [Field Types Reference](#field-types-reference)
 
 ---
 
@@ -325,9 +326,9 @@ This document describes the Strapi collections and their fields for the Recce we
 |------------|------|----------|-------------|
 | `title` | String (Short Text) | Yes | Blog post title |
 | `slug` | String (Short Text) | Yes | URL-friendly identifier (auto-generated or manual, must be unique) |
-| `content` | Rich Text (or Long Text) | Yes | Main blog content (first section before optional image) |
+| `content` | Rich Text | Yes | Main blog content (first section before optional image) - supports headings, lists, bold, italic, links, etc. |
 | `optionalImage` | Media (Image) | No | Optional image placed between content sections |
-| `contentContinued` | Rich Text (or Long Text) | No | Continuation of blog content after optional image |
+| `contentContinued` | Rich Text | No | Continuation of blog content after optional image |
 | `featuredImage` | Media (Image) | Yes | Hero image displayed at top of individual blog post |
 | `tag` | Enumeration | Yes | Blog category for filtering |
 | `author` | String (Short Text) | No | Author name only (no image/bio) |
@@ -937,6 +938,175 @@ The Rewards page consists of 7 Strapi collections that manage different sections
 
 ---
 
+## Legal Pages Collections
+
+Legal pages (Privacy Policy and Terms and Conditions) contain structured policy content that can be easily updated without touching code. Both collections use the same schema structure for consistency.
+
+**Frontend Location:** `/src/app/privacy-policy/page.tsx` and `/src/app/terms-and-conditions/page.tsx`  
+**Strapi Functions:** `getPrivacyPolicy()`, `getTermsAndConditions()` in `src/lib/strapi.ts`  
+**Routes:** `/privacy-policy` and `/terms-and-conditions`
+
+---
+
+### 1. Privacy Policy
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages all content for the Privacy Policy page, including sections and metadata.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main page title (e.g., "Privacy Policy") |
+| `description` | String (Long Text) | Yes | Short description/subtitle displayed under title |
+| `sections` | Component (Repeatable) | Yes | Array of policy sections with headings and content |
+| `contactEmail` | String (Short Text) with Email validation | Yes | Contact email address for the "Questions?" section (e.g., "privacy@recceapp.com") |
+
+**System Fields (Auto-managed by Strapi):**
+- `publishedAt` — Last publication timestamp, used to display "Last updated" date
+
+**Repeatable Component: `sections`**
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `sectionId` | String | Yes | Unique identifier for section (e.g., "data-collection", "cookies") |
+| `title` | String (Short Text) | Yes | Section heading (e.g., "Data Collection") |
+| `content` | Rich Text | Yes | Section content (HTML formatted with paragraphs, lists, etc.) |
+
+**Example Data:**
+```json
+{
+  "title": "Privacy Policy",
+  "description": "Learn how we protect your personal data.",
+  "contactEmail": "privacy@recceapp.com",
+  "sections": [
+    {
+      "sectionId": "introduction",
+      "title": "Introduction",
+      "content": "<p>Recce (\"Company,\" \"we,\" \"us,\" or \"our\") operates the Recce application. This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>"
+    },
+    {
+      "sectionId": "data-collection",
+      "title": "Information Collection and Use",
+      "content": "<p>We collect several different types of information for various purposes to provide and improve our Service to you.</p><h4>Types of Data Collected:</h4><ul><li>Personal Data: Email address, Name, Phone number, Cookies and Usage Data</li><li>Usage Data: Pages visited, Time and date of visit, Time spent on pages, Device information</li></ul>"
+    },
+    {
+      "sectionId": "cookies",
+      "title": "Use of Cookies",
+      "content": "<p>Cookies are files with a small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device.</p><p>We use cookies to collect information about browsing activities and remember your preferences. This helps us understand how you use our Service and improve your experience.</p>"
+    },
+    {
+      "sectionId": "data-security",
+      "title": "Data Security",
+      "content": "<p>The security of your data is important to us, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>"
+    },
+    {
+      "sectionId": "contact",
+      "title": "Contact Us",
+      "content": "<p>If you have any questions about this Privacy Policy, please contact us at privacy@recceapp.com</p>"
+    }
+  ]
+}
+```
+
+**Content Guidelines:**
+- Use Rich Text editor for sections to allow formatted text (headings, lists, bold, italic, links)
+- Keep section IDs lowercase with hyphens (kebab-case)
+- Sections are displayed in the order they appear in the array
+- Each section is rendered with its own heading and content in a card-like container
+- HTML tags in Rich Text are preserved and rendered in the frontend
+- The `publishedAt` date is automatically displayed as "Last updated" on the frontend
+
+---
+
+### 2. Terms and Conditions
+
+**Collection Type:** `Single Type`  
+**Purpose:** Manages all content for the Terms and Conditions page, including sections and metadata.
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `title` | String (Short Text) | Yes | Main page title (e.g., "Terms and Conditions") |
+| `description` | String (Long Text) | Yes | Short description/subtitle displayed under title |
+| `sections` | Component (Repeatable) | Yes | Array of terms sections with headings and content |
+| `contactEmail` | String (Short Text) with Email validation | Yes | Contact email address for the "Questions?" section (e.g., "legal@recceapp.com") |
+
+**System Fields (Auto-managed by Strapi):**
+- `publishedAt` — Last publication timestamp, used to display "Last updated" date
+
+**Repeatable Component: `sections`**
+
+| Field Name | Type | Required | Description |
+|------------|------|----------|-------------|
+| `sectionId` | String | Yes | Unique identifier for section (e.g., "user-agreement", "intellectual-property") |
+| `title` | String (Short Text) | Yes | Section heading (e.g., "User Agreement") |
+| `content` | Rich Text | Yes | Section content (HTML formatted with paragraphs, lists, etc.) |
+
+**Example Data:**
+```json
+{
+  "title": "Terms and Conditions",
+  "description": "Please read these terms carefully before using Recce.",
+  "contactEmail": "legal@recceapp.com",
+  "sections": [
+    {
+      "sectionId": "user-agreement",
+      "title": "User Agreement",
+      "content": "<p>By accessing and using this application, you accept and agree to be bound by the terms and provision of this agreement.</p>"
+    },
+    {
+      "sectionId": "use-license",
+      "title": "Use License",
+      "content": "<p>Permission is granted to temporarily download one copy of the materials (information or software) on Recce's application for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p><ul><li>Modify or copy the materials</li><li>Use the materials for any commercial purpose or for any public display</li><li>Attempt to decompile or reverse engineer any software contained on Recce's application</li><li>Remove any copyright or other proprietary notations from the materials</li></ul>"
+    },
+    {
+      "sectionId": "disclaimer",
+      "title": "Disclaimer",
+      "content": "<p>The materials on Recce's application are provided on an 'as is' basis. Recce makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>"
+    },
+    {
+      "sectionId": "limitations",
+      "title": "Limitations",
+      "content": "<p>In no event shall Recce or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Recce's application, even if Recce or an authorized representative has been notified orally or in writing of the possibility of such damage.</p>"
+    },
+    {
+      "sectionId": "accuracy",
+      "title": "Accuracy of Materials",
+      "content": "<p>The materials appearing on Recce's application could include technical, typographical, or photographic errors. Recce does not warrant that any of the materials on the application are accurate, complete, or current. Recce may make changes to the materials contained on the application at any time without notice.</p>"
+    },
+    {
+      "sectionId": "intellectual-property",
+      "title": "Intellectual Property Rights",
+      "content": "<p>All content on Recce's application, including but not limited to text, graphics, logos, images, audio clips, digital downloads, and data compilations, is the property of Recce or its content suppliers and is protected by international copyright laws.</p>"
+    },
+    {
+      "sectionId": "user-content",
+      "title": "User-Generated Content",
+      "content": "<p>When you submit content (reviews, comments, ratings) to Recce, you grant Recce a non-exclusive, royalty-free, perpetual, irrevocable, and fully sublicensable right to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, and display such content throughout the world in any media.</p>"
+    },
+    {
+      "sectionId": "governing-law",
+      "title": "Governing Law",
+      "content": "<p>These terms and conditions are governed by and construed in accordance with the laws of the United Kingdom, and you irrevocably submit to the exclusive jurisdiction of the courts located in the United Kingdom.</p>"
+    },
+    {
+      "sectionId": "contact-legal",
+      "title": "Contact Us",
+      "content": "<p>If you have any questions about these Terms and Conditions, please contact us at legal@recceapp.com</p>"
+    }
+  ]
+}
+```
+
+**Content Guidelines:**
+- Use Rich Text editor for sections to allow formatted text (headings, lists, bold, italic, links)
+- Keep section IDs lowercase with hyphens (kebab-case)
+- Sections are displayed in the order they appear in the array
+- Each section is rendered with its own heading and content in a card-like container
+- HTML tags in Rich Text are preserved and rendered in the frontend
+- The `publishedAt` date is automatically displayed as "Last updated" on the frontend
+- Consider typical terms sections: User Agreement, Use License, Disclaimer, Limitations, Accuracy, Intellectual Property, User Content, Governing Law
+
+---
+
 ## Navigation Configuration
 
 ### navigationLinks
@@ -1018,5 +1188,5 @@ Detailed API implementation can be found in `src/lib/strapi.ts`
 
 ---
 
-**Last Updated:** November 27, 2025  
-**Schema Version:** 2.2 (Rewards Page Collections Added)
+**Last Updated:** December 12, 2025  
+**Schema Version:** 2.3 (Legal Pages Collections Added)

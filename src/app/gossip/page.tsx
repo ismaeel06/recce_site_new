@@ -7,6 +7,35 @@ import Card from "@/components/gossip/Card";
 import { getBlogsList, formatBlogDate, getStrapiImageUrl, getGossipHero, getBlogTags } from "@/lib/strapi";
 import { Blog } from "@/types/strapi";
 
+// Helper function to extract plain text from HTML or block content
+function extractTextPreview(content: string | any[], maxLength: number = 150): string {
+  let plainText = "";
+
+  if (typeof content === "string") {
+    // Remove HTML tags
+    plainText = content.replace(/<[^>]*>/g, " ");
+  } else if (Array.isArray(content)) {
+    // Extract text from block structure
+    plainText = content
+      .filter((block) => block.type === "paragraph")
+      .map((block) => {
+        return block.children
+          ?.map((child: any) => child.text || "")
+          .join("");
+      })
+      .join(" ");
+  }
+
+  // Clean up whitespace and truncate
+  plainText = plainText
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return plainText.length > maxLength
+    ? plainText.substring(0, maxLength) + "..."
+    : plainText;
+}
+
 export default function GossipPage() {
 
   const BATCH_SIZE = 4;
@@ -71,10 +100,10 @@ export default function GossipPage() {
     <div className="min-h-screen font-sans">
       <Header />
 
-      <main className="py-12 md:py-16 lg:py-20">
+      <main className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col justify-center items-center">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 md:mb-6 text-center">
+          <div className="text-center mb-2 md:mb-4 lg:mb-8 flex flex-col justify-center items-center">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 text-center">
               {heroData?.title} <span className="text-[#ff7802]">{heroData?.highlighted}</span>
             </h1>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
@@ -121,7 +150,7 @@ export default function GossipPage() {
                   <Card
                     key={blog.documentId}
                     imgUrl={getStrapiImageUrl(blog.featuredImage)}
-                    description={blog.content}
+                    description={extractTextPreview(blog.content)}
                     date={formatBlogDate(blog.publishedAt)}
                     tag={blog.tag}
                     slug={blog.slug}

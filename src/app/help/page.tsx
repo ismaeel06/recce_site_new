@@ -19,10 +19,10 @@ export default function Partners() {
     <div className="min-h-screen font-sans">
       <Header />
 
-      <main className="py-16">
+      <main className="py-12">
         <div className="mx-auto">
           <div className="text-center mb-12 flex flex-col justify-center items-center">
-            <h1 className="text-[26px] md:text-[60px] font-medium text-center">
+            <h1 className="text-[26px] md:text-[60px] font-semibold text-center">
               {helpHero?.title} <span className="text-[#ff7802]">{helpHero?.highlighted}</span>
             </h1>
             <p className="text-xs md:text-xl text-white/60 md:max-w-5xl mx-auto text-center">

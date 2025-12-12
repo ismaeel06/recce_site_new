@@ -239,9 +239,9 @@ export interface Blog {
   documentId: string;
   title: string;
   slug: string;
-  content: string;
+  content: string | any[]; // Can be HTML string or Rich Text blocks array
   optionalImage?: StrapiImage | null;
-  contentContinued?: string;
+  contentContinued?: string | any[]; // Can be HTML string or Rich Text blocks array
   featuredImage: StrapiImage;
   tag: string;
   author?: string | null;
@@ -256,7 +256,7 @@ export interface RelatedBlog {
   documentId: string;
   title: string;
   slug: string;
-  content: string;
+  content: string | any[]; // Can be HTML string or Rich Text blocks array
   featuredImage: StrapiImage;
   tag: string;
   publishedAt: string;

@@ -48,10 +48,10 @@ export default function Partners() {
     <div className="min-h-screen font-sans">
       <Header />
 
-      <main className="py-16">
+      <main className="py-12">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 flex flex-col justify-center items-center">
-            <h1 className="text-[26px] md:text-[60px] font-medium mb-6 text-center">
+            <h1 className="text-[26px] md:text-[60px] font-semibold mb-6 text-center">
               {heroData?.title} <span className="text-[#ff7802]">{heroData?.highlighted}</span>
             </h1>
             <p className="text-base md:text-xl text-white/60 md:max-w-5xl mx-auto text-center">
@@ -59,7 +59,7 @@ export default function Partners() {
             </p>
           </div>
           <div>
-            <p className="text-center text-2xl md:text-[48px] font-medium">{principalPartnersTitle?.title}</p>
+            <p className="text-center text-2xl md:text-[48px] font-semibold">{principalPartnersTitle?.title}</p>
             <div className="flex flex-col md:flex-row justify-center items-center gap-8 mt-4">
               {principalPartners.map((p: any, index: number) => {
                 return <div key={index} className="sm:display:none  lg:w-[420px]"><Card imgUrl={p.image} description={p.description} /></div>
@@ -67,7 +67,7 @@ export default function Partners() {
             </div>
           </div>
           <div className="mt-16 flex flex-col justofy-center m-auto">
-            <p className="text-center text-2xl md:text-[48px] font-medium">{officalPartnersTitle?.title}</p>
+            <p className="text-center text-2xl md:text-[48px] font-semibold">{officalPartnersTitle?.title}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 items-stretch">
               {officialPartners.slice(0, isMobile && !showMoreOfficial ? 3 : officialPartners.length).map((p: any, index: number) => {
                 return <Card key={index} imgUrl={p.image} description={p.description} />

@@ -34,53 +34,6 @@ export default function Perks() {
     getData();
   }, [])
 
-  // const perks: Perk[] = [
-  //   {
-  //     imgUrl: "/assets/Perk1.png",
-  //     title: "Early Screenings",
-  //     number: "01",
-  //     description:
-  //       "Get exclusive invitations to pre-release digital and in-person screenings of upcoming movies and shows from our partner studios.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk2.png",
-  //     title: "Exclusive Quizzes",
-  //     number: "02",
-  //     description:
-  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk3.png",
-  //     title: "Product Lab Access",
-  //     number: "03",
-  //     description:
-  //       "Test your cinematic knowledge with members-only quizzes. Compete on the Auteur leaderboard for unique prizes and bragging rights.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk4.png",
-  //     title: "Creator Q&As",
-  //     number: "04",
-  //     description:
-  //       "Join live, intimate Q&A sessions with directors, writers, and actors. Ask the questions you've always wanted to ask.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk5.png",
-  //     title: "Prestige Profile Badge",
-  //     number: "05",
-  //     description:
-  //       "Your profile will be adorned with the exclusive Auteur Club badge, signaling your status as a top contributor in the community.",
-  //   },
-  //   {
-  //     imgUrl: "/assets/Perk6.png",
-  //     title: "Priority Support",
-  //     number: "06",
-  //     description:
-  //       "Get white-glove service from our dedicated community team. Your questions and feedback move to the front of the line, always.",
-  //   },
-  // ];
-
-  const INDICATOR_COUNT = 6;
-
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
@@ -136,8 +89,15 @@ export default function Perks() {
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col md:py-20 lg:py-32 items-center">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-medium md:mb-6 text-center font-bold">
+      <div className="text-center mb-8 md:mb-12 lg:mb-16 flex flex-col pb-12 items-center">
+        {/* Coming Soon Badge */}
+        {hero?.isComingSoon && <div className="mb-6 md:mb-8">
+          <div className="bg-[#ff7802] text-white px-6 sm:px-8 py-1 rounded-xl text-xs sm:text-base font-medium">
+            {hero?.comingSoonText || "Coming Soon"}
+          </div>
+        </div>}
+
+        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold md:mb-6 text-center font-bold">
           {hero?.title} <span className="text-[#ff7802]">{hero?.highlighted}</span>
         </h1>
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/60 max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto text-center">
@@ -194,41 +154,71 @@ export default function Perks() {
           </div>
 
           {/* Cards Carousel */}
-          <div className="relative">
+          <div className="relative -mx-4 sm:-mx-6 md:-mx-4">
             <div
-              className="overflow-hidden rounded-2xl"
+              className="overflow-hidden"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
               <div
                 className="flex transition-transform duration-300"
-                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+                style={{ transform: `translateX(calc(-${activeIndex * 75}% + ${activeIndex === 0 ? '0%' : '12.5%'}))` }}
               >
                 {perks.map((perk, index) => (
-                  <div key={index} className="w-full flex-shrink-0 px-4">
-                    <PerksCard
-                      number={perk.number}
-                      title={perk.title}
-                      description={perk.description}
-                      imgUrl={perk.imgUrl}
-                    />
+                  <div 
+                    key={index} 
+                    className={`flex-shrink-0 px-4 sm:px-6 md:px-4 flex justify-center transition-all duration-300 ${
+                      index === activeIndex ? 'opacity-100 scale-100' : 'opacity-60 scale-95'
+                    }`}
+                    style={{ width: '75%' }}
+                  >
+                    <div className="w-full">
+                      <PerksCard
+                        number={perk.order}
+                        title={perk.title}
+                        description={perk.description}
+                        imgUrl={perk.icon}
+                        isActive={index === activeIndex}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mt-4">
-            {perks.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={`h-1 rounded-full transition-all ${index === activeIndex ? "bg-white w-8" : "bg-[#ffffff1a] w-2"
-                  }`}
-                aria-label={`Go to perk ${index + 1}`}
-              />
-            ))}
+          {/* Controls - Arrows and Dots */}
+          <div className="flex items-center justify-center gap-6 mt-6">
+            {/* Left Arrow */}
+            <button
+              onClick={prevSlide}
+              className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#4A4A4A] hover:bg-[#3A3A3A] transition-colors"
+              aria-label="Previous slide"
+            >
+              <svg width="20px" height="20px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF" transform="matrix(-1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#FFFFFFCCCCCC" strokeWidth="0.43200000000000005"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="#FFFFFF"></path> </g></svg>
+            </button>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2">
+              {perks.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`h-1 rounded-full transition-all ${index === activeIndex ? "bg-white w-8" : "bg-[#ffffff1a] w-2"
+                    }`}
+                  aria-label={`Go to perk ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Right Arrow */}
+            <button
+              onClick={nextSlide}
+              className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#4A4A4A] hover:bg-[#3A3A3A] transition-colors"
+              aria-label="Next slide"
+            >
+              <svg width="20px" height="20px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.43200000000000005"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="#FFFFFF"></path> </g></svg>
+            </button>
           </div>
         </div>
       </div>

@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* Rockwell Font Family */
+@font-face {
+  font-family: 'Rockwell';
+  src: url('/fonts/Rockwell.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rockwell';
+  src: url('/fonts/RockwellBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 :root {
   --background: #191919;
   --foreground: #f9fafb;
