@@ -132,9 +132,9 @@ export default function Header() {
               {/* Mobile Download button */}
               <button 
                 onClick={handleDownloadClick}
-                className="lg:hidden flex items-center justify-center bg-white text-gray-800 font-medium px-3 py-2 rounded-lg text-xs hover:bg-gray-100 transition-colors"
+                className="lg:hidden flex items-center justify-center bg-white text-gray-800 font-semibold px-3 py-2 rounded-lg text-xs hover:bg-gray-100 transition-colors"
               >
-                Download
+                Download Now
               </button>
 
               {/* Hamburger menu - tablet and mobile only */}

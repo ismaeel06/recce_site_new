@@ -7,7 +7,7 @@ interface FeatureCardProps {
 
 export default function FeatureCard({ icon, title, description, image }: FeatureCardProps) {
   return (
-    <div className="relative h-80 bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group cursor-pointer">
+    <div className="relative h-80 bg-gray-800 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 group cursor-pointer">
       {/* Background Image */}
       {image ? (
         <img 
@@ -20,7 +20,7 @@ export default function FeatureCard({ icon, title, description, image }: Feature
       )}
       
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30"></div>
+      <div className="absolute inset-0 object-cover bg-gradient-to-t from-black/95 via-black/60 to-black/30 group-hover:via-black/50 transition-all duration-300"></div>
       
       {/* Content - positioned at bottom */}
       <div className="absolute bottom-0 left-0 right-0 p-6">
