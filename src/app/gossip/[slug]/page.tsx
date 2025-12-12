@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer';
 import NewsLetter from '@/sections/home/NewsLetter';
 import MoreToExplore from '@/sections/gossip/MoreToExplore';
 import { getBlogBySlug, getRelatedBlogs, formatBlogDate, getGlobalSocialLinks, getStrapiImageUrl } from '@/lib/strapi';
+import { richTextToHtml } from '@/lib/richTextToHtml';
 import { Blog, RelatedBlog, GlobalSocialLinks } from '@/types/strapi';
 
 // Helper function to ensure URL has protocol
@@ -202,11 +203,10 @@ export default function BlogReadPage({
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* First Part of Content */}
           <div className="prose prose-invert max-w-none mb-8 md:mb-12">
-            <div className="text-base md:text-lg text-gray-300 leading-relaxed space-y-4">
-              {blog.content.split('\n\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
+            <div
+              className="text-base md:text-lg text-gray-300 leading-relaxed space-y-4 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_h1]:mt-6 [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-2 [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-3 [&_h4]:mb-2 [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:text-gray-300 [&_p]:text-gray-300 [&_strong]:text-white [&_em]:italic [&_a]:text-[#ff7802] [&_a:hover]:underline"
+              dangerouslySetInnerHTML={{ __html: typeof blog.content === 'string' ? blog.content : richTextToHtml(blog.content) }}
+            />
           </div>
 
           {/* Optional Image */}
@@ -225,11 +225,10 @@ export default function BlogReadPage({
           {/* Content Continued - Optional */}
           {blog.contentContinued && (
             <div className="prose prose-invert max-w-none mb-12 md:mb-16">
-              <div className="text-base md:text-lg text-gray-300 leading-relaxed space-y-4">
-                {blog.contentContinued.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
+              <div
+                className="text-base md:text-lg text-gray-300 leading-relaxed space-y-4 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_h1]:mt-6 [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_h3]:mt-4 [&_h3]:mb-2 [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:text-white [&_h4]:mt-3 [&_h4]:mb-2 [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_li]:text-gray-300 [&_p]:text-gray-300 [&_strong]:text-white [&_em]:italic [&_a]:text-[#ff7802] [&_a:hover]:underline"
+                dangerouslySetInnerHTML={{ __html: typeof blog.contentContinued === 'string' ? blog.contentContinued : richTextToHtml(blog.contentContinued) }}
+              />
             </div>
           )}
 

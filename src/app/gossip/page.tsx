@@ -7,6 +7,35 @@ import Card from "@/components/gossip/Card";
 import { getBlogsList, formatBlogDate, getStrapiImageUrl, getGossipHero, getBlogTags } from "@/lib/strapi";
 import { Blog } from "@/types/strapi";
 
+// Helper function to extract plain text from HTML or block content
+function extractTextPreview(content: string | any[], maxLength: number = 150): string {
+  let plainText = "";
+
+  if (typeof content === "string") {
+    // Remove HTML tags
+    plainText = content.replace(/<[^>]*>/g, " ");
+  } else if (Array.isArray(content)) {
+    // Extract text from block structure
+    plainText = content
+      .filter((block) => block.type === "paragraph")
+      .map((block) => {
+        return block.children
+          ?.map((child: any) => child.text || "")
+          .join("");
+      })
+      .join(" ");
+  }
+
+  // Clean up whitespace and truncate
+  plainText = plainText
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return plainText.length > maxLength
+    ? plainText.substring(0, maxLength) + "..."
+    : plainText;
+}
+
 export default function GossipPage() {
 
   const BATCH_SIZE = 4;
@@ -121,7 +150,7 @@ export default function GossipPage() {
                   <Card
                     key={blog.documentId}
                     imgUrl={getStrapiImageUrl(blog.featuredImage)}
-                    description={blog.content}
+                    description={extractTextPreview(blog.content)}
                     date={formatBlogDate(blog.publishedAt)}
                     tag={blog.tag}
                     slug={blog.slug}

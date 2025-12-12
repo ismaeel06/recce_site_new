@@ -9,6 +9,35 @@ interface MoreToExploreProps {
   blogs: RelatedBlog[];
 }
 
+// Helper function to extract plain text from HTML or block content
+function extractTextPreview(content: string | any[], maxLength: number = 150): string {
+  let plainText = "";
+
+  if (typeof content === "string") {
+    // Remove HTML tags
+    plainText = content.replace(/<[^>]*>/g, " ");
+  } else if (Array.isArray(content)) {
+    // Extract text from block structure
+    plainText = content
+      .filter((block) => block.type === "paragraph")
+      .map((block) => {
+        return block.children
+          ?.map((child: any) => child.text || "")
+          .join("");
+      })
+      .join(" ");
+  }
+
+  // Clean up whitespace and truncate
+  plainText = plainText
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return plainText.length > maxLength
+    ? plainText.substring(0, maxLength) + "..."
+    : plainText;
+}
+
 export default function MoreToExplore({ blogs }: MoreToExploreProps) {
   const [activeSlide, setActiveSlide] = useState(0);
   const touchStartX = useRef(0);
@@ -57,7 +86,7 @@ export default function MoreToExplore({ blogs }: MoreToExploreProps) {
             <Card
               key={blog.documentId}
               imgUrl={getStrapiImageUrl(blog.featuredImage)}
-              description={blog.content}
+              description={extractTextPreview(blog.content)}
               date={formatBlogDate(blog.publishedAt)}
               tag={blog.tag}
               slug={blog.slug}
@@ -83,7 +112,7 @@ export default function MoreToExplore({ blogs }: MoreToExploreProps) {
                     <div className="w-full sm:max-w-sm md:max-w-md">
                       <Card
                         imgUrl={getStrapiImageUrl(blog.featuredImage)}
-                        description={blog.content}
+                        description={extractTextPreview(blog.content)}
                         date={formatBlogDate(blog.publishedAt)}
                         tag={blog.tag}
                         slug={blog.slug}

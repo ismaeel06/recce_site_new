@@ -326,9 +326,9 @@ This document describes the Strapi collections and their fields for the Recce we
 |------------|------|----------|-------------|
 | `title` | String (Short Text) | Yes | Blog post title |
 | `slug` | String (Short Text) | Yes | URL-friendly identifier (auto-generated or manual, must be unique) |
-| `content` | Rich Text (or Long Text) | Yes | Main blog content (first section before optional image) |
+| `content` | Rich Text | Yes | Main blog content (first section before optional image) - supports headings, lists, bold, italic, links, etc. |
 | `optionalImage` | Media (Image) | No | Optional image placed between content sections |
-| `contentContinued` | Rich Text (or Long Text) | No | Continuation of blog content after optional image |
+| `contentContinued` | Rich Text | No | Continuation of blog content after optional image |
 | `featuredImage` | Media (Image) | Yes | Hero image displayed at top of individual blog post |
 | `tag` | Enumeration | Yes | Blog category for filtering |
 | `author` | String (Short Text) | No | Author name only (no image/bio) |
