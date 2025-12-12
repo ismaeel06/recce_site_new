@@ -5,7 +5,7 @@ function TeamMember({ name, title, description, image }: { name: string, title: 
         <div className='flex flex-col items-center mt-8'>
             <div
                 className={`
-                    rounded-[66px] md:rounded-[88px] border-3 border-[#ffffff1a] 
+                    rounded-[66px] md:rounded-[88px] border-3 border-[#ff7802] 
                     h-[132px] w-[132px] md:h-[176px] md:w-[176px] overflow-hidden
                     ${name === 'Join Our Team' ?
                         "bg-[#404040] cursor-pointer flex text-2xl text-[#ff7802] text-center justify-center items-center"
