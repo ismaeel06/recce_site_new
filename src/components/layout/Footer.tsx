@@ -322,8 +322,8 @@ export default function Footer() {
               <div className="text-[#848686]">© 2025 Recce. All rights reserved.</div>
 
               <div className="flex gap-4 md:gap-6 text-sm">
-                <Link href="#" className="text-[#848686] hover:text-white">Privacy Policy</Link>
-                <Link href="#" className="text-[#848686] hover:text-white">Terms and Conditions</Link>
+                <Link href="/privacy-policy" className="text-[#848686] hover:text-white transition-colors">Privacy Policy</Link>
+                <Link href="/terms-and-conditions" className="text-[#848686] hover:text-white transition-colors">Terms and Conditions</Link>
               </div>
             </div>
           </div>
