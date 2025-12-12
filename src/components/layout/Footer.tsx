@@ -78,7 +78,7 @@ export default function Footer() {
               {/* Left: Brand */}
               <div>
                 <Link href="/" className="inline-block">
-                  <h2 className="text-4xl font-extrabold tracking-tight">Recce</h2>
+                  <h2 className="text-4xl font-bold tracking-tight" style={{ fontFamily: 'Rockwell, serif' }}>Recce</h2>
                 </Link>
                 <p className="mt-1 text-[#848686]">Cures Content Overload</p>
 
@@ -159,7 +159,7 @@ export default function Footer() {
               {/* Left: Brand with socials */}
               <div>
                 <Link href="/" className="inline-block">
-                  <h2 className="text-3xl font-extrabold tracking-tight">Recce</h2>
+                  <h2 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'Rockwell, serif' }}>Recce</h2>
                 </Link>
                 <p className="mt-1 text-[#848686] text-sm">Cures Content Overload</p>
 
@@ -241,7 +241,7 @@ export default function Footer() {
               <div className="flex items-start justify-between">
                 <div>
                   <Link href="/" className="inline-block">
-                    <h2 className="text-3xl font-extrabold tracking-tight">Recce</h2>
+                    <h2 className="text-3xl font-bold tracking-tight" style={{ fontFamily: 'Rockwell, serif' }}>Recce</h2>
                   </Link>
                   <p className="mt-1 text-[#848686] text-sm">Cures Content Overload</p>
                 </div>

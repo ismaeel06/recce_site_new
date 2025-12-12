@@ -135,7 +135,7 @@ export default function HeroSection() {
           <p className="text-white text-sm md:text-2xl mb-[-10px] md:mb-[-26px] leading-tight">
             {state.data.heroSubtitle}
           </p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight" style={{ fontFamily: 'Rockwell, serif' }}>
             {state.data.heroMainTitle}
           </h1>
         </div>
