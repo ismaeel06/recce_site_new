@@ -19,7 +19,14 @@ function Contact() {
                     return <div key={index} className="rounded-2xl bg-[#ffffff1a] w-[90%] xl:w-full p-4 md:py-6 md:pl-6 md:pr-10 my-4 mx-auto">
                         <p className='text-base md:text-xl'>{cp.title}</p>
                         <p className='text-sx md:text-base text-white/60'>{cp.description}</p>
-                        <p className='text-sx md:text-base text-[#ff7802] mt-1 md:mt-4'>{cp.contactEmail}</p>
+                        <button
+                            onClick={() => {
+                                window.location.href = `mailto:info@recce.site`;
+                            }}
+                            className="text-sx md:text-base text-[#ff7802] mt-1 md:mt-4 inline-block hover:underline cursor-pointer bg-transparent border-none p-0"
+                        >
+                            {cp.contactEmail}
+                        </button>
                     </div>
                 })
             }
