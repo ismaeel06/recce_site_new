@@ -25,7 +25,7 @@ export default function Team() {
       })));
     };
     getData();
-  })
+  }, [])
 
   useEffect(() => {
     // Set initial mobile state
@@ -70,7 +70,7 @@ export default function Team() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="py-16 font-sans">
+      <main className="py-12 font-sans">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 flex flex-col justify-center items-center">
             <h1 className="text-[26px] md:text-[60px] font-semibold mb-6 text-center">
@@ -82,7 +82,7 @@ export default function Team() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-center gap-6 px-6 sm:px-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 justify-center gap-y-4 gap-6 px-6 sm:px-12 mb-16">
           {teamMembers
             .slice(0, isMobile && !showMoreTeam ? 4 : teamMembers.length)
             .map((teamMember: any, index: number) => {
@@ -133,7 +133,7 @@ export default function Team() {
               <div className="bg-[#191919] border border-white/10 rounded-2xl shadow-2xl p-6 sm:p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-semibold">Join Our Team</h2>
+                    <h2 className="text-4xl font-bold">Join Our Team</h2>
                   </div>
 
                   <button
@@ -225,7 +225,7 @@ export default function Team() {
                       />
 
                       <div className="flex justify-center gap-3 mt-2">
-                        <button type="submit" className="px-4 py-2 rounded-md bg-white text-black font-semibold cursor-pointer">
+                        <button type="submit" className="px-12 py-2 rounded-md bg-white text-black font-semibold cursor-pointer">
                           Submit
                         </button>
                       </div>
