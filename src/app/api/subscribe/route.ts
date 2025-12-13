@@ -9,11 +9,11 @@ export async function POST(req: Request) {
     }
 
     // Strapi POST request
-    const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/subscribers`, {
+    const response = await fetch(`${process.env.STRAPI_URL}/api/subscribers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
       body: JSON.stringify({
         data: {
