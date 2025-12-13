@@ -8,6 +8,8 @@ import { getTeamHero, getTeamMembers } from "@/lib/strapi";
 export default function Team() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showMoreTeam, setShowMoreTeam] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", message: "" });
@@ -47,6 +49,37 @@ export default function Team() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 4000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  const normalizeMessage = (raw: any) => {
+    if (!raw && raw !== 0) return '';
+    if (typeof raw === 'string') {
+      // Map common unique/duplicate messages to a friendly email-specific message
+      if (/must be unique|unique constraint|duplicate key|already exists|this attribute must be unique/i.test(raw)) {
+        return 'Email must be unique';
+      }
+      return raw;
+    }
+    if (typeof raw === 'object') {
+      const candidate = typeof raw.message === 'string' ? raw.message : typeof raw.error === 'string' ? raw.error : '';
+      if (candidate && /must be unique|unique constraint|duplicate key|already exists|this attribute must be unique/i.test(candidate)) {
+        return 'Email must be unique';
+      }
+      if (typeof raw.message === 'string') return raw.message;
+      if (typeof raw.error === 'string') return raw.error;
+      try {
+        return JSON.stringify(raw);
+      } catch {
+        return String(raw);
+      }
+    }
+    return String(raw);
+  };
+
   const openModal = () => {
     setSubmitted(false);
     setIsModalOpen(true);
@@ -60,10 +93,49 @@ export default function Team() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // placeholder: replace with API call
-    console.log("Apply form submitted:", form);
-    setSubmitted(true);
-    // keep modal open to show success state — optionally close after delay
+    setToast(null);
+    setSubmitted(false);
+
+    const doSubmit = async () => {
+      try {
+        setSubmitting(true);
+        const payload = {
+          first_name: form.firstName,
+          last_name: form.lastName,
+          email: form.email,
+          message: form.message || null,
+        };
+
+        const res = await fetch('/api/join-requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const json = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          const raw = json?.error ?? json?.message ?? json ?? 'Request failed. Please try again.';
+          const message = normalizeMessage(raw) || 'Request failed. Please try again.';
+          setToast({ message, type: 'error' });
+          setSubmitted(false);
+        } else {
+          const firstName = json?.joinRequest?.first_name;
+          const successText = firstName ? `Thanks — we got it, ${firstName}!` : 'Thanks — we got it!';
+          setToast({ message: successText, type: 'success' });
+          setSubmitted(true);
+          setForm({ firstName: '', lastName: '', email: '', message: '' });
+        }
+      } catch (err) {
+        console.error('Join request submit error', err);
+        const message = normalizeMessage((err as any)?.message ?? err) || 'Request failed. Please try again later.';
+        setToast({ message, type: 'error' });
+      } finally {
+        setSubmitting(false);
+      }
+    };
+
+    void doSubmit();
   };
 
   return (
@@ -225,8 +297,12 @@ export default function Team() {
                       />
 
                       <div className="flex justify-center gap-3 mt-2">
-                        <button type="submit" className="px-12 py-2 rounded-md bg-white text-black font-semibold cursor-pointer">
-                          Submit
+                        <button
+                          type="submit"
+                          disabled={submitting}
+                          className="px-12 py-2 rounded-md bg-white text-black font-semibold cursor-pointer disabled:opacity-50"
+                        >
+                          {submitting ? 'Submitting...' : 'Submit'}
                         </button>
                       </div>
                     </form>
@@ -237,6 +313,23 @@ export default function Team() {
           </div>
         )}
       </main>
+
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3">
+          <div className={`px-4 py-2 rounded-md shadow-md text-white text-sm ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} role="status" aria-live="polite">
+            <div className="flex items-center gap-3">
+              <div>{toast.message}</div>
+              <button
+                onClick={() => setToast(null)}
+                aria-label="Dismiss"
+                className="ml-2 p-1 opacity-80 hover:opacity-100"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
