@@ -1,0 +1,164 @@
+'use client';
+
+import { useState, useRef } from 'react';
+import Card from '@/app/components/gossip/Card';
+import { RelatedBlog } from '@/app/types/strapi';
+import { getStrapiImageUrl, formatBlogDate } from '@/app/lib/strapi';
+
+interface MoreToExploreProps {
+  blogs: RelatedBlog[];
+}
+
+// Helper function to extract plain text from HTML or block content
+function extractTextPreview(content: string | any[], maxLength: number = 150): string {
+  let plainText = "";
+
+  if (typeof content === "string") {
+    // Remove HTML tags
+    plainText = content.replace(/<[^>]*>/g, " ");
+  } else if (Array.isArray(content)) {
+    // Extract text from block structure
+    plainText = content
+      .filter((block) => block.type === "paragraph")
+      .map((block) => {
+        return block.children
+          ?.map((child: any) => child.text || "")
+          .join("");
+      })
+      .join(" ");
+  }
+
+  // Clean up whitespace and truncate
+  plainText = plainText
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return plainText.length > maxLength
+    ? plainText.substring(0, maxLength) + "..."
+    : plainText;
+}
+
+export default function MoreToExplore({ blogs }: MoreToExploreProps) {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev + 1) % blogs.length);
+  };
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev - 1 + blogs.length) % blogs.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+
+    if (Math.abs(distance) > threshold) {
+      if (distance > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+  };
+
+  return (
+    <section className="bg-[#FFFFFF1A] py-12 md:py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 md:mb-12">
+          More To Explore
+        </h2>
+
+        {/* Desktop Grid - Hidden on Mobile */}
+        <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {blogs.map((blog) => (
+            <Card
+              key={blog.documentId}
+              imgUrl={getStrapiImageUrl(blog.featuredImage)}
+              description={extractTextPreview(blog.content)}
+              date={formatBlogDate(blog.publishedAt)}
+              tag={blog.tag}
+              slug={blog.slug}
+            />
+          ))}
+        </div>
+
+        {/* Mobile Carousel - Visible on Mobile and Tablet */}
+        <div className="lg:hidden">
+          <div className="relative -mx-4 sm:-mx-6 md:-mx-4">
+            {/* Carousel Container */}
+            <div
+              className="overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className="flex transition-transform duration-300"
+                style={{ transform: `translateX(calc(-${activeSlide * 100}% + 50vw - 50%))` }}
+              >
+                {blogs.map((blog) => (
+                  <div key={blog.documentId} className="w-full flex-shrink-0 px-4 sm:px-6 md:px-4 flex justify-center">
+                    <div className="w-full sm:max-w-sm md:max-w-md">
+                      <Card
+                        imgUrl={getStrapiImageUrl(blog.featuredImage)}
+                        description={extractTextPreview(blog.content)}
+                        date={formatBlogDate(blog.publishedAt)}
+                        tag={blog.tag}
+                        slug={blog.slug}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Controls - Arrows and Dots */}
+          <div className="flex items-center justify-center gap-6 mt-6">
+            {/* Left Arrow */}
+            <button
+              onClick={prevSlide}
+              className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#4A4A4A] hover:bg-[#3A3A3A] transition-colors"
+              aria-label="Previous slide"
+            >
+              <svg width="20px" height="20px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF" transform="matrix(-1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#FFFFFFCCCCCC" strokeWidth="0.43200000000000005"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="#FFFFFF"></path> </g></svg>
+            </button>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2">
+              {blogs.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveSlide(index)}
+                  className={`h-1 rounded-2xl transition-all ${index === activeSlide ? 'bg-white w-10' : 'bg-gray-600 w-4'
+                    }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Right Arrow */}
+            <button
+              onClick={nextSlide}
+              className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-[#4A4A4A] hover:bg-[#3A3A3A] transition-colors"
+              aria-label="Next slide"
+            >
+              <svg width="20px" height="20px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.43200000000000005"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z" fill="#FFFFFF"></path> </g></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
