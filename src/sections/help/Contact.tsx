@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react'
-import { getContactPoints } from '@/app/lib/strapi';
+import { getContactPoints } from '@/lib/strapi';
 
 function Contact() {
     const [contactPoints, setContactPoints] = useState<any[]>([]);
